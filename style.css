@@ -2,4 +2,35 @@
     border-radius: 50%; /* https://www.w3schools.com/css/css3_images.asp */
     height: 75px;
     width: auto;
+    background-color: whitesmoke;
+}
+
+#main-title {
+    font-style: bold, italic;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: White;
+    font-size: 100%;
+}
+
+#title-stuff {
+    background-color: #800000;
+    display: flex;
+    align-items: center; /* Vertically centers items */
+    gap: 10px;
+    padding: 2%
+}
+
+#title-stuff, a {
+    text-decoration: none;
+}
+
+#nav-bar {
+    background-color: whitesmoke;
+    border-bottom: 20px, solid, black;
+}
+
+header {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
 }
