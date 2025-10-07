@@ -14,13 +14,21 @@
 }
 
 #title-stuff {
-    background-color: #800000;
+    background-color: #860903;
     display: flex;
     align-items: center; /* Vertically centers items */
     gap: 10px;
-    padding: 2%
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
+.title-text {
+    flex: 1;
+    font-size: 2.5rem;
+}
+
+/*This can probably be deleted since I changed how some stuff was set up 
+and got rid of the /a/ tag*/
 #title-stuff, a {
     text-decoration: none;
 }
