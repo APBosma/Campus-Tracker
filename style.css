@@ -33,12 +33,30 @@ and got rid of the /a/ tag*/
     text-decoration: none;
 }
 
-#nav-bar {
-    background-color: whitesmoke;
-    border-bottom: 20px, solid, black;
+.nav-bar {
+    display: flex; /* Flexbox for a horizontal layout */
+    justify-content: flex-start; /* Center items */
+    margin-left: 20px;
+    align-items: center;
+    list-style: none;
+}
+
+.navbar-item {
+    text-decoration: none; /* Remove underline */
+    background-color: #FFFF;
+    color: black; /* White text */
+    font-size: 1.2rem; /* Larger text */
+    padding: 15px 25px; /* Adequate padding for each link */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 }
 
 header {
     border-bottom-style: solid;
     border-bottom-width: thin;
 }
+
+hr{
+    background-color: black;
+    height: 2px;
+    border: none;
+}       
