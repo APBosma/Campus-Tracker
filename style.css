@@ -54,7 +54,6 @@ and got rid of the /a/ tag*/
 
 .navbar-item:hover {
     background-color: #b8b9bb; 
-    transform: translateY(-1px);
 }
 
 header {
