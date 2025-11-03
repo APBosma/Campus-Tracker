@@ -48,8 +48,12 @@ and got rid of the /a/ tag*/
     font-size: 1.2rem; /* Larger text */
     padding: 15px 25px; /* Adequate padding for each link */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
-    
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
+}
+
+#current-page {
+    background-color:#b8b9bb;
 }
 
 .navbar-item:hover {
