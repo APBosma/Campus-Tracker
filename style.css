@@ -68,3 +68,22 @@ hr{
     margin-top: 0;
     padding-top: 0px;
 }       
+
+#footer {
+    background-color: #860903;
+    color: white;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: .5%;
+    padding-bottom: .5%;
+}
+
+#footer-link:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+#footer-link {
+    text-decoration: underline;
+    color: white;
+}
