@@ -91,3 +91,48 @@ hr{
     text-decoration: underline;
     color: white;
 }
+
+main {
+    padding: 0.25% 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+main h4 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#current-business {
+    background-color: #ffde59;
+    border-radius: 10px;
+    text-align:center;
+}
+
+#circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+#graph {
+    flex: 2;
+}
+
+#hours {
+    flex: 1;
+    text-align: center;
+}
+
+#hours h4 {
+    text-decoration: underline;
+}
+
+#flex-container {
+    display: flex;
+}
