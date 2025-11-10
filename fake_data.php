@@ -1,7 +1,12 @@
 <?php
+//displays errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
 $servername = "localhost";
 $username = "root";
-$password = "1163"; // Default for AMMPS
+$password = "1234"; // Default for AMMPS
 $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -36,14 +41,14 @@ function fakeCount($hour,$day, $name) {
         //peak lunch hours   
         elseif ($hour >= 11 && $hour < 13) return rand(100, 180); 
         //the lite lunch 
-        elseif ($hour >= 13 && $hour < 15) return rand(30, 70);  
+        elseif ($hour >= 13 && $hour < 16) return rand(10, 30);  
         //dinner 
         elseif ($hour >= 16 && $hour < 19) return rand(80, 160);  
         //catches all closed hours
         else return 0; 
 
         //Saturday and Sunday
-      } elsif($day == 6 || $day == 0){
+      } elseif($day == 6 || $day == 0){
         //brunch
         if ($hour >= 10 && $hour < 13) return rand(60, 90);  
         //dinner on weekend   
@@ -95,7 +100,7 @@ function fakeCount($hour,$day, $name) {
 foreach ($locations as $id => $name) {
   $count = fakeCount($hour,$day, $name);
   echo "Debug: $name (day=$day, hour=$hour)<br>";
-  $sql = "INSERT INTO occupancy (location_id, count) VALUES ($id, $count)";
+  $sql = "INSERT INTO population (location_id, count) VALUES ($id, $count)";
   $conn->query($sql);
   echo "Inserted $count for $name<br>";
 }
