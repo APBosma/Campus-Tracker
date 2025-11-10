@@ -13,9 +13,14 @@ $locations = [
   3 => "subway"
 ];
 
+//define the timezone
+date_default_timezone_set('America/New_York');
 // Algorithm: vary traffic by hour and location
 $hour = date("G"); //represents the current hour 0-23
 $day = date("w"); //represents the current day Sunday=0 Monday=1 etc. 
+
+//will print what time and day the computer thinks it is
+echo "Server time: " . date("Y-m-d H:i:s") . " (hour=$hour, day=$day)<br>";
 
 
 function fakeCount($hour,$day, $name) {
@@ -89,6 +94,7 @@ function fakeCount($hour,$day, $name) {
 
 foreach ($locations as $id => $name) {
   $count = fakeCount($hour,$day, $name);
+  echo "Debug: $name (day=$day, hour=$hour)<br>";
   $sql = "INSERT INTO occupancy (location_id, count) VALUES ($id, $count)";
   $conn->query($sql);
   echo "Inserted $count for $name<br>";
