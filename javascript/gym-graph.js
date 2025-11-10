@@ -7,6 +7,8 @@ which automatically fixed everything. I didn't change any code, he just looked a
 To hide the Y-axis values I looked up "chart js hide y axis labels" and the AI showed me how to set the tick display to false
 */
 
+// This DOMContentLoaded function thing makes program wait until the HTML and stuff is done being setup before it runs the JS
+// EVERYTHING WILL BREAK WITHOUT THIS! DO NOT DELETE!
 document.addEventListener("DOMContentLoaded", function () {
 
 
