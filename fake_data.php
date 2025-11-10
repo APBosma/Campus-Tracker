@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "mysql"; // Default for AMMPS
+$password = "1163"; // Default for AMMPS
 $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -14,29 +14,76 @@ $locations = [
 ];
 
 // Algorithm: vary traffic by hour and location
-$hour = date("G");
+$hour = date("G"); //represents the current hour 0-23
+$day = date("w"); //represents the current day Sunday=0 Monday=1 etc. 
 
-function fakeCount($hour, $name) {
+
+function fakeCount($hour,$day, $name) {
   switch ($name) {
+    //dining hall 
     case "cafeteria":
-      if ($hour < 9) return rand(0, 10);
-      elseif ($hour < 11) return rand(20, 50);
-      elseif ($hour < 14) return rand(80, 200);
-      elseif ($hour < 17) return rand(20, 50);
-      else return rand(0, 15);
+        //Monday-Friday
+      if ($day >= 1 && $day <= 5) {
+        //main breakfast
+        if ($hour >= 7 && $hour < 9) return rand(60, 80);
+        //continental breakfast       
+        elseif ($hour >= 9 && $hour < 10) return rand(20, 30); 
+        //peak lunch hours   
+        elseif ($hour >= 11 && $hour < 13) return rand(100, 180); 
+        //the lite lunch 
+        elseif ($hour >= 13 && $hour < 15) return rand(30, 70);  
+        //dinner 
+        elseif ($hour >= 16 && $hour < 19) return rand(80, 160);  
+        //catches all closed hours
+        else return 0; 
 
+        //Saturday and Sunday
+      } elsif($day == 6 || $day == 0){
+        //brunch
+        if ($hour >= 10 && $hour < 13) return rand(60, 90);  
+        //dinner on weekend   
+        elseif ($hour >= 16 && $hour < 18) {                      
+          return ($day == 6) ? rand(50, 100) : rand(60, 80);
+        } else return 0;
+      }
+      return 0;
+      
+      //fitness center 
     case "fitness_center":
-      if ($hour < 6) return rand(0, 5);
-      elseif ($hour < 9) return rand(10, 30);
-      elseif ($hour < 17) return rand(15, 40);
-      else return rand(30, 70);
+        //Sundays
+      if ($day == 0) { 
+        //hours 4-10
+        if ($hour >= 16 && $hour < 22) return rand(20, 50);
+        //Monday-Thursdays
+      } elseif ($day >= 1 && $day <= 4) { 
+        //8am-10pm
+        if ($hour >= 8 && $hour < 10) return rand(15, 35);
+        elseif ($hour >= 10 && $hour < 17) return rand(10, 25);
+        elseif ($hour >= 17 && $hour < 22) return rand(30, 70);
+        //Fridays
+      } elseif ($day == 5) { 
+        //hours 8am-4pm
+        if ($hour >= 8 && $hour < 10) return rand(20, 40);
+        elseif ($hour >= 10 && $hour < 16) return rand(25, 50);
+        //Saturdays
+      } elseif ($day == 6) { 
+        //2pm-8pm
+        if ($hour >= 14 && $hour < 20) return rand(15, 35);
+      }
+      return 0;
 
     case "subway":
-      if ($hour < 9) return rand(5, 15);
-      elseif ($hour < 11) return rand(20, 40);
-      elseif ($hour < 14) return rand(60, 100);
-      elseif ($hour < 17) return rand(25, 50);
-      else return rand(10, 30);
+      if ($day >= 1 && $day <= 5) { // Mon-Fri 7:30am - 10:30pm
+        if ($hour >= 7 && $hour < 9) return rand(10, 30);     // Morning
+        elseif ($hour >= 11 && $hour < 14) return rand(40, 90); // Lunch
+        elseif ($hour >= 17 && $hour < 20) return rand(50, 100); // Dinner rush
+        elseif ($hour < 23) return rand(10, 40); // Late evening
+      } elseif ($day == 6) { // Sat 5pm - 10pm
+        if ($hour >= 17 && $hour < 22) return rand(20, 60);
+      } elseif ($day == 0) { // Sun 5pm - 10:30pm
+        if ($hour >= 17 && $hour < 22) return rand(25, 70);
+      }
+      return 0;
   }
 }
 
