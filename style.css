@@ -91,3 +91,62 @@ hr{
     text-decoration: underline;
     color: white;
 }
+
+main {
+    padding: 0.25% 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+
+main h4 {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.current-business {
+    background-color: #ffde59;
+    border-radius: 30px;
+    display: flex; 
+    align-items: center; 
+    flex-wrap: wrap;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 35%;   
+    margin-right: 35%;
+}
+
+#circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: red;
+    display: flex; 
+    align-items: center;
+}
+
+#graph {
+    flex: 2;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+    margin: 5% 3%;
+}
+
+#hours {
+    flex: 1;
+    text-align: center;
+}
+
+#hours h4 {
+    text-decoration: underline;
+}
+
+#flex-container {
+    display: flex;
+}
