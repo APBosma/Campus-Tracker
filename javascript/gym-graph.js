@@ -4,6 +4,7 @@ Was getting my toe nails painted the other day when I looked up charts with JS a
 syntax and had to look at W3 for for loops as well (https://www.w3schools.com/js/js_loop_for.asp). It then just wasn't displaying so I asked
 Zach. He reminded me that F12 is my friend and that helped a lot for debugging. Then I asked Professor Bowe and he just glanced at it
 which automatically fixed everything. I didn't change any code, he just looked at it.
+To hide the Y-axis values I looked up "chart js hide y axis labels" and the AI showed me how to set the tick display to false
 */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -45,11 +46,13 @@ document.addEventListener("DOMContentLoaded", function () {
             break;
     }
 
+    // Sets random numbers to the data
     let theData = new Array(hours.length);
     for (let i=0; i< hours.length; i++) {
         theData[i] = i % 6;
     }
 
+    // Makes bar chart for the gym page
     new Chart(gymGraph, {
         type: 'bar',
         data: {
@@ -60,8 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }]
         },
         options: {
+            plugins: {
+                legend: {display: false}
+            },
             scales: {
                 y: {
+                    ticks: {display: false},
                     beginAtZero: true
                 }
             }
