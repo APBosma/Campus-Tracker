@@ -88,7 +88,7 @@ function fakeCount($hour,$day, $name) {
 }
 
 foreach ($locations as $id => $name) {
-  $count = fakeCount($hour, $name);
+  $count = fakeCount($hour,$day, $name);
   $sql = "INSERT INTO occupancy (location_id, count) VALUES ($id, $count)";
   $conn->query($sql);
   echo "Inserted $count for $name<br>";
