@@ -1,0 +1,70 @@
+ <!DOCTYPE html>
+ <html>
+    <head>
+        <script src="javascript/cafeteria-graph.js"></script>
+        <link rel = "stylesheet" href = "style.css">
+        <title>ConcordRush</title>
+    </head>
+    <header>
+        <div id = "title-stuff">
+            <div class="picture">
+                <img src = "pictures/logo.png" alt = "Concord Rush Logo" id = "logo">
+            </div>
+            <div class="title-text">
+                <p id = "main-title">ConcordRush</p>
+            </div>
+        </div>
+    </header>
+    <section class = "nav-bar">
+            <a href = "index.html" class="navbar-item">ALL</a>
+            <a href = "cafeteria.html" class="navbar-item" id = "current-page">FOOD</a>
+            <a href = "gym.html" class="navbar-item">OTHER</a>
+    </section class>
+    <hr>
+    <main>
+        <h2>Cafeteria</h2>
+        <h4>LIVE STATUS</h4>
+        <section class = "current-business">
+        <div id = "circle"></div>
+
+        <!--Note the style for padding and font-->
+        <p style="padding-left: 6%; font-size: 1.5rem">Busy</p>
+        </section>
+        <div id = "flex-container">
+            <div id = "graph">
+                <canvas id="cafeteria-graph"></canvas>
+            </div>
+            <div id = "hours">
+                <h4>HOURS</h4>
+                <h5>Breakfast:</h5>
+                <p>Mon-Fri -> 7:15 am - 9:30 am</p>
+                <!-- <p>7:15 am - 9:30 am</p> -->
+                <h5>Continental Breakfast:</h5>
+                <p>Mon-Fri -> 9:30 am - 10:30 am</p>
+                <!-- <p>9:30 am - 10:30 am</p> -->
+                <h5>Lunch:</h5>
+                <p>Mon-Fri -> 11:00 am - 1:30 pm</p>
+                <!-- <p>11:00 am - 1:30 pm</p> -->
+                <h5>Lite Lunch:</h5>
+                <p>Mon-Fri -> 1:30 pm - 3:30 pm</p>
+                <!-- <p>1:30 pm - 3:30 pm</p> -->
+                <h5>Brunch:</h5>
+                <p>Saturday-Sunday -> 10:30 am - 1:30 pm</p>
+                <!-- <p>10:30 am - 1:30 pm</p> -->
+                <h5>Dinner:</h5>
+                <p>Mon-Thur -> 4:00 pm - 7:00 pm</p>
+                <p>Friday -> 4:00 pm - 6:00 pm</p>
+                <p>Saturday -> 4:00 pm - 5:30 pm</p>
+                <p>Sunday -> 4:00 pm - 7:00 pm</p>
+                <br>
+                <p>Visit <strong>Concord.CampusDish</strong> for special dining hours and events.</p>
+            </div>
+        </div>
+    </main>
+    <footer id = "footer">
+        <p>
+            Is this information not accurate? Submit this to the form <a id = "footer-link" href = #>here!</a>
+        </p>
+    </footer>
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+ </html>
