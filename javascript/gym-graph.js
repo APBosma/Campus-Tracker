@@ -5,6 +5,9 @@ syntax and had to look at W3 for for loops as well (https://www.w3schools.com/js
 Zach. He reminded me that F12 is my friend and that helped a lot for debugging. Then I asked Professor Bowe and he just glanced at it
 which automatically fixed everything. I didn't change any code, he just looked at it.
 To hide the Y-axis values I looked up "chart js hide y axis labels" and the AI showed me how to set the tick display to false
+Used this to hide gridliens: https://www.reddit.com/r/learnjavascript/comments/x41web/remove_grid_lines_in_bar_chart_chartjs/
+Needed to get the current hour so I looked up "How to get current hour javascript" and used this: https://www.w3schools.com/jsref/jsref_gethours.asp
+I needed to convert the current hour to string so I looked up "int to string JS" and the google AI told me about .toString()
 */
 
 // This DOMContentLoaded function thing makes program wait until the HTML and stuff is done being setup before it runs the JS
@@ -48,10 +51,35 @@ document.addEventListener("DOMContentLoaded", function () {
             break;
     }
 
+    // Gets the current hour
+    let hour = d.getHours(); 
+
+    // Gets the hour and turns it into a string
+    let currTime = "";
+    if (hour > 12) {
+        currTime = (hour-12).toString() + " pm";
+    } else {
+        currTime = hour.toString() + " am";
+    }
+
+    // Sets the color of the bars based on the time
+    let hitCurrTime = false;
+    let barColors = new Array(hours.length);
+    for (let i=0; i< hours.length; i++) {
+        if (currTime == hours[i]) {
+            hitCurrTime = true;
+            barColors[i] = 'rgba(0, 40, 145, 1)'
+        } else if (hitCurrTime == false) {
+            barColors[i] = 'rgba(0, 40, 145, 0.4)'
+        } else {
+            barColors[i] = 'rgba(0, 40, 145, 0.7)'
+        }
+    }
+
     // Sets random numbers to the data
     let theData = new Array(hours.length);
     for (let i=0; i< hours.length; i++) {
-        theData[i] = i % 6;
+        theData[i] = i % 4;
     }
 
     // Makes bar chart for the gym page
@@ -61,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
             labels: hours,
             datasets: [{
                 label: "North Towers Gym",
-                data: theData
+                data: theData,
+                backgroundColor: barColors,
+                borderRadius: 100
             }]
         },
         options: {
@@ -70,8 +100,13 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             scales: {
                 y: {
+                    display: false,
                     ticks: {display: false},
-                    beginAtZero: true
+                    beginAtZero: true,
+                    grid: {display: false}
+                },
+                x: {
+                    grid: {display: false}
                 }
             }
         }
