@@ -14,9 +14,11 @@ if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
 $locations = [
   1 => "cafeteria",
-  2 => "fitness_center",
+  2 => "north_tower_gym",
   3 => "subway"
 ];
+$location = $_GET['location'] ?? null;
+$locationId = $locations[location] ?? null;
 
 //define the timezone
 date_default_timezone_set('America/New_York');
@@ -25,7 +27,7 @@ $hour = date("G"); //represents the current hour 0-23
 $day = date("w"); //represents the current day Sunday=0 Monday=1 etc. 
 
 //will print what time and day the computer thinks it is
-echo "Server time: " . date("Y-m-d H:i:s") . " (hour=$hour, day=$day)<br>";
+//echo "Server time: " . date("Y-m-d H:i:s") . " (hour=$hour, day=$day)<br>";
 
 
 function fakeCount($hour,$day, $name) {
@@ -59,7 +61,7 @@ function fakeCount($hour,$day, $name) {
       return 0;
       
       //fitness center 
-    case "fitness_center":
+    case "north_tower_gym":
         //Sundays
       if ($day == 0) { 
         //hours 4-10
@@ -99,10 +101,10 @@ function fakeCount($hour,$day, $name) {
 
 foreach ($locations as $id => $name) {
   $count = fakeCount($hour,$day, $name);
-  echo "Debug: $name (day=$day, hour=$hour)<br>";
+  //echo "Debug: $name (day=$day, hour=$hour)<br>";
   $sql = "INSERT INTO population (location_id, count) VALUES ($id, $count)";
   $conn->query($sql);
-  echo "Inserted $count for $name<br>";
+  //echo "Inserted $count for $name<br>";
 }
 
 $conn->close();

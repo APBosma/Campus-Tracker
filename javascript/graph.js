@@ -119,6 +119,7 @@ function setBarColors(hours) {
             barColors[i] = 'rgba(0, 40, 145, 0.7)'
         }
     }
+    return barColors;
 }
 
 function createGraph(name, hours, barColors, data) {
@@ -162,13 +163,39 @@ document.addEventListener("DOMContentLoaded", function () {
     const hours = getTime(graphName);
     const barColors = setBarColors(hours);
 
-    // Sets random numbers to the data
-    let theData = new Array(hours.length);
-    for (let i=0; i< hours.length; i++) {
-        theData[i] = i % 4;
+    //checks valid locations for fetch
+    const validLocations = ["cafeteria", "north_tower_gym", "subway"];
+    const dbName = graphName.toLowerCase().replaceAll(" ", "_");
+
+    if (!validLocations.includes(dbName)) {
+        console.warn("No data available for this graph:", graphName);
+        return;
     }
+    // Sets random numbers to the data
+    //let theData = new Array(hours.length);
+    //for (let i=0; i< hours.length; i++) {
+        //theData[i] = i % 4;
+    //}
 
-    createGraph(graphName, hours, barColors, theData);
-
+    //fetches data from get_data.php
+    
+    fetch("/Campus_Tracker/get_data.php?location=" + dbName)
+        .then(res => res.json())
+        .then(dbData => {
+            if (!dbData || dbData.error) {
+                console.error("Error from server:", dbData?.error);
+                return;
+            }
+            const theData = dbData.map(row => row.count);
+            createGraph(graphName, hours, barColors, theData);
+        })
+        .catch(err => {
+            console.error("Error loading database data", err);
+        });
 });
+    
+
+    //createGraph(graphName, hours, barColors, theData);
+
+
 
