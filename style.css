@@ -128,7 +128,7 @@ main h4 {
     align-items: center;
 }
 
-#graph {
+#graph-container {
     flex: 2;
 }
 
