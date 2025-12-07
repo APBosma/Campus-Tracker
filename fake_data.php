@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 
 $servername = "localhost";
 $username = "root";
-$password = "1234"; // Default for AMMPS
+$password = "mysql"; // Default for AMMPS
 $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

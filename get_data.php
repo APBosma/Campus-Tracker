@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 //connect to database
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "mysql";
 $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
