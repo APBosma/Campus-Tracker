@@ -1,36 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%); /* https://www.w3schools.com/css/css3_gradients.asp */
+    min-height: 100vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 #logo {
     border-radius: 50%; /* https://www.w3schools.com/css/css3_images.asp */
     height: 75px;
     width: auto;
     background-color: whitesmoke;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease; /* https://www.w3schools.com/css/css3_transitions.asp */
+}
+
+#logo:hover {
+    transform: scale(1.2);
 }
 
 #main-title {
     font-style: bold, italic;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
     color: White;
     font-size: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #title-stuff {
-    background-color: #860903;
+    background: linear-gradient(135deg, #860903 0%, #a00a04 100%);
     display: flex;
     align-items: center; /* Vertically centers items */
     gap: 10px;
-    padding-left: 1%;
-    padding-right: 1%;
+    padding: 1.2% 2%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .title-text {
     flex: 1;
     font-size: 2.5rem;
-}
-
-/*This can probably be deleted since I changed how some stuff was set up 
-and got rid of the /a/ tag*/
-#title-stuff, a {
-    text-decoration: none;
 }
 
 .nav-bar {
@@ -39,6 +52,8 @@ and got rid of the /a/ tag*/
     margin-left: 20px;
     align-items: center;
     list-style: none;
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .navbar-item {
@@ -47,17 +62,21 @@ and got rid of the /a/ tag*/
     color: black; /* White text */
     font-size: 1.2rem; /* Larger text */
     padding: 15px 25px; /* Adequate padding for each link */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    transition: all 0.3s ease; /* Smooth transitions */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
+    border-bottom: 3px solid transparent;
 }
 
 #current-page {
-    background-color:#b8b9bb;
+    background-color: #b8b9bb;
+    border-bottom: 3px solid #860903; /* Bottom line decoration */
+    font-weight: bold;
 }
 
 .navbar-item:hover {
-    background-color: #b8b9bb; 
+    background-color: #e9ecef;
+    border-bottom: 3px solid #860903;
 }
 
 header {
@@ -65,58 +84,80 @@ header {
     border-bottom-width: thin;
 }
 
-hr{
-    background-color: black;
+hr {
+    background-color: #860903;
     height: 2px;
     border: none;
     margin-top: 0;
     padding-top: 0px;
-}       
+}
 
 #footer {
-    background-color: #860903;
+    background: linear-gradient(135deg, #860903 0%, #a00a04 100%);
     color: white;
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-top: .5%;
-    padding-bottom: .5%;
+    padding: 1.5% 2%;
+    margin-top: 3%;
+    text-align: center;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#footer p {
+    font-size: 1rem;
 }
 
 #footer-link:hover {
     text-decoration: underline;
-    color: white;
+    color: #ffde59;
 }
 
 #footer-link {
     text-decoration: underline;
     color: white;
+    font-weight: bold;
 }
 
 main {
-    padding: 0.25% 2%;
+    padding: 2% 4%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: white;
+    margin: 2% 3%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    min-height: 70vh;
 }
 
 main h2 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 1.5%;
+    color: #860903;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 main h4 {
     font-size: 1.5rem;
     text-align: center;
+    margin: 2% 0 1.5% 0;
+    color: #2c3e50;
+    letter-spacing: 1px;
 }
 
 .current-business {
-    background-color: #ffde59;
+    background: linear-gradient(135deg, #ffde59 0%, #ffd700 100%);
     border-radius: 30px;
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 35%;   
-    margin-right: 35%;
+    padding: 20px 30px;
+    margin: 0 auto 3%;
+    max-width: 400px;
+    box-shadow: 0 6px 16px rgba(255, 222, 89, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.current-business:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(255, 222, 89, 0.5);
 }
 
 #circle {
@@ -124,29 +165,63 @@ main h4 {
     height: 30px;
     border-radius: 50%;
     background-color: red;
-    display: flex; 
+    display: flex;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(255, 0, 0, 0.4);
 }
 
 #graph-container {
     flex: 2;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 2%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-right: 2%;
 }
 
 canvas {
     width: 100%;
     height: auto;
-    margin: 5% 3%;
+    margin: 2%;
 }
 
 #hours {
     flex: 1;
     text-align: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 3% 2%;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 #hours h4 {
     text-decoration: underline;
+    text-decoration-color: #860903;
+    text-decoration-thickness: 2px;
+    margin-bottom: 5%;
+    color: #860903;
+}
+
+#hours h5 {
+    color: #860903;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    font-size: 1.1rem;
+}
+
+#hours p {
+    margin: 1% 0;
+    color: #495057;
+    line-height: 1.6;
+    font-size: 1.5rem;
+}
+
+#hours strong {
+    color: #860903;
 }
 
 #flex-container {
     display: flex;
+    margin-top: 3%;
+    gap: 2%;
 }
