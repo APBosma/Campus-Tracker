@@ -100,8 +100,12 @@ function setBarColors(hours) {
 
     // Gets the hour and turns it into a string
     let currTime = "";
-    if (hour >= 12) {
+    if (hour > 12) {
         currTime = (hour-12).toString() + " pm";
+    } else if (hour == 12) {
+        currTime = "12 pm";
+    } else if (hour == 0) {
+        currTime = "12 am";
     } else {
         currTime = hour.toString() + " am";
     }
