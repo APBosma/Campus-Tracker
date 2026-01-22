@@ -11,20 +11,26 @@ $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+//set the timezone
+//define the timezone
+date_default_timezone_set('America/New_York');
+// Algorithm: vary traffic by hour and location
+$hour = date("G"); //represents the current hour 0-23
+$day = date("w"); //represents the current day Sunday=0 Monday=1 etc. 
+
+//will print what time and day the computer thinks it is
+//echo "Server time: " . date("Y-m-d H:i:s") . " (hour=$hour, day=$day)<br>";
+
 //list of locations as well as max capacity 
+//this also includes the stay duration ranges 
 $locations = [
-  1 =>["name" =>"cafeteria", "capacity" => 250],
-  2 =>["name" =>"north_tower_gym", "capacity" => 75],
-  3 =>["name" =>"subway", "capacity" => 30 ]
+  1 =>["name" =>"cafeteria", "capacity" => 250, "stay" => [20,60]],
+  2 =>["name" =>"north_tower_gym", "capacity" => 75 , "stay" => [30,90]],
+  3 =>["name" =>"subway", "capacity" => 30 , "stay" => [5,20] ]
 ];
 
-//duration ranges for each location
-//[shortest, longest]
-$stayDurations = [
-  "cafeteria" => [15,60],
-  "north_tower_gym" => [25,90],
-  "subway" => [5,15]
-]
+
 
 //arrival rates for each major hour which accounts for different lunch rush hours based on the day
 $arrivalRates = [
@@ -77,14 +83,7 @@ $arrivalRates = [
 $location = $_GET['location'] ?? null;
 $locationId = $locations[location] ?? null;
 
-//define the timezone
-date_default_timezone_set('America/New_York');
-// Algorithm: vary traffic by hour and location
-$hour = date("G"); //represents the current hour 0-23
-$day = date("w"); //represents the current day Sunday=0 Monday=1 etc. 
 
-//will print what time and day the computer thinks it is
-//echo "Server time: " . date("Y-m-d H:i:s") . " (hour=$hour, day=$day)<br>";
 
 
 function fakeCount($hour,$day, $name) {
