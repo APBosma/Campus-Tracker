@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
+//database connection
 $servername = "localhost";
 $username = "root";
 $password = "mysql"; // Default for AMMPS
@@ -11,12 +11,69 @@ $dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
-
+//list of locations as well as max capacity 
 $locations = [
-  1 => "cafeteria",
-  2 => "north_tower_gym",
-  3 => "subway"
+  1 =>["name" =>"cafeteria", "capacity" => 250],
+  2 =>["name" =>"north_tower_gym", "capacity" => 75],
+  3 =>["name" =>"subway", "capacity" => 30 ]
 ];
+
+//duration ranges for each location
+//[shortest, longest]
+$stayDurations = [
+  "cafeteria" => [15,60],
+  "north_tower_gym" => [25,90],
+  "subway" => [5,15]
+]
+
+//arrival rates for each major hour which accounts for different lunch rush hours based on the day
+$arrivalRates = [
+    "cafeteria" => [
+        1 => [ // Monday
+            "7:00" => [5, 10],
+            "8:00" => [15, 25],
+            "11:00" => [50, 80], // lunch rush
+            "11:15" => [40, 60],
+            "11:30" => [30, 50],
+            "11:45" => [20, 40],
+            "12:00" => [10, 20], // taper off
+            "17:00" => [20, 40],
+            "18:00" => [25, 50]
+        ],
+        2 => [ // Tuesday
+            "7:00" => [5, 10],
+            "8:00" => [15, 25],
+            "12:15" => [40, 70], // lunch rush
+            "12:30" => [35, 60],
+            "12:45" => [30, 50],
+            "13:00" => [20, 40],
+            "13:15" => [10, 20],
+            "17:00" => [20, 40]
+        ],
+        3 => [ // Wednesday, similar to Monday
+            "11:00" => [50, 80], // lunch rush
+            "11:15" => [40, 60],
+            "11:30" => [30, 50],
+            "11:45" => [20, 40]
+        ],
+        4 => [ // Thursday, similar to Tuesday
+            "12:15" => [40, 70],
+            "12:30" => [35, 60],
+            "12:45" => [30, 50],
+            "13:00" => [20, 40],
+            "13:15" => [10, 20]
+        ],
+        5 => [ // Friday
+            "7:00" => [5, 10],
+            "8:00" => [15, 25],
+            "11:00" => [30, 50],
+            "12:00" => [20, 40]
+        ],
+        6 => [], // Saturday - light traffic
+        0 => []  // Sunday - light traffic
+    ],
+];
+
 $location = $_GET['location'] ?? null;
 $locationId = $locations[location] ?? null;
 
