@@ -1,4 +1,8 @@
 <?php
+// Normally I do not use AI, but working on this PHP file and getting this to work with the javascript file was life changingly
+// difficult. I showed chatGPT what I had of this file (Most of it was already done using the get_data file) and it showed me that
+// I had misspelled capacity in one spot towards the bottom and showed me how to use this in the javascript file. Once I got this
+// working I used a recommendation from the AI to clean up the bottom return so I only returned one item rather than an array.
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
