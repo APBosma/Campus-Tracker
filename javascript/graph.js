@@ -13,6 +13,31 @@ to get information from the HTML page. I then wanted to hide it on the page so I
 toggle the display.
 */
 
+function findCurrIndex(hours) {
+    const d = new Date(); // Gets current date
+    let hour = d.getHours(); // Gets the current hour
+
+    // Gets the hour and turns it into a string
+    let currTime = "";
+    if (hour > 12) {
+        currTime = (hour-12).toString() + " pm";
+    } else if (hour == 12) {
+        currTime = "12 pm";
+    } else if (hour == 0) {
+        currTime = "12 am";
+    } else {
+        currTime = hour.toString() + " am";
+    }
+
+    let i = 0;
+    for (i; i< hours.length; i++) {
+        if (currTime == hours[i]) {
+            break;
+        }
+    }
+    return i;
+}
+
 function getTime(location) {
     const d = new Date();
     
@@ -95,26 +120,13 @@ function getTime(location) {
 }
 
 function setBarColors(hours) {
-    const d = new Date(); // Gets current date
-    let hour = d.getHours(); // Gets the current hour
-
-    // Gets the hour and turns it into a string
-    let currTime = "";
-    if (hour > 12) {
-        currTime = (hour-12).toString() + " pm";
-    } else if (hour == 12) {
-        currTime = "12 pm";
-    } else if (hour == 0) {
-        currTime = "12 am";
-    } else {
-        currTime = hour.toString() + " am";
-    }
+    const currentTime = findCurrIndex(hours);
 
     // Sets the color of the bars based on the time
     let hitCurrTime = false;
     let barColors = new Array(hours.length);
     for (let i=0; i< hours.length; i++) {
-        if (currTime == hours[i]) {
+        if (currentTime == hours[i]) {
             hitCurrTime = true;
             barColors[i] = 'rgba(0, 40, 145, 1)'
         } else if (hitCurrTime == false) {
@@ -126,7 +138,7 @@ function setBarColors(hours) {
     return barColors;
 }
 
-function currentBusyness(data, hours, dbName) {
+function currentBusyness(data, dbName, currentTime) {
     fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
     .then(res => res.json())
     .then(dbData => {
@@ -140,35 +152,13 @@ function currentBusyness(data, hours, dbName) {
         const capacity = dbData.max_capacity;
         const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
 
-        const d = new Date(); // Gets current date
-        let hour = d.getHours(); // Gets the current hour
-
-        // Gets the hour and turns it into a string
-        let currTime = "";
-        if (hour > 12) {
-            currTime = (hour-12).toString() + " pm";
-        } else if (hour == 12) {
-            currTime = "12 pm";
-        } else if (hour == 0) {
-            currTime = "12 am";
-        } else {
-            currTime = hour.toString() + " am";
-        }
-
-        let i = 0;
-        for (i; i< hours.length; i++) {
-            if (currTime == hours[i]) {
-                break;
-            }
-        }
-
-        if (i == hours.length) {
+        if (currentTime == data.length) {
             levelName.textContent = "Closed";
             levelCircle.style.backgroundColor = "grey";
             return;
         }
 
-        switch (Math.floor(data[i]/intervalSize)) {
+        switch (Math.floor(data[currentTime]/intervalSize)) {
             case 0:
                 levelName.textContent = "Empty";
                 levelCircle.style.backgroundColor = "green"
@@ -257,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             const theData = dbData.map(row => row.count);
-            currentBusyness(theData, hours, dbName);
+            currentBusyness(theData, dbName, findCurrIndex(hours));
             createGraph(graphName, hours, barColors, theData);
         })
         .catch(err => {
