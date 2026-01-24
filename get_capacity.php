@@ -40,7 +40,7 @@ $sql = "
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $location);
 $stmt->execute();
-$capcity = $stmt->get_result();
+$capacity = $stmt->get_result();
 
 $data = [];
 

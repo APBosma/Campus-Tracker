@@ -149,7 +149,7 @@ function currentBusyness(data, dbName, currentTime) {
         let levelName = document.getElementById("current-level");
         let levelCircle = document.getElementById("circle");
 
-        const capacity = dbData.max_capacity;
+        const capacity = dbData[0].max_capacity;
         const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
 
         if (currentTime == data.length) {
