@@ -134,6 +134,9 @@ function currentBusyness(data, hours) {
             console.error("Error from server:", dbData?.error);
             return;
         }
+        let levelName = document.getElementById("current-level");
+        let levelCircle = document.getElementById("circle");
+
         const capacity = dbData.max_capacity;
         const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
 
@@ -159,12 +162,34 @@ function currentBusyness(data, hours) {
             }
         }
 
-        switch (Math.floor(data[i]/intervalSize)) {
-
+        if (i == hours.length) {
+            levelName.textContent = "Closed";
+            levelCircle.backgroundColor = "grey";
+            return;
         }
 
-
-
+        switch (Math.floor(data[i]/intervalSize)) {
+            case 0:
+                levelName.textContent = "Empty";
+                levelCircle.backgroundColor = "green"
+                break;
+            case 1:
+                levelName.textContent = "Not Busy";
+                levelCircle.backgroundColor = "lightgreen"
+                break;
+            case 2:
+                levelName.textContent = "Somewhat Busy";
+                levelCircle.backgroundColor = "yellow"
+                break;
+            case 3:
+                levelName.textContent = "Busy";
+                levelCircle.backgroundColor = "orange"
+                break;
+            case 4:
+                levelName.textContent = "Full";
+                levelCircle.backgroundColor = "Red"
+                break;
+        }
 
     })
     .catch(err => {
