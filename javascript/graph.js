@@ -11,6 +11,8 @@ I needed to convert the current hour to string so I looked up "int to string JS"
 I wanted to store in the page what page it was so I looked up "JS how to get information from HTML" and the google AI showed me syntax
 to get information from the HTML page. I then wanted to hide it on the page so I looked up "html how to hide an element" and saw I could
 toggle the display.
+I didn't know how to change the words and the circle color for the live busy thing for each page so I looked it up on google. The 
+google AI showed me how to use .textContent and .style.backgroundColor for this.
 */
 
 function findCurrIndex(hours) {
