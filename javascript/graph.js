@@ -175,14 +175,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("No data available for this graph:", graphName);
         return;
     }
-    // Sets random numbers to the data
-    //let theData = new Array(hours.length);
-    //for (let i=0; i< hours.length; i++) {
-        //theData[i] = i % 4;
-    //}
 
     //fetches data from get_data.php
-    
     fetch("/Campus_Tracker/get_data.php?location=" + dbName)
         .then(res => res.json())
         .then(dbData => {
@@ -197,9 +191,3 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error loading database data", err);
         });
 });
-    
-
-    //createGraph(graphName, hours, barColors, theData);
-
-
-
