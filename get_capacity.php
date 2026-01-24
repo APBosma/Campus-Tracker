@@ -42,11 +42,6 @@ $stmt->bind_param("s", $location);
 $stmt->execute();
 $capacity = $stmt->get_result();
 
-$data = [];
+$row = $capacity->fetch_assoc();
 
-while ($row = $capacity->fetch_assoc()) {
-    $data[] = $row;
-}
-
-
-echo json_encode($data);
+echo json_encode($row);
