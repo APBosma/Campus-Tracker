@@ -126,7 +126,7 @@ function setBarColors(hours) {
     return barColors;
 }
 
-function currentBusyness(data, hours) {
+function currentBusyness(data, hours, dbName) {
     fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
     .then(res => res.json())
     .then(dbData => {
@@ -164,30 +164,30 @@ function currentBusyness(data, hours) {
 
         if (i == hours.length) {
             levelName.textContent = "Closed";
-            levelCircle.backgroundColor = "grey";
+            levelCircle.style.backgroundColor = "grey";
             return;
         }
 
         switch (Math.floor(data[i]/intervalSize)) {
             case 0:
                 levelName.textContent = "Empty";
-                levelCircle.backgroundColor = "green"
+                levelCircle.style.backgroundColor = "green"
                 break;
             case 1:
                 levelName.textContent = "Not Busy";
-                levelCircle.backgroundColor = "lightgreen"
+                levelCircle.style.backgroundColor = "lightgreen"
                 break;
             case 2:
                 levelName.textContent = "Somewhat Busy";
-                levelCircle.backgroundColor = "yellow"
+                levelCircle.style.backgroundColor = "yellow"
                 break;
             case 3:
                 levelName.textContent = "Busy";
-                levelCircle.backgroundColor = "orange"
+                levelCircle.style.backgroundColor = "orange"
                 break;
             case 4:
                 levelName.textContent = "Full";
-                levelCircle.backgroundColor = "Red"
+                levelCircle.style.backgroundColor = "Red"
                 break;
         }
 
@@ -257,6 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             const theData = dbData.map(row => row.count);
+            currentBusyness(theData, hours, dbName);
             createGraph(graphName, hours, barColors, theData);
         })
         .catch(err => {

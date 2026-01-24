@@ -40,7 +40,13 @@ $sql = "
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $location);
 $stmt->execute();
-$capcity = $stmt->fetchColumn();
+$capcity = $stmt->get_result();
+
+$data = [];
+
+while ($row = $capacity->fetch_assoc()) {
+    $data[] = $row;
+}
 
 
-echo json_encode($capcity);
+echo json_encode($data);
