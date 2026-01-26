@@ -122,13 +122,13 @@ function getTime(location) {
 }
 
 function setBarColors(hours) {
-    const currentTime = findCurrIndex(hours);
+    const currentTime = findCurrIndex(hours); // Gets the index of the time current time in hours, else returns -1
 
     // Sets the color of the bars based on the time
     let hitCurrTime = false;
     let barColors = new Array(hours.length);
     for (let i=0; i< hours.length; i++) {
-        if (currentTime == hours[i]) {
+        if (currentTime == i) {
             hitCurrTime = true;
             barColors[i] = 'rgba(0, 40, 145, 1)'
         } else if (hitCurrTime == false) {
