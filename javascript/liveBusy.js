@@ -1,5 +1,6 @@
 import {getHours, findCurrTimeIndex} from './chronos.js';
 
+// Sets the live busy-ness values
 function currentBusyness(data, dbName, currentTime) {
     fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
     .then(res => res.json())
@@ -8,18 +9,23 @@ function currentBusyness(data, dbName, currentTime) {
             console.error("Error from server:", dbData?.error);
             return;
         }
+        // Grab HTML elements
         let levelName = document.getElementById("current-level");
         let levelCircle = document.getElementById("circle");
 
         const capacity = dbData.max_capacity;
         const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
 
+        // Location is closed
         if (currentTime == -1) {
             levelName.textContent = "Closed";
             levelCircle.style.backgroundColor = "grey";
             return;
         }
 
+        // Assigns a value using the custom interval size
+        // Ex. 23 people and the max capacity is 250. 250/4 is 62. 
+        // 23 people / 62 would go to 0, so it's basically empty
         switch (Math.floor(data[currentTime]/intervalSize)) {
             case 0:
                 levelName.textContent = "Empty";
@@ -57,7 +63,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     //checks valid locations for fetch
     const validLocations = ["cafeteria", "north_tower_gym", "subway"];
     const dbName = graphName.toLowerCase().replaceAll(" ", "_");
-
     if (!validLocations.includes(dbName)) {
         console.warn("No data available for this graph:", graphName);
         return;

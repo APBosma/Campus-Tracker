@@ -3,7 +3,7 @@
 // Lol I then looked up "type casting javascript string to int" and found out about parseInt() and realized it would ignore 
 // the : and after which was basically just what I needed
 
-
+// Gets hours in an array using the location name and grabbing the day the user is looking
 export function getHours(locationName) {
     const d = new Date();
     let currDay = 0;
@@ -45,7 +45,7 @@ export function getHours(locationName) {
     }
 
 
-return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + currDay)
+    return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + currDay)
     .then(res => res.json())
     .then(hours => {
         if (!hours || hours.error) {
@@ -72,16 +72,16 @@ return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + curr
             const open2 = parseInt(hours.open_time2);
             const close2 = parseInt(hours.close_time2);
             for (let i = open2; i < close2; i++) {
-            if (i < 12) {
-                times.push(i + " am");
-            } else if (i == 12) {
-                times.push("12 pm");
-            } else if (i == 24 ) {
-                times.push("12 am");
-            } else {
-                times.push(i-12 + " pm");
+                if (i < 12) {
+                    times.push(i + " am");
+                } else if (i == 12) {
+                    times.push("12 pm");
+                } else if (i == 24 ) {
+                    times.push("12 am");
+                } else {
+                    times.push(i-12 + " pm");
+                }
             }
-        }
         }
 
         return times;
@@ -92,6 +92,8 @@ return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + curr
 
 }
 
+// Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
+// Returns -1 if the time isn't there (Location is closed)
 export function findCurrTimeIndex(hours) {
     const d = new Date(); // Gets current date
     let hour = d.getHours(); // Gets the current hour
