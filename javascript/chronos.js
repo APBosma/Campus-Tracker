@@ -4,7 +4,7 @@
 // the : and after which was basically just what I needed
 
 
-export default function getHours(locationName) {
+export function getHours(locationName) {
     const d = new Date();
     let currDay = 0;
 
@@ -90,4 +90,29 @@ return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + curr
         console.error("Error loading database data", err);
     });
 
+}
+
+export function findCurrTimeIndex(hours) {
+    const d = new Date(); // Gets current date
+    let hour = d.getHours(); // Gets the current hour
+
+    // Gets the hour and turns it into a string
+    let currTime = "";
+    if (hour > 12) {
+        currTime = (hour-12).toString() + " pm";
+    } else if (hour == 12) {
+        currTime = "12 pm";
+    } else if (hour == 0) {
+        currTime = "12 am";
+    } else {
+        currTime = hour.toString() + " am";
+    }
+
+    let i = 0;
+    for (i; i< hours.length; i++) {
+        if (currTime == hours[i]) {
+            return i;
+        }
+    }
+    return -1;
 }

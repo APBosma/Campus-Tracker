@@ -14,116 +14,10 @@ toggle the display.
 I didn't know how to change the words and the circle color for the live busy thing for each page so I looked it up on google. The 
 google AI showed me how to use .textContent and .style.backgroundColor for this.
 */
-import getHours from './chronos.js';
-
-function findCurrIndex(hours) {
-    const d = new Date(); // Gets current date
-    let hour = d.getHours(); // Gets the current hour
-
-    // Gets the hour and turns it into a string
-    let currTime = "";
-    if (hour > 12) {
-        currTime = (hour-12).toString() + " pm";
-    } else if (hour == 12) {
-        currTime = "12 pm";
-    } else if (hour == 0) {
-        currTime = "12 am";
-    } else {
-        currTime = hour.toString() + " am";
-    }
-
-    let i = 0;
-    for (i; i< hours.length; i++) {
-        if (currTime == hours[i]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-function getTime(location) {
-    const d = new Date();
-    
-    switch(location) {
-        case "North Tower Gym":
-            switch(d.getDay()) { // Gets day of the week, found this at https://www.w3schools.com/jsref/jsref_getday.asp
-                case 0:
-                    // Sunday
-                    return ["4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 1:
-                    // Monday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 2:
-                    // Tuesday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 3:
-                    // Wednesday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 4:
-                    // Thursday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 5:
-                    // Friday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm"];
-                case 6:
-                    // Satuday
-                    return ["4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-            }
-        case "Cafeteria":
-            switch(d.getDay()) {
-                case 0:
-                    // Sunday
-                    return ["10 am", "11 am", "12 pm", "1 pm", "4 pm", "5 pm", "6 pm"];
-                case 1:
-                    // Monday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 2:
-                    // Tuesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 3:
-                    // Wednesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 4:
-                    // Thursday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 5:
-                    // Friday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
-                case 6:
-                    // Satuday
-                    return ["10 am", "11 am", "12 pm", "1 pm", "4 pm", "5 pm"];
-            }
-        case "Subway":
-            switch(d.getDay()) {
-                case 0:
-                    // Sunday
-                    return ["5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 1:
-                    // Monday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 2:
-                    // Tuesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 3:
-                    // Wednesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 4:
-                    // Thursday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 5:
-                    // Friday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 6:
-                    // Satuday
-                    return ["5 pm", "6 pm", "7 pm", "8 pm", "9 pm"];
-
-            }
-    }
-
-}
+import {getHours, findCurrTimeIndex} from './chronos.js';
 
 function setBarColors(hours) {
-    const currentTime = findCurrIndex(hours); // Gets the index of the time current time in hours, else returns -1
+    const currentTime = findCurrTimeIndex(hours); // Gets the index of the time current time in hours, else returns -1
 
     // Sets the color of the bars based on the time
     let hitCurrTime = false;
@@ -139,56 +33,6 @@ function setBarColors(hours) {
         }
     }
     return barColors;
-}
-
-function currentBusyness(data, dbName, currentTime) {
-    fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
-    .then(res => res.json())
-    .then(dbData => {
-        if (!dbData || dbData.error) {
-            console.error("Error from server:", dbData?.error);
-            return;
-        }
-        let levelName = document.getElementById("current-level");
-        let levelCircle = document.getElementById("circle");
-
-        const capacity = dbData.max_capacity;
-        const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
-
-        if (currentTime == -1) {
-            levelName.textContent = "Closed";
-            levelCircle.style.backgroundColor = "grey";
-            return;
-        }
-
-        switch (Math.floor(data[currentTime]/intervalSize)) {
-            case 0:
-                levelName.textContent = "Empty";
-                levelCircle.style.backgroundColor = "green"
-                break;
-            case 1:
-                levelName.textContent = "Not Busy";
-                levelCircle.style.backgroundColor = "lightgreen"
-                break;
-            case 2:
-                levelName.textContent = "Somewhat Busy";
-                levelCircle.style.backgroundColor = "yellow"
-                break;
-            case 3:
-                levelName.textContent = "Busy";
-                levelCircle.style.backgroundColor = "orange"
-                break;
-            case 4:
-                levelName.textContent = "Full";
-                levelCircle.style.backgroundColor = "Red"
-                break;
-        }
-
-    })
-    .catch(err => {
-        console.error("Error loading database data", err);
-    });
-
 }
 
 function createGraph(name, hours, barColors, data) {
@@ -250,7 +94,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
             const theData = dbData.map(row => row.count);
-            currentBusyness(theData, dbName, findCurrIndex(hours));
             createGraph(graphName, hours, barColors, theData);
         })
         .catch(err => {
