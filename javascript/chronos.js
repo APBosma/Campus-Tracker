@@ -2,6 +2,9 @@
 // this website https://www.geeksforgeeks.org/javascript/javascript-string-substring-method/
 // Lol I then looked up "type casting javascript string to int" and found out about parseInt() and realized it would ignore 
 // the : and after which was basically just what I needed
+// Wasn't sure how to get the import stuff to work so I looked up "Javascript how to import functions from another file" and 
+// the google AI showed me a few examples. It took me a few tries because I put default at first but once I added the other function
+// I realized I didn't need it.
 
 // Gets hours in an array using the location name and grabbing the day the user is looking
 export function getHours(locationName) {
