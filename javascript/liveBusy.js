@@ -43,7 +43,7 @@ function currentBusyness(data, dbName, currentTime) {
                 levelName.textContent = "Busy";
                 levelCircle.style.backgroundColor = "orange"
                 break;
-            case 4:
+            default:
                 levelName.textContent = "Full";
                 levelCircle.style.backgroundColor = "Red"
                 break;
