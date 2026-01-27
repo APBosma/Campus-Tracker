@@ -4,7 +4,7 @@
 // the : and after which was basically just what I needed
 
 
-function getHours(locationName) {
+export default function getHours(locationName) {
     const d = new Date();
     let currDay = 0;
 
@@ -32,7 +32,20 @@ function getHours(locationName) {
             break;
     }
 
-    fetch("/Campus_Tracker/get_hours.php?location=" + locationName + "?day=" + currDay)
+    console.log("Sending location:", locationName);
+    console.log("Sending day:", currDay);
+
+    //checks valid locations for fetch
+    const validLocations = ["cafeteria", "north_tower_gym", "subway"];
+    const dbName = locationName.toLowerCase().replaceAll(" ", "_");
+
+    if (!validLocations.includes(dbName)) {
+        console.warn("No data available for this graph:", graphName);
+        return;
+    }
+
+
+return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + currDay)
     .then(res => res.json())
     .then(hours => {
         if (!hours || hours.error) {
@@ -55,7 +68,7 @@ function getHours(locationName) {
             }
         }
 
-        if (data.open_time2 && data.close_time2) {
+        if (hours.open_time2 && hours.close_time2) {
             const open2 = parseInt(hours.open_time2);
             const close2 = parseInt(hours.close_time2);
             for (let i = open2; i < close2; i++) {
@@ -71,7 +84,7 @@ function getHours(locationName) {
         }
         }
 
-        return hours;
+        return times;
     })
     .catch(err => {
         console.error("Error loading database data", err);

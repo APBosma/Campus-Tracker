@@ -53,6 +53,10 @@ $stmt->bind_param("ss", $location, $day);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
+if (!$row) {
+    echo json_encode([]);
+    exit;
+}
 
 // Removing null values for a cleaner result in the javacsript
 $row = array_filter($row, function ($value) {

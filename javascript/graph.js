@@ -14,6 +14,7 @@ toggle the display.
 I didn't know how to change the words and the circle color for the live busy thing for each page so I looked it up on google. The 
 google AI showed me how to use .textContent and .style.backgroundColor for this.
 */
+import getHours from './chronos.js';
 
 function findCurrIndex(hours) {
     const d = new Date(); // Gets current date
@@ -225,10 +226,10 @@ function createGraph(name, hours, barColors, data) {
 
 // This DOMContentLoaded function thing makes program wait until the HTML and stuff is done being setup before it runs the JS
 // EVERYTHING WILL BREAK WITHOUT THIS! DO NOT DELETE!
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let titleElement = document.getElementById("title")
     let graphName = titleElement.textContent;
-    const hours = getTime(graphName);
+    const hours = await getHours(graphName);
     const barColors = setBarColors(hours);
 
     //checks valid locations for fetch
