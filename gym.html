@@ -1,7 +1,8 @@
  <!DOCTYPE html>
  <html>
     <head>
-        <script src="javascript/graph.js"></script>
+        <script type="module" src="javascript/graph.js"></script>
+        <script type="module" src="javascript/liveBusy.js"></script>
         <link rel = "stylesheet" href = "style.css">
         <title>ConcordRush</title>
     </head>
@@ -29,7 +30,7 @@
         <div id = "circle"></div>
 
         <!--Note the style for padding and font-->
-        <p style="padding-left: 6%; font-size: 1.5rem">Busy</p>
+        <p id = "current-level" style="padding-left: 6%; font-size: 1.5rem"></p>
         </section>
         <div id = "flex-container">
             <div id = "graph-container">
