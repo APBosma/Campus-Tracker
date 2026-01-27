@@ -2,6 +2,9 @@
 // Didn't know how to use multiple variables for the SQL and stuff so I looked up "PHP SQL 
 // statements with multiple variables with $_GET" on Google and the Google AI showed me how. It showed me that the bind_param thing
 // is in charge of that thing. P cool stuff.
+// I was unsure if I was doing this right, so I once again since my PHP code to chatGPT to verify I was doing things correctly.
+// I had actually done it right! (Huge) I then asked it about removing null values from the result and it showed me the array_filter 
+// thing I used. I also like to use it to show me the output of what it is sending to the Javascript since I'm still new to this.
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
