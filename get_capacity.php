@@ -4,6 +4,8 @@
 // I had misspelled capacity in one spot towards the bottom and showed me how to use this in the javascript file. Once I got this
 // working I used a recommendation from the AI to clean up the bottom return so I only returned one item rather than an array.
 
+// This gets the max capacity value from the database for the location
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

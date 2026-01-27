@@ -6,6 +6,10 @@
 // I had actually done it right! (Huge) I then asked it about removing null values from the result and it showed me the array_filter 
 // thing I used. I also like to use it to show me the output of what it is sending to the Javascript since I'm still new to this.
 
+// This file returns the opening and closing time for the location.
+// There may be two opening and closing times for the cafeteria if it is the weekend as they close between
+// lunch and dinner.
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
