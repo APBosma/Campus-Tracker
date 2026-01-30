@@ -126,6 +126,70 @@ function setBarColors(hours) {
     return barColors;
 }
 
+function setDynamicBarColors(hours, data) {
+    const d = new Date(); // Gets current date
+    let hour = d.getHours(); // Gets the current hour
+
+    // Gets the hour and turns it into a string
+    let currTime = "";
+    if (hour > 12) {
+        currTime = (hour-12).toString() + " pm";
+    } else if (hour == 12) {
+        currTime = "12 pm";
+    } else if (hour == 0) {
+        currTime = "12 am";
+    } else {
+        currTime = hour.toString() + " am";
+    }
+
+    /* Sets the oppacity of the bars based on the time &
+       sets the color based on population
+    */
+    let hitCurrTime = false;
+    let barColors = new Array(hours.length);
+    // population thresholds are arbitrary
+    const HIGH_POPULATION_THRESHOLD = 64
+    const LOW_POPULATION_THRESHOLD = 8
+    for (let i=0; i< hours.length; i++) {
+        if (currTime == hours[i]) {
+            hitCurrTime = true;
+            if (data[i] > HIGH_POPULATION_THRESHOLD) {
+                // brick ember
+                barColors[i] = 'rgba(186, 45, 11, 1)'
+            } else if (data[i] < LOW_POPULATION_THRESHOLD) {
+                // pine blue
+                barColors[i] = 'rgba(41, 155, 155, 1)'
+            } else {
+                // honey bronze
+                barColors[i] = 'rgba(237, 174, 730, 1)'
+            }
+        } else if (hitCurrTime == false) {
+            if (data[i] > HIGH_POPULATION_THRESHOLD) {
+                // brick ember
+                barColors[i] = 'rgba(186, 45, 11, 0.2)'
+            } else if (data[i] < LOW_POPULATION_THRESHOLD) {
+                // pine blue
+                barColors[i] = 'rgba(41, 155, 155, 0.2)'
+            } else {
+                // honey bronze
+                barColors[i] = 'rgba(237, 174, 730, 0.2)'
+            }
+        } else {
+            if (data[i] > HIGH_POPULATION_THRESHOLD) {
+                // brick ember
+                barColors[i] = 'rgba(186, 45, 11, 0.5)'
+            } else if (data[i] < LOW_POPULATION_THRESHOLD) {
+                // pine blue
+                barColors[i] = 'rgba(41, 155, 155, 0.5)'
+            } else {
+                // honey bronze
+                barColors[i] = 'rgba(237, 174, 730, 0.5)'
+            }
+        }
+    }
+    return barColors;
+}
+
 function createGraph(name, hours, barColors, data) {
     const graph = document.getElementById('graph');
 
