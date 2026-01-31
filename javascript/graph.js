@@ -11,110 +11,19 @@ I needed to convert the current hour to string so I looked up "int to string JS"
 I wanted to store in the page what page it was so I looked up "JS how to get information from HTML" and the google AI showed me syntax
 to get information from the HTML page. I then wanted to hide it on the page so I looked up "html how to hide an element" and saw I could
 toggle the display.
+I didn't know how to change the words and the circle color for the live busy thing for each page so I looked it up on google. The 
+google AI showed me how to use .textContent and .style.backgroundColor for this.
 */
-
-function getTime(location) {
-    const d = new Date();
-    
-    switch(location) {
-        case "North Tower Gym":
-            switch(d.getDay()) { // Gets day of the week, found this at https://www.w3schools.com/jsref/jsref_getday.asp
-                case 0:
-                    // Sunday
-                    return ["4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 1:
-                    // Monday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 2:
-                    // Tuesday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 3:
-                    // Wednesday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 4:
-                    // Thursday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 5:
-                    // Friday
-                    return ["8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm"];
-                case 6:
-                    // Satuday
-                    return ["4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-            }
-        case "Cafeteria":
-            switch(d.getDay()) {
-                case 0:
-                    // Sunday
-                    return ["10 am", "11 am", "12 pm", "1 pm", "4 pm", "5 pm", "6 pm"];
-                case 1:
-                    // Monday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 2:
-                    // Tuesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 3:
-                    // Wednesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 4:
-                    // Thursday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm"];
-                case 5:
-                    // Friday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm"];
-                case 6:
-                    // Satuday
-                    return ["10 am", "11 am", "12 pm", "1 pm", "4 pm", "5 pm"];
-            }
-        case "Subway":
-            switch(d.getDay()) {
-                case 0:
-                    // Sunday
-                    return ["5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 1:
-                    // Monday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 2:
-                    // Tuesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 3:
-                    // Wednesday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 4:
-                    // Thursday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 5:
-                    // Friday
-                    return ["7 am", "8 am", "9 am", "10 am", "11 am", "12 pm", "1 pm", "2 pm", "3 pm", "4 pm", "5 pm", "6 pm", "7 pm", "8 pm", "9 pm", "10 pm"];
-                case 6:
-                    // Satuday
-                    return ["5 pm", "6 pm", "7 pm", "8 pm", "9 pm"];
-
-            }
-    }
-
-}
+import {getHours, findCurrTimeIndex} from './chronos.js';
 
 function setBarColors(hours) {
-    const d = new Date(); // Gets current date
-    let hour = d.getHours(); // Gets the current hour
-
-    // Gets the hour and turns it into a string
-    let currTime = "";
-    if (hour > 12) {
-        currTime = (hour-12).toString() + " pm";
-    } else if (hour == 12) {
-        currTime = "12 pm";
-    } else if (hour == 0) {
-        currTime = "12 am";
-    } else {
-        currTime = hour.toString() + " am";
-    }
+    const currentTime = findCurrTimeIndex(hours); // Gets the index of the time current time in hours, else returns -1
 
     // Sets the color of the bars based on the time
     let hitCurrTime = false;
     let barColors = new Array(hours.length);
     for (let i=0; i< hours.length; i++) {
-        if (currTime == hours[i]) {
+        if (currentTime == i) {
             hitCurrTime = true;
             barColors[i] = 'rgba(0, 40, 145, 1)'
         } else if (hitCurrTime == false) {
@@ -161,10 +70,10 @@ function createGraph(name, hours, barColors, data) {
 
 // This DOMContentLoaded function thing makes program wait until the HTML and stuff is done being setup before it runs the JS
 // EVERYTHING WILL BREAK WITHOUT THIS! DO NOT DELETE!
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let titleElement = document.getElementById("title")
     let graphName = titleElement.textContent;
-    const hours = getTime(graphName);
+    const hours = await getHours(graphName);
     const barColors = setBarColors(hours);
 
     //checks valid locations for fetch
@@ -175,14 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("No data available for this graph:", graphName);
         return;
     }
-    // Sets random numbers to the data
-    //let theData = new Array(hours.length);
-    //for (let i=0; i< hours.length; i++) {
-        //theData[i] = i % 4;
-    //}
 
     //fetches data from get_data.php
-    
     fetch("/Campus_Tracker/get_data.php?location=" + dbName)
         .then(res => res.json())
         .then(dbData => {
@@ -197,9 +100,3 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error loading database data", err);
         });
 });
-    
-
-    //createGraph(graphName, hours, barColors, theData);
-
-
-
