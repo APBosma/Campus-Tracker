@@ -43,32 +43,22 @@
     <!-- RIGHT CONTENT -->
     <section id="admin-content">
 
-        <!-- CURRENT ANNOUNCEMENTS -->
+        <!-- ANNOUNCEMENT FORM -->
         <section class="admin-box">
-            <h3>Current Announcements</h3>
-            <div class="empty-box">
-                <p>No announcements selected</p>
-            </div>
-        </section>
-
-        <!-- LOCATION SUMMARIES -->
-        <section class="admin-box">
-            <h3>Location Summaries</h3>
-
-            <div class="location-card">
-                <span class="status-dot busy"></span>
-                <p>NT Gym</p>
-            </div>
-
-            <div class="location-card">
-                <span class="status-dot moderate"></span>
-                <p>Cafeteria</p>
-            </div>
-
-            <div class="location-card">
-                <span class="status-dot open"></span>
-                <p>Subway</p>
-            </div>
+            <h3>Create Announcement</h3>
+            <form action = "create_announcement.php" method = "post">
+                location: <br>
+                <select name = "location" id = "location">
+                    <!-- To be added, need PHP file to get the names of the locations -->
+                </select> <br>
+                Start Date:<br>
+                <input type = "date" id = "start_date" name = "start_date"><br>
+                End Date:<br>
+                <input type = "date" id = "end_date" name = "end_date"><br>
+                Message:<br>
+                <textarea id = "message" name = "message" rows = "5" column = "33" maxlength="767"></textarea><br>
+                <input id = "submit_button" type="submit" name = "submit" value = "Submit">
+            </form>
         </section>
 
     </section>

@@ -45,6 +45,21 @@
     gap: 6%;
 }
 
+#submit_button {
+    width: 20%;
+    height: auto;
+    background-color: #860903;
+    text-align: center;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    font-size: 1.0rem;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 /* CONTENT BOXES */
 .admin-box {
     background-color: #c7c7c7;
