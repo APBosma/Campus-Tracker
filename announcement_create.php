@@ -34,7 +34,7 @@
         </a>
         <button class="menu-btn">Edit Location</button>
         <button class="menu-btn">Remove Location</button>
-        <a href = "announcement_create.html">
+        <a href = "announcement_create.php">
             <button class="menu-btn">Create Announcement</button>
         </a>
         <button class="menu-btn">Edit Announcement</button>
@@ -48,17 +48,19 @@
             <h3>Create Announcement</h3>
             <form action = "create_announcement.php" method = "post">
                 Location: <br>
-                <select name = "location" id = "location" class = "form_item">
-                    <!-- To be added, need PHP file to get the names of the locations -->
-                </select> <br>
+                <select name="location" id="location" class="form_item">
+                    <?php include __DIR__ . '/location_names.php'; ?>
+                </select><br>
+
                 Start Date:<br>
-                <input type = "date" id = "start_date" name = "start_date" class = "form_item"><br>
+                <input type="date" id="start_date" name="start_date" class="form_item"><br>
+
                 End Date:<br>
-                <input type = "date" id = "end_date" name = "end_date" class = "form_item"><br>
+                <input type="date" id="end_date" name="end_date" class="form_item"><br>
+
                 Message:<br>
-                <textarea id = "message" name = "message" rows = "5" column = "33" maxlength="767" class = "form_item">
-                </textarea><br>
-                <input id = "submit_button" type="submit" name = "submit" value = "Submit">
+                <textarea id="message" name="message" rows="5" cols="33" maxlength="767" class="form_item"></textarea><br>
+                <input id="submit_button" type="submit" name="submit" value="Submit">
             </form>
         </section>
 
