@@ -50,6 +50,11 @@
     margin-top: 5px;
 }
 
+#location {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.0rem;
+}
+
 form {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 1.0rem;
