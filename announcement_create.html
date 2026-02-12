@@ -47,16 +47,16 @@
         <section class="admin-box">
             <h3>Create Announcement</h3>
             <form action = "create_announcement.php" method = "post">
-                location: <br>
-                <select name = "location" id = "location">
+                Location: <br>
+                <select name = "location" id = "location" class = "form_item">
                     <!-- To be added, need PHP file to get the names of the locations -->
                 </select> <br>
                 Start Date:<br>
-                <input type = "date" id = "start_date" name = "start_date"><br>
+                <input type = "date" id = "start_date" name = "start_date" class = "form_item"><br>
                 End Date:<br>
-                <input type = "date" id = "end_date" name = "end_date"><br>
+                <input type = "date" id = "end_date" name = "end_date" class = "form_item"><br>
                 Message:<br>
-                <textarea id = "message" name = "message" rows = "5" column = "33" maxlength="767"></textarea><br>
+                <textarea id = "message" name = "message" rows = "5" column = "33" maxlength="767" class = "form_item"></textarea><br>
                 <input id = "submit_button" type="submit" name = "submit" value = "Submit">
             </form>
         </section>

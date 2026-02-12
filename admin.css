@@ -45,6 +45,22 @@
     gap: 6%;
 }
 
+.form_item {
+    margin-bottom: 2.5%;
+    margin-top: 5px;
+}
+
+form {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.0rem;
+}
+
+form input {
+    width: 140px;
+    height: 25px;
+    font-size: 1.0rem;
+}
+
 #submit_button {
     width: 20%;
     height: auto;
