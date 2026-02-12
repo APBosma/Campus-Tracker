@@ -61,6 +61,11 @@ form input {
     font-size: 1.0rem;
 }
 
+form textarea {
+    font-size: 1.0rem;
+    width: 100%;
+}
+
 #submit_button {
     width: 20%;
     height: auto;
