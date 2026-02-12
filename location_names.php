@@ -7,13 +7,25 @@
 // 2. I learned you need to name the HTML file as .php so the PHP works
 // 3. I learned how to do some funky formatting stuff with PHP
 
-$conn = new mysqli("localhost", "root", "mysql", "campus_tracker");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+//connect to database
+$servername = "localhost";
+$username = "root";
+$password = "mysql";
+$dbname = "campus_tracker";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    echo "<option>Connection failed</option>";
+    echo json_encode(["error" => $conn->connect_error]);
     exit;
 }
 
-$res = $conn->query("SELECT name FROM locations");
+$res = $conn->query("
+    SELECT name 
+    FROM locations
+");
 if ($res && $res->num_rows > 0) {
     while ($row = $res->fetch_assoc()) {
         $name = str_replace('_', ' ', $row['name']); // Turns underscores into spaces
