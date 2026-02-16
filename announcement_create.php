@@ -49,7 +49,7 @@
             <form action = "create_announcement.php" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
-                    <?php include __DIR__ . '/location_names.php'; ?>
+                    <?php include __DIR__ . '/PHP/location_names.php'; ?>
                     <option value = "All">All</option>
                 </select><br>
 
