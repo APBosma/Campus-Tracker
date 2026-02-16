@@ -26,6 +26,7 @@ $locations = [
     "North Tower Gym" => 2,
     "Subway" => 3
 ];
+$currentTimestamp = time();
 
 $location = $locations[$_POST['location']];
 $message = $_POST['message'];
@@ -35,6 +36,13 @@ echo($location);
 echo($message);
 echo($start_date);
 echo($end_date);
+
+if ($start_date < $currentTimestamp) {
+    echo("Error: Start date is in the past");
+}
+if ($end_date < $start_date) {
+    echo("Error: End date is before start date");
+}
 
 if (!($res->execute())) {
     echo "Error: " . $stmt->error;
