@@ -46,6 +46,7 @@
         <!-- ANNOUNCEMENT FORM -->
         <section class="admin-box">
             <h3>Create Announcement</h3>
+            <div id = "announcement_error"></div>
             <form action = "javascript/submit_announcement.js" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
