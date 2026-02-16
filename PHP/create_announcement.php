@@ -21,10 +21,20 @@ $res = $conn->prepare("
 ");
 $res->bind_param("ssss", $location, $message, $start_date, $end_date);
 
-$location = $_POST['location'];
+$locations = [
+    "Cafeteria" => 1,
+    "North Tower Gym" => 2,
+    "Subway" => 3
+];
+
+$location = $locations[$_POST['location']];
 $message = $_POST['message'];
 $start_date = $_POST['start_date'];
 $end_date = $_POST['end_date'];
+echo($location);
+echo($message);
+echo($start_date);
+echo($end_date);
 
 if (!($res->execute())) {
     echo "Error: " . $stmt->error;

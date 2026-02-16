@@ -46,7 +46,7 @@
         <!-- ANNOUNCEMENT FORM -->
         <section class="admin-box">
             <h3>Create Announcement</h3>
-            <form action = "create_announcement.php" method = "post">
+            <form action = "PHP/create_announcement.php" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
                     <?php include __DIR__ . '/PHP/location_names.php'; ?>
