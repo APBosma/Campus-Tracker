@@ -46,8 +46,13 @@
         <!-- ANNOUNCEMENT FORM -->
         <section class="admin-box">
             <h3>Create Announcement</h3>
-            <div id = "announcement_error"></div>
-            <form action = "javascript/submit_announcement.js" method = "post">
+            <?php
+            session_start();
+            if (isset($_SESSION["flash"])) {
+                echo $_SESSION["flash"];
+                unset($_SESSION["flash"]);
+            } ?>
+            <form action = "PHP/create_announcement.php" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
                     <?php include __DIR__ . '/PHP/location_names.php'; ?>
