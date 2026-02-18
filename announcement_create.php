@@ -49,9 +49,23 @@
             <?php
             session_start();
             if (isset($_SESSION["flash"])) {
-                echo $_SESSION["flash"];
-                unset($_SESSION["flash"]);
-            } ?>
+                $flash = $_SESSION["flash"];
+                if (is_array($flash)) {
+                    $text = $flash['text'] ?? '';
+                    $type = $flash['type'] ?? 'success';
+                } else {
+                    $text = $flash;
+                    $type = 'error';
+                }
+
+                if ($type === 'success') {
+                    $style = "background:#e6ffed; border:1px solid #b7ebc6; color:#1f7a3e; padding:12px; border-radius:6px; margin-bottom:20px;";
+                } else { 
+                    $style = "background:#ffe6e6; border:1px solid #ffb3b3; color:#a10000; padding:12px; border-radius:6px; margin-bottom:20px;";
+                }
+                echo "<div style='$style'>$text</div>";
+                unset($_SESSION["flash"]); }?>
+                
             <form action = "PHP/create_announcement.php" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
