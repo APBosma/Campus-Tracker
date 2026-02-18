@@ -37,7 +37,9 @@
         <a href = "announcement_create.php">
             <button class="menu-btn">Create Announcement</button>
         </a>
-        <button class="menu-btn">Edit Announcement</button>
+        <a href = "edit_announcement.php">
+            <button class="menu-btn">Edit Announcement</button>
+        </a>
     </aside>
 
     <!-- RIGHT CONTENT -->

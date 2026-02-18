@@ -44,33 +44,9 @@
 
     <!-- RIGHT CONTENT -->
     <section id="admin-content">
-
-        <!-- CURRENT ANNOUNCEMENTS -->
         <section class="admin-box">
-            <h3>Current Announcements</h3>
-            <div class="empty-box">
-                <p>No announcements selected</p>
-            </div>
-        </section>
-
-        <!-- LOCATION SUMMARIES -->
-        <section class="admin-box">
-            <h3>Location Summaries</h3>
-
-            <div class="location-card">
-                <span class="status-dot busy"></span>
-                <p>NT Gym</p>
-            </div>
-
-            <div class="location-card">
-                <span class="status-dot moderate"></span>
-                <p>Cafeteria</p>
-            </div>
-
-            <div class="location-card">
-                <span class="status-dot open"></span>
-                <p>Subway</p>
-            </div>
+            <h3>Edit Announcement</h3>
+            <!-- Display announcements here -->
         </section>
 
     </section>
