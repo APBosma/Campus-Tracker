@@ -242,6 +242,7 @@ canvas {
     padding-right: 40px;
     margin-left: 10%;   
     margin-right: 10%;
+    white-space: nowrap;
 }
 
 * {box-sizing:border-box}

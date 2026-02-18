@@ -14,7 +14,7 @@ function currentBusyness(data, dbName, currentTime) {
         let levelCircle = document.getElementById("circle");
 
         const capacity = dbData.max_capacity;
-        const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
+        const intervalSize = Math.floor(capacity/3) // Forces round down for int division, learned this when I competed in Java
 
         // Location is closed
         if (currentTime == -1) {
@@ -32,14 +32,10 @@ function currentBusyness(data, dbName, currentTime) {
                 levelCircle.style.backgroundColor = "green"
                 break;
             case 1:
-                levelName.textContent = "Not Busy";
+                levelName.textContent = "Lightly Busy";
                 levelCircle.style.backgroundColor = "lightgreen"
                 break;
             case 2:
-                levelName.textContent = "Somewhat Busy";
-                levelCircle.style.backgroundColor = "yellow"
-                break;
-            case 3:
                 levelName.textContent = "Busy";
                 levelCircle.style.backgroundColor = "orange"
                 break;
