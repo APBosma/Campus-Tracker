@@ -74,13 +74,10 @@
                     <?php include __DIR__ . '/PHP/location_names.php'; ?>
                     <option value = "All">All</option>
                 </select><br>
-
                 Start Date:<br>
                 <input type="date" id="start_date" name="start_date" class="form_item" required><br>
-
                 End Date:<br>
                 <input type="date" id="end_date" name="end_date" class="form_item" required><br>
-
                 Message:<br>
                 <textarea id="message" name="message" rows="5" cols="33" maxlength="767" class="form_item" required></textarea><br>
                 <input id="submit_button" type="submit" name="submit" value="Submit">

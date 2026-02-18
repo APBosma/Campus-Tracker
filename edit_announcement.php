@@ -46,6 +46,18 @@
     <section id="admin-content">
         <section class="admin-box">
             <h3>Edit Announcement</h3>
+            <form action = "PHP/announcement_filter.php" method = "post">
+                Location: <br>
+                <select name="location" id="location" class="form_item">
+                    <?php include __DIR__ . '/PHP/location_names.php'; ?>
+                    <option value = "All">All</option>
+                </select><br>
+                Start Date:<br>
+                <input type="date" id="start_date" name="start_date" class="form_item"><br>
+                End Date:<br>
+                <input type="date" id="end_date" name="end_date" class="form_item"><br>
+                <input id="search_button" type="submit" name="submit" value="Filter">
+            </form>
             <!-- Display announcements here -->
         </section>
 
