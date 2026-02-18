@@ -65,7 +65,7 @@ $stmt->bind_param("isss", $location, $message, $start_date, $end_date);
 
 if ($stmt->execute()) {
     $_SESSION["flash"] = "Announcement created successfully!";
-    header("Location: ../admin.html");
+    header("Location: ../announcement_create.php");
 } else {
     $_SESSION["flash"] = "Error saving announcement.";
     header("Location: ../announcement_create.php");
