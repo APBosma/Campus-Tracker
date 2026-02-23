@@ -46,9 +46,42 @@
     <section id="admin-content">
         <section class="admin-box">
             <h3>Edit Announcement</h3>
-            <div class="location-card" data-location="North Tower Gym">
-                <div class="status-dot" id="north_tower_gym-circle"></div>
-                <p>NT Gym - <span id="north_tower_gym-level">Loading...</span></p>
+            <?php
+            // Connect to database
+            $servername = "localhost";
+            $username = "root";
+            $password = "mysql";
+            $dbname = "campus_tracker";
+
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            if ($conn->connect_error) {
+                $_SESSION["flash"] = [
+                    "text" => "Database connection failed.",
+                    "type" => "error"
+                ];
+                header("Location: ../announcement_create.php");
+                exit();
+            }
+
+            $result = $conn->query("
+                SELECT announcement_id, message, start_date, end_date
+                FROM announcements
+                ORDER BY start_date DESC
+            ");
+            ?>
+            <div class="announcements-container">
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <a class="announcement-card"
+                href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
+                    <div class="message">
+                        <?php echo htmlspecialchars($row['message']); ?>
+                    </div>
+
+                    <div class="dates">
+                        <?php echo $row['start_date']; ?> → <?php echo $row['end_date']; ?>
+                    </div>
+                </a>
+            <?php endwhile; ?>
             </div>
             <!-- Display announcements here -->
         </section>
