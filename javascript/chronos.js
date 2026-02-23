@@ -81,17 +81,17 @@ export function getHours(locationName) {
         }
 
         if (hours.open_time2 && hours.close_time2) {
-            //const open2 = parseInt(hours.open_time2);
-            //const close2 = parseInt(hours.close_time2);
+            const open2 = parseInt(hours.open_time2);
+            const close2 = parseInt(hours.close_time2);
 
 
-            const hourTime3 = hours.open_time2.split(":");
-            const open2 = parseInt(hourTime3[0]);
-            const openMinutes2 = parseInt(hourTime3[1]);
+            //const hourTime3 = hours.open_time2.split(":");
+            //const open2 = parseInt(hourTime3[0]);
+            //const openMinutes2 = parseInt(hourTime3[1]);
 
-            const hourTime4 = hours.close_time2.split(":");
-            const close2 = parseInt(hourTime4[0]);
-            const closeMinutes2 = parseInt(hourTime4[1]);
+            //const hourTime4 = hours.close_time2.split(":");
+            //const close2 = parseInt(hourTime4[0]);
+            //const closeMinutes2 = parseInt(hourTime4[1]);
 
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
