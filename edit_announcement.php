@@ -47,27 +47,27 @@
         <section class="admin-box">
             <h3>Edit Announcement</h3>
             <?php
-            // Connect to database
-            $servername = "localhost";
-            $username = "root";
-            $password = "mysql";
-            $dbname = "campus_tracker";
+                // Connect to database
+                $servername = "localhost";
+                $username = "root";
+                $password = "mysql";
+                $dbname = "campus_tracker";
 
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                $_SESSION["flash"] = [
-                    "text" => "Database connection failed.",
-                    "type" => "error"
-                ];
-                header("Location: ../announcement_create.php");
-                exit();
-            }
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                if ($conn->connect_error) {
+                    $_SESSION["flash"] = [
+                        "text" => "Database connection failed.",
+                        "type" => "error"
+                    ];
+                    header("Location: ../announcement_create.php");
+                    exit();
+                }
 
-            $result = $conn->query("
-                SELECT announcement_id, message, start_date, end_date
-                FROM announcements
-                ORDER BY start_date DESC
-            ");
+                $result = $conn->query("
+                    SELECT announcement_id, message, start_date, end_date
+                    FROM announcements
+                    ORDER BY start_date DESC
+                ");
             ?>
             <div class="announcements-container">
             <?php while ($row = $result->fetch_assoc()): ?>
