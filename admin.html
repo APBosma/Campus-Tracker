@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="module" src="javascript/adminLiveStatus.js"></script>
     <title>ConcordRush Admin</title>
 
     <!-- Base styles -->
@@ -57,19 +58,22 @@
         <section class="admin-box">
             <h3>Location Summaries</h3>
 
-            <div class="location-card">
-                <span class="status-dot busy"></span>
-                <p>NT Gym</p>
+            <!-- NORTH TOWER GYM -->
+            <div class="location-card" data-location="North Tower Gym">
+                <div class="status-dot" id="north_tower_gym-circle"></div>
+                <p>NT Gym - <span id="north_tower_gym-level">Loading...</span></p>
             </div>
 
-            <div class="location-card">
-                <span class="status-dot moderate"></span>
-                <p>Cafeteria</p>
+            <!-- CAFETERIA -->
+            <div class="location-card" data-location="Cafeteria">
+                <div class="status-dot" id="cafeteria-circle"></div>
+                <p>Cafeteria - <span id="cafeteria-level">Loading...</span></p>
             </div>
 
-            <div class="location-card">
-                <span class="status-dot open"></span>
-                <p>Subway</p>
+            <!-- SUBWAY -->
+            <div class="location-card" data-location="Subway">
+                <div class="status-dot" id="subway-circle"></div>
+                <p>Subway - <span id="subway-level">Loading...</span></p>
             </div>
         </section>
 
