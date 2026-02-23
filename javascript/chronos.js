@@ -59,13 +59,13 @@ export function getHours(locationName) {
         //const open = parseInt(hours.open_time1);
         //const close = parseInt(hours.close_time1);
 
-        const hourTime = hours.open_time1.split(":");
-        const open = parseInt(hourTime[0]);
-        const openMinutes = parseInt(hourTime[1]);
+        const hourMin = hours.open_time1.split(":");
+        const open = parseInt(hourMin[0]);
+        const openMinutes = parseInt(hourMin[1]);
 
-        const hourTime2 = hours.close_time1.split(":");
-        const close = parseInt(hourTime2[0]);
-        const closeMinutes = parseInt(hourTime2[1]);
+        const hourMin2 = hours.close_time1.split(":");
+        const close = parseInt(hourMin2[0]);
+        const closeMinutes = parseInt(hourMin2[1]);
 
         let times = [];
         for (let i = open; i < close; i++) {
@@ -81,17 +81,17 @@ export function getHours(locationName) {
         }
 
         if (hours.open_time2 && hours.close_time2) {
-            const open2 = parseInt(hours.open_time2);
-            const close2 = parseInt(hours.close_time2);
+            //const open2 = parseInt(hours.open_time2);
+            //const close2 = parseInt(hours.close_time2);
 
 
-            //const hourTime3 = hours.open_time2.split(":");
-            //const open2 = parseInt(hourTime3[0]);
-            //const openMinutes2 = parseInt(hourTime3[1]);
+            const hour3 = hours.open_time2.split(":");
+            const open2 = parseInt(hourMin3[0]);
+            const openMinutes2 = parseInt(hourMin3[1]);
 
-            //const hourTime4 = hours.close_time2.split(":");
-            //const close2 = parseInt(hourTime4[0]);
-            //const closeMinutes2 = parseInt(hourTime4[1]);
+            const hourMin4 = hours.close_time2.split(":");
+            const close2 = parseInt(hourMin4[0]);
+            const closeMinutes2 = parseInt(hourMin4[1]);
 
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
@@ -119,6 +119,7 @@ export function getHours(locationName) {
 export function findCurrTimeIndex(hours) {
     const d = new Date(); // Gets current date
     let hour = d.getHours(); // Gets the current hour
+    let minutes = d.getMinutes();
 
     // Gets the hour and turns it into a string
     let currTime = "";
@@ -131,6 +132,8 @@ export function findCurrTimeIndex(hours) {
     } else {
         currTime = hour.toString() + " am";
     }
+    currTime = currTime + minutes;
+    console.error(currTime);
 
     let i = 0;
     for (i; i< hours.length; i++) {

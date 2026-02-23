@@ -80,8 +80,4 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 });
 
-
-
-function checkMinutes(){
-    
-}
+console.error(openMinutes);
