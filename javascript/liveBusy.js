@@ -79,3 +79,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             console.error("Error loading database data", err);
         });
 });
+
+
+
+function checkMinutes(){
+    
+}

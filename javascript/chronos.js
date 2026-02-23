@@ -55,8 +55,17 @@ export function getHours(locationName) {
             console.error("Error from server:", hours?.error);
             return;
         }
-        const open = parseInt(hours.open_time1);
-        const close = parseInt(hours.close_time1);
+        
+        //const open = parseInt(hours.open_time1);
+        //const close = parseInt(hours.close_time1);
+
+        const hourTime = hours.open_time1.split(":");
+        const open = parseInt(hourTime[0]);
+        const openMinutes = parseInt(hourTime[1]);
+
+        const hourTime2 = hours.close_time1.split(":");
+        const close = parseInt(hourTime2[0]);
+        const closeMinutes = parseInt(hourTime2[1]);
 
         let times = [];
         for (let i = open; i < close; i++) {
@@ -72,8 +81,18 @@ export function getHours(locationName) {
         }
 
         if (hours.open_time2 && hours.close_time2) {
-            const open2 = parseInt(hours.open_time2);
-            const close2 = parseInt(hours.close_time2);
+            //const open2 = parseInt(hours.open_time2);
+            //const close2 = parseInt(hours.close_time2);
+
+
+            const hourTime3 = hours.open_time2.split(":");
+            const open2 = parseInt(hourTime3[0]);
+            const openMinutes2 = parseInt(hourTime3[1]);
+
+            const hourTime4 = hours.close_time2.split(":");
+            const close2 = parseInt(hourTime4[0]);
+            const closeMinutes2 = parseInt(hourTime4[1]);
+
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
                     times.push(i + " am");
