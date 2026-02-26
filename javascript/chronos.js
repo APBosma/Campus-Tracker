@@ -49,13 +49,12 @@ export function getHours(locationName) {
 
 
     return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + currDay)
-        .then(res => res.json())
-    
-            .then(hours => {
-            if (!hours || hours.error) {
-                console.error("Error from server:", hours?.error);
-                return;
-            }
+    .then(res => res.json())
+    .then(hours => {
+        if (!hours || hours.error) {
+            console.error("Error from server:", hours?.error);
+            return;
+        }
         const open = parseInt(hours.open_time1);
         const close = parseInt(hours.close_time1);
 
