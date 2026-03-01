@@ -29,7 +29,7 @@
     <aside id="admin-menu">
         <h3>Menu</h3>
 
-        <a href = "admin.html">
+        <a href = "admin.php">
             <button class="menu-btn">Home</button>
         </a>
         <button class="menu-btn">Edit Location</button>
@@ -66,6 +66,7 @@
                 $result = $conn->query("
                     SELECT announcement_id, message, start_date, end_date
                     FROM announcements
+                    WHERE end_date >= CURDATE()
                     ORDER BY start_date DESC
                 ");
             ?>
@@ -73,13 +74,16 @@
             <?php while ($row = $result->fetch_assoc()): ?>
                 <a class="announcement-card"
                 href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
+
                     <div class="message">
                         <?php echo htmlspecialchars($row['message']); ?>
                     </div>
 
                     <div class="dates">
-                        <?php echo $row['start_date']; ?> → <?php echo $row['end_date']; ?>
+                        <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
+                        <strong>End:</strong> <?php echo $row['end_date']; ?>
                     </div>
+
                 </a>
             <?php endwhile; ?>
             </div>
