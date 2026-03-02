@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     //fetches data from get_data.php
-    fetch("/Campus_Tracker/get_data.php?location=" + dbName)
+    fetch("/Campus_Tracker/php/get_data.php?location=" + dbName)
         .then(res => res.json())
         .then(dbData => {
             if (!dbData || dbData.error) {
