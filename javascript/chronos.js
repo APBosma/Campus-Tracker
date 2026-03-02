@@ -61,11 +61,14 @@ export function getHours(locationName) {
 
         const hourMin = hours.open_time1.split(":");
         const open = parseInt(hourMin[0]);
-        const openMinutes = parseInt(hourMin[1]);
+        const openMinute = parseInt(hourMin[1]);
 
         const hourMin2 = hours.close_time1.split(":");
         const close = parseInt(hourMin2[0]);
-        const closeMinutes = parseInt(hourMin2[1]);
+        const closeMinute = parseInt(hourMin2[1]);
+
+        const openMinute2 = 0;
+        const closeMinute2 = 0;
 
         let times = [];
         for (let i = open; i < close; i++) {
@@ -85,13 +88,13 @@ export function getHours(locationName) {
             //const close2 = parseInt(hours.close_time2);
 
 
-            const hour3 = hours.open_time2.split(":");
+            const hourMin3 = hours.open_time2.split(":");
             const open2 = parseInt(hourMin3[0]);
-            const openMinutes2 = parseInt(hourMin3[1]);
+            const openMinute2 = parseInt(hourMin3[1]);
 
             const hourMin4 = hours.close_time2.split(":");
             const close2 = parseInt(hourMin4[0]);
-            const closeMinutes2 = parseInt(hourMin4[1]);
+            const closeMinute2 = parseInt(hourMin4[1]);
 
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
@@ -105,9 +108,13 @@ export function getHours(locationName) {
                 }
             }
         }
+        else{
+            const openMinute2 = 0;
+            const closeMinute2 = 0;
+        }
 
-        return times;
-    })
+        return {hours : times, openMinute, closeMinute, openMinute2, closeMinute2};
+    })  
     .catch(err => {
         console.error("Error loading database data", err);
     });
@@ -116,7 +123,8 @@ export function getHours(locationName) {
 
 // Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
 // Returns -1 if the time isn't there (Location is closed)
-export function findCurrTimeIndex(hours) {
+export function findCurrTimeIndex(hours, openMinute, closeMinute, openMinute2, closeMinute2) {
+    //console.warn(closeMinute2)
     const d = new Date(); // Gets current date
     let hour = d.getHours(); // Gets the current hour
     let minutes = d.getMinutes();
@@ -132,8 +140,10 @@ export function findCurrTimeIndex(hours) {
     } else {
         currTime = hour.toString() + " am";
     }
-    currTime = currTime + minutes;
     console.error(currTime);
+    let urmom = parseInt(currTime)
+    console.error(minutes)
+    console.error(String(urmom) + String(minutes))
 
     let i = 0;
     for (i; i< hours.length; i++) {

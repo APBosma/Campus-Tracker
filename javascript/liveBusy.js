@@ -16,7 +16,7 @@ function currentBusyness(data, dbName, currentTime) {
         const capacity = dbData.max_capacity;
         const intervalSize = Math.floor(capacity/3) // Forces round down for int division, learned this when I competed in Java
 
-        // Location is closed
+        // Location is closed   
         if (currentTime == -1) {
             levelName.textContent = "Closed";
             levelCircle.style.backgroundColor = "grey";
@@ -54,7 +54,7 @@ function currentBusyness(data, dbName, currentTime) {
 document.addEventListener("DOMContentLoaded", async function () {
     let titleElement = document.getElementById("title")
     let graphName = titleElement.textContent;
-    const hours = await getHours(graphName);
+    const {hours, openMinute, closeMinute, openMinute2, closeMinute2} = await getHours(graphName);
 
     //checks valid locations for fetch
     const validLocations = ["cafeteria", "north_tower_gym", "subway"];
@@ -73,11 +73,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 return;
             }
             const theData = dbData.map(row => row.count);
-            currentBusyness(theData, dbName, findCurrTimeIndex(hours));
+            currentBusyness(theData, dbName, findCurrTimeIndex(hours, openMinute, closeMinute, openMinute2, closeMinute2));
         })
         .catch(err => {
             console.error("Error loading database data", err);
         });
 });
-
-console.error(openMinutes);

@@ -73,7 +73,7 @@ function createGraph(name, hours, barColors, data) {
 document.addEventListener("DOMContentLoaded", async function () {
     let titleElement = document.getElementById("title")
     let graphName = titleElement.textContent;
-    const hours = await getHours(graphName);
+    const {hours, openMinute, closeMinute, openMinute2, closeMinute2} = await getHours(graphName);
     const barColors = setBarColors(hours);
 
     //checks valid locations for fetch
