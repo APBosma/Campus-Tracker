@@ -62,6 +62,7 @@ export function getHours(locationName) {
         const hourMin = hours.open_time1.split(":");
         const open = parseInt(hourMin[0]);
         const openMinute = parseInt(hourMin[1]);
+        console.error(openMinute);
 
         const hourMin2 = hours.close_time1.split(":");
         const close = parseInt(hourMin2[0]);
@@ -81,6 +82,20 @@ export function getHours(locationName) {
             } else {
                 times.push(i-12 + " pm");
             }
+        }
+
+        if (openMinute != 0){
+            let split = times[0].split(" ");
+            let getMeridiem = String(split[1]);
+            times[0] = String(open) + ":" + String(openMinute) + " " + getMeridiem;
+            console.warn(times[0]);
+        }
+
+        if (closeMinute != 0){
+            let split = times.at(-1).split(" ");
+            let getMeridiem = String(split[1]);
+            times[times.length - 1] = String(open) + ":" + String(openMinute) + " " + getMeridiem;
+            console.warn(times.at(-1));
         }
 
         if (hours.open_time2 && hours.close_time2) {
@@ -140,10 +155,10 @@ export function findCurrTimeIndex(hours, openMinute, closeMinute, openMinute2, c
     } else {
         currTime = hour.toString() + " am";
     }
-    console.error(currTime);
+    //console.error(currTime);
     let urmom = parseInt(currTime)
-    console.error(minutes)
-    console.error(String(urmom) + String(minutes))
+    //console.error(minutes)
+    //console.error(String(urmom) + String(minutes))
 
     let i = 0;
     for (i; i< hours.length; i++) {
