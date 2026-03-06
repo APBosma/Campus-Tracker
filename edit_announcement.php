@@ -64,8 +64,9 @@
                 }
 
                 $result = $conn->query("
-                    SELECT announcement_id, message, start_date, end_date
-                    FROM announcements
+                    SELECT announcement_id, message, start_date, end_date, name
+                    FROM announcements a
+                    JOIN locations l on l.location_id = a.location_id
                     WHERE end_date >= CURDATE()
                     ORDER BY start_date DESC
                 ");
@@ -79,9 +80,13 @@
                         <?php echo htmlspecialchars($row['message']); ?>
                     </div>
 
+                    <div>
+                        <string>Location:</strong> <?php echo $row['name']; ?>
+                    </div>
+
                     <div class="dates">
                         <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
-                        <strong>End:</strong> <?php echo $row['end_date']; ?>
+                        <strong>End:</strong> <?php echo $row['end_date']; ?> <br>
                     </div>
 
                 </a>
