@@ -88,19 +88,22 @@
                         value="<?php echo $announcement['announcement_id']; ?>">
                     <div> Location: <?php echo $announcement['name']; ?></div><br>
                     <label>Message</label><br>
-                    <textarea name="message" rows="4" cols="50"><?php echo htmlspecialchars($announcement['message']); ?></textarea>
-                    </textarea><br><br>
+                    <textarea class="form_item" name="message" rows="4" cols="50"><?php echo htmlspecialchars($announcement['message']); ?></textarea>
+                    </textarea><br>
                     <br>
                     <label>Start Date</label><br>
-                    <input type="date" name="start_date"
-                        value="<?php echo $announcement['start_date']; ?>"><br><br>
+                    <input class="form_item" type="date" name="start_date"
+                        value="<?php echo $announcement['start_date']; ?>"><br>
 
                     <label>End Date</label><br>
-                    <input type="date" name="end_date"
-                        value="<?php echo $announcement['end_date']; ?>"><br><br>
+                    <input class="form_item" type="date" name="end_date" value="<?php echo $announcement['end_date']; ?>">
+                    <br><br>
 
-                    <button type="submit">Update Announcement</button>
-
+                    <button id="submit_button" type="submit">Submit</button>
+                    <br>
+                    <form action = "delete_announcement.php" method = "POST">
+                        <button id="submit_button" type="submit">Delete</button>
+                    </form>
                 </form>
 
                 <?php else: ?>
