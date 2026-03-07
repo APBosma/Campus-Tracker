@@ -52,13 +52,21 @@
 }
 
 .flash.success {
-    background-color: #d4edda;
-    color: #155724;
+    background:#e6ffed; 
+    border:1px solid #b7ebc6; 
+    color:#1f7a3e; 
+    padding:12px; 
+    border-radius:6px; 
+    margin-bottom:20px;
 }
 
 .flash.error {
-    background-color: #f8d7da;
-    color: #721c24;
+    background:#ffe6e6; 
+    border:1px solid #ffb3b3; 
+    color:#a10000; 
+    padding:12px; 
+    border-radius:6px; 
+    margin-bottom:20px;
 }
 
 .form_item {

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="admin.css">
-    <?php session_start();?> <!-- For flash msg -->
+    <?php session_start();?>  <!-- For flash msg -->
 </head>
 
 <header>
@@ -149,9 +149,7 @@
 
                 <?php endwhile; ?>
                 </div>
-
                 <?php endif; ?>
-            <!-- Display announcements here -->
         </section>
 
     </section>
