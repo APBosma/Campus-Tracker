@@ -45,6 +45,22 @@
     gap: 6%;
 }
 
+.flash {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
 .form_item {
     margin-bottom: 2.5%;
     margin-top: 5px;

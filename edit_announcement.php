@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="admin.css">
+    <?php session_start();?> <!-- For flash msg -->
 </head>
 
 <header>
@@ -46,6 +47,12 @@
     <section id="admin-content">
         <section class="admin-box">
             <h3>Edit Announcement</h3>
+                <?php if (isset($_SESSION["flash"])): ?>
+                <div class="flash <?php echo $_SESSION["flash"]["type"]; ?>">
+                    <?php echo $_SESSION["flash"]["text"]; ?>
+                </div>
+                <?php unset($_SESSION["flash"]); ?>
+            <?php endif; ?>
                 <?php
                 // Connect to database
                 $servername = "localhost";
@@ -82,7 +89,7 @@
                 <?php if ($id && $announcement): ?>
 
                 <!-- EDIT FORM -->
-                <form action="update_announcement.php" method="POST">
+                <form action="PHP/update_announcement.php" method="POST">
 
                     <input type="hidden" name="announcement_id"
                         value="<?php echo $announcement['announcement_id']; ?>">
@@ -101,7 +108,7 @@
 
                     <button id="submit_button" type="submit">Submit</button>
                     <br>
-                    <form action = "delete_announcement.php" method = "POST">
+                    <form action = "PHP/delete_announcement.php" method = "POST">
                         <button id="submit_button" type="submit">Delete</button>
                     </form>
                 </form>
