@@ -66,8 +66,9 @@
 
                     // Get the selected announcement
                     $stmt = $conn->prepare("
-                        SELECT announcement_id, message, start_date, end_date, location_id
-                        FROM announcements
+                        SELECT announcement_id, message, start_date, end_date, l.location_id, name
+                        FROM announcements a
+                        JOIN locations l ON l.location_id = a.location_id
                         WHERE announcement_id = ?
                     ");
 
@@ -85,7 +86,7 @@
 
                     <input type="hidden" name="announcement_id"
                         value="<?php echo $announcement['announcement_id']; ?>">
-
+                    <div> Location: <?php echo $announcement['name']; ?></div><br>
                     <label>Message</label><br>
                     <textarea name="message" rows="4" cols="50"><?php echo htmlspecialchars($announcement['message']); ?></textarea>
                     </textarea><br><br>
