@@ -89,7 +89,7 @@
                 <?php if ($id && $announcement): ?>
 
                 <!-- EDIT FORM -->
-                <form action="PHP/update_announcement.php" method="POST">
+                <form action="php/update_announcement.php" method="POST">
 
                     <input type="hidden" name="announcement_id"
                         value="<?php echo $announcement['announcement_id']; ?>">
@@ -108,7 +108,7 @@
 
                     <button id="submit_button" type="submit">Submit</button>
                     <br>
-                    <form action = "PHP/delete_announcement.php" method = "POST">
+                    <form action = "php/delete_announcement.php" method = "POST">
                         <button id="submit_button" type="submit">Delete</button>
                     </form>
                 </form>

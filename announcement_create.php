@@ -68,10 +68,10 @@
                 echo "<div style='$style'>$text</div>";
                 unset($_SESSION["flash"]); }?>
                 
-            <form action = "PHP/create_announcement.php" method = "post">
+            <form action = "php/create_announcement.php" method = "post">
                 Location: <br>
                 <select name="location" id="location" class="form_item">
-                    <?php include __DIR__ . '/PHP/location_names.php'; ?>
+                    <?php include __DIR__ . '/php/location_names.php'; ?>
                     <option value = "All">All</option>
                 </select><br>
                 Start Date:<br>
