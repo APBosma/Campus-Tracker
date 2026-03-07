@@ -61,15 +61,16 @@ export function getHours(locationName) {
 
         const hourMin = hours.open_time1.split(":");
         const open = parseInt(hourMin[0]);
-        const openMinute = parseInt(hourMin[1]);
-        console.error(openMinute);
+        const openTime = parseInt(hourMin[0]) * 60 + parseInt(hourMin[1]);
+        console.error(openTime);
 
         const hourMin2 = hours.close_time1.split(":");
         const close = parseInt(hourMin2[0]);
-        const closeMinute = parseInt(hourMin2[1]);
+        //const closeTime = parseInt((hourMin2[0]) + (hourMin2[1]));
+        const closeTime = parseInt(hourMin2[0]) * 60 + parseInt(hourMin2[1]);
 
-        const openMinute2 = 0;
-        const closeMinute2 = 0;
+        let openTime2 = 0;
+        let closeTime2 = 0;
 
         let times = [];
         for (let i = open; i < close; i++) {
@@ -84,20 +85,6 @@ export function getHours(locationName) {
             }
         }
 
-        if (openMinute != 0){
-            let split = times[0].split(" ");
-            let getMeridiem = String(split[1]);
-            times[0] = String(open) + ":" + String(openMinute) + " " + getMeridiem;
-            console.warn(times[0]);
-        }
-
-        if (closeMinute != 0){
-            let split = times.at(-1).split(" ");
-            let getMeridiem = String(split[1]);
-            times[times.length - 1] = String(open) + ":" + String(openMinute) + " " + getMeridiem;
-            console.warn(times.at(-1));
-        }
-
         if (hours.open_time2 && hours.close_time2) {
             //const open2 = parseInt(hours.open_time2);
             //const close2 = parseInt(hours.close_time2);
@@ -105,11 +92,11 @@ export function getHours(locationName) {
 
             const hourMin3 = hours.open_time2.split(":");
             const open2 = parseInt(hourMin3[0]);
-            const openMinute2 = parseInt(hourMin3[1]);
+            const openTime2 = parseInt(hourMin3[0]) * 60 + parseInt(hourMin3[1]);
 
             const hourMin4 = hours.close_time2.split(":");
             const close2 = parseInt(hourMin4[0]);
-            const closeMinute2 = parseInt(hourMin4[1]);
+            const closeTime2 = parseInt(hourMin4[0]) * 60 + parseInt(hourMin4[1]);
 
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
@@ -124,11 +111,11 @@ export function getHours(locationName) {
             }
         }
         else{
-            const openMinute2 = 0;
-            const closeMinute2 = 0;
+            let openTime2 = 0;
+            let closeTime2 = 0;
         }
-
-        return {hours : times, openMinute, closeMinute, openMinute2, closeMinute2};
+        console.warn(openTime);
+        return {hours : times, openTime, closeTime, openTime2, closeTime2};
     })  
     .catch(err => {
         console.error("Error loading database data", err);
@@ -138,33 +125,18 @@ export function getHours(locationName) {
 
 // Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
 // Returns -1 if the time isn't there (Location is closed)
-export function findCurrTimeIndex(hours, openMinute, closeMinute, openMinute2, closeMinute2) {
-    //console.warn(closeMinute2)
+export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2) {
     const d = new Date(); // Gets current date
-    let hour = d.getHours(); // Gets the current hour
-    let minutes = d.getMinutes();
+    const currMinutes = d.getHours() * 60 + d.getMinutes();
+    console.error(currMinutes);
+    console.error(openTime);
+    
 
-    // Gets the hour and turns it into a string
-    let currTime = "";
-    if (hour > 12) {
-        currTime = (hour-12).toString() + " pm";
-    } else if (hour == 12) {
-        currTime = "12 pm";
-    } else if (hour == 0) {
-        currTime = "12 am";
-    } else {
-        currTime = hour.toString() + " am";
+    if ((currMinutes >= openTime && currMinutes < closeTime) || (currMinutes >= openTime2 && currMinutes < closeTime2)) {
+        return d.getHours();
     }
-    //console.error(currTime);
-    let urmom = parseInt(currTime)
-    //console.error(minutes)
-    //console.error(String(urmom) + String(minutes))
+    else {
+        return -1;
+    }
 
-    let i = 0;
-    for (i; i< hours.length; i++) {
-        if (currTime == hours[i]) {
-            return i;
-        }
-    }
-    return -1;
 }
