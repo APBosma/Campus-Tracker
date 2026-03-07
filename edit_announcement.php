@@ -46,7 +46,7 @@
     <section id="admin-content">
         <section class="admin-box">
             <h3>Edit Announcement</h3>
-            <?php
+                <?php
                 // Connect to database
                 $servername = "localhost";
                 $username = "root";
@@ -54,44 +54,92 @@
                 $dbname = "campus_tracker";
 
                 $conn = new mysqli($servername, $username, $password, $dbname);
+
                 if ($conn->connect_error) {
-                    $_SESSION["flash"] = [
-                        "text" => "Database connection failed.",
-                        "type" => "error"
-                    ];
-                    header("Location: ../announcement_create.php");
-                    exit();
+                    die("Database connection failed.");
                 }
 
+                // Check if an announcement was clicked
+                $id = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+                if ($id) {
+
+                    // Get the selected announcement
+                    $stmt = $conn->prepare("
+                        SELECT announcement_id, message, start_date, end_date, location_id
+                        FROM announcements
+                        WHERE announcement_id = ?
+                    ");
+
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $announcement = $result->fetch_assoc();
+                }
+                ?>
+
+                <?php if ($id && $announcement): ?>
+
+                <!-- EDIT FORM -->
+                <form action="update_announcement.php" method="POST">
+
+                    <input type="hidden" name="announcement_id"
+                        value="<?php echo $announcement['announcement_id']; ?>">
+
+                    <label>Message</label><br>
+                    <textarea name="message" rows="4" cols="50"><?php echo htmlspecialchars($announcement['message']); ?></textarea>
+                    </textarea><br><br>
+                    <br>
+                    <label>Start Date</label><br>
+                    <input type="date" name="start_date"
+                        value="<?php echo $announcement['start_date']; ?>"><br><br>
+
+                    <label>End Date</label><br>
+                    <input type="date" name="end_date"
+                        value="<?php echo $announcement['end_date']; ?>"><br><br>
+
+                    <button type="submit">Update Announcement</button>
+
+                </form>
+
+                <?php else: ?>
+
+                <?php
+                // Load announcements list
                 $result = $conn->query("
                     SELECT announcement_id, message, start_date, end_date, name
                     FROM announcements a
-                    JOIN locations l on l.location_id = a.location_id
+                    JOIN locations l ON l.location_id = a.location_id
                     WHERE end_date >= CURDATE()
                     ORDER BY start_date DESC
                 ");
-            ?>
-            <div class="announcements-container">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <a class="announcement-card"
-                href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
+                ?>
 
-                    <div class="message">
-                        <?php echo htmlspecialchars($row['message']); ?>
-                    </div>
+                <div class="announcements-container">
+                <?php while ($row = $result->fetch_assoc()): ?>
 
-                    <div>
-                        <string>Location:</strong> <?php echo $row['name']; ?>
-                    </div>
+                    <a class="announcement-card"
+                    href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
 
-                    <div class="dates">
-                        <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
-                        <strong>End:</strong> <?php echo $row['end_date']; ?> <br>
-                    </div>
+                        <div class="message">
+                            <?php echo htmlspecialchars($row['message']); ?>
+                        </div>
 
-                </a>
-            <?php endwhile; ?>
-            </div>
+                        <div>
+                            <strong>Location:</strong> <?php echo $row['name']; ?>
+                        </div>
+
+                        <div class="dates">
+                            <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
+                            <strong>End:</strong> <?php echo $row['end_date']; ?><br>
+                        </div>
+
+                    </a>
+
+                <?php endwhile; ?>
+                </div>
+
+                <?php endif; ?>
             <!-- Display announcements here -->
         </section>
 
