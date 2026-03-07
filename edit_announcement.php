@@ -96,7 +96,7 @@
                     <div> Location: <?php echo $announcement['name']; ?></div><br>
                     <label>Message</label><br>
                     <textarea class="form_item" name="message" rows="4" cols="50"><?php echo htmlspecialchars($announcement['message']); ?></textarea>
-                    </textarea><br>
+                    <br>
                     <br>
                     <label>Start Date</label><br>
                     <input class="form_item" type="date" name="start_date"
@@ -108,11 +108,17 @@
 
                     <button id="submit_button" type="submit">Submit</button>
                     <br>
-                    <form action = "php/delete_announcement.php" method = "POST">
-                        <button id="submit_button" type="submit">Delete</button>
-                    </form>
                 </form>
 
+                <form action="php/delete_announcement.php" method="POST">
+                    <input type="hidden" name="announcement_id"
+                        value="<?php echo $announcement['announcement_id']; ?>">
+                    <button id="submit_button" type="submit"
+                        onclick="return confirm('Are you sure you want to delete this announcement?');">
+                        Delete
+                    </button>
+                </form>
+                
                 <?php else: ?>
 
                 <?php

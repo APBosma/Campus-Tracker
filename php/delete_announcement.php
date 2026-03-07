@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Connect to database
+// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "mysql";
@@ -18,39 +18,33 @@ if ($conn->connect_error) {
     exit();
 }
 
-// Get form data
-$id = $_POST['announcement_id'];
-$message = trim($_POST['message']);
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
-
-// Validate dates
-if ($end_date <= $start_date) {
+// Get announcement ID
+if (!isset($_POST["announcement_id"])) {
     $_SESSION["flash"] = [
-        "text" => "End date must be after the start date.",
+        "text" => "Invalid request.",
         "type" => "error"
     ];
-    header("Location: ../edit_announcement.php?id=" . $id);
+    header("Location: ../edit_announcement.php");
     exit();
 }
 
-// Update announcement
-$stmt = $conn->prepare("
-    UPDATE announcements 
-    SET message = ?, start_date = ?, end_date = ?
-    WHERE announcement_id = ?
-");
+$id = intval($_POST["announcement_id"]);
 
-$stmt->bind_param("sssi", $message, $start_date, $end_date, $id);
+// Delete query
+$stmt = $conn->prepare("
+    DELETE 
+    FROM announcements 
+    WHERE announcement_id = ?");
+$stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
     $_SESSION["flash"] = [
-        "text" => "Announcement updated successfully!",
+        "text" => "Announcement deleted successfully.",
         "type" => "success"
     ];
 } else {
     $_SESSION["flash"] = [
-        "text" => "Failed to update announcement.",
+        "text" => "Failed to delete announcement.",
         "type" => "error"
     ];
 }
@@ -58,7 +52,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-// Redirect back
 header("Location: ../edit_announcement.php");
 exit();
 ?>
