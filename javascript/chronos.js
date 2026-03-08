@@ -92,11 +92,11 @@ export function getHours(locationName) {
 
             const hourMin3 = hours.open_time2.split(":");
             const open2 = parseInt(hourMin3[0]);
-            const openTime2 = parseInt(hourMin3[0]) * 60 + parseInt(hourMin3[1]);
+            openTime2 = parseInt(hourMin3[0]) * 60 + parseInt(hourMin3[1]);
 
             const hourMin4 = hours.close_time2.split(":");
             const close2 = parseInt(hourMin4[0]);
-            const closeTime2 = parseInt(hourMin4[0]) * 60 + parseInt(hourMin4[1]);
+            closeTime2 = parseInt(hourMin4[0]) * 60 + parseInt(hourMin4[1]);
 
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
@@ -111,8 +111,8 @@ export function getHours(locationName) {
             }
         }
         else{
-            let openTime2 = 0;
-            let closeTime2 = 0;
+            openTime2 = 0;
+            closeTime2 = 0;
         }
         console.warn(openTime);
         return {hours : times, openTime, closeTime, openTime2, closeTime2};
