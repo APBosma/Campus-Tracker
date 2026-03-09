@@ -1,0 +1,51 @@
+body {
+    background: url("concord.jpg");
+    background-repeat: no-repeat;
+    background-size: 225% auto;
+    background-position: center;
+    display: flex;
+    /* centers vertically
+       source:
+       https://www.w3schools.com/howto/howto_css_center-vertical.asp */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+.login-block {
+    position: fixed;
+    background: #abc3d6;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    padding-left: 100px;
+    padding-right: 100px;
+    box-shadow: 10px 10x 5px rgba(0,0,0,0.5);
+
+    /* box beveling from
+       https://ambientimpact.com/web/snippets/bevelled-box-corners-with-css-and-sass */
+    --notch-size: 2em;
+ 
+    clip-path: polygon(
+        0% var(--notch-size),
+        var(--notch-size) 0%,
+        calc(100% - var(--notch-size)) 0%,
+        100% var(--notch-size),
+        100% calc(100% - var(--notch-size)),
+        calc(100% - var(--notch-size)) 100%,
+        var(--notch-size) 100%,
+        0% calc(100% - var(--notch-size))
+    );
+}
+
+.input_label {
+    position: absolute;
+    left: 28%;
+    /* transform: translateX(-300%); */
+}
+
+.error-message {
+    color: darkred
+}
