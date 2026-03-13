@@ -42,7 +42,7 @@
     flex: 3;
     display: flex;
     flex-direction: column;
-    gap: 6%;
+    gap: 3%;
 }
 
 .flash {
@@ -157,6 +157,20 @@ form textarea {
 .dates {
     font-size: 0.95rem;
     color: #333;
+}
+
+/* Scroll announcements in admin.php */
+.admin-box .announcements-container {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scroll announcements list in edit_announcement.php */
+#admin-content .announcements-container {
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 /* LOCATION CARDS */
