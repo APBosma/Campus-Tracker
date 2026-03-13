@@ -323,3 +323,124 @@ canvas {
   from {opacity: .4}
   to {opacity: 1}
 }
+
+
+/* Mobile Rsponsive for tablets */
+@media (max-width: 768px) {
+    .title-text {
+        font-size: 1.8rem;
+    }
+
+    #logo {
+        height: 60px;
+    }
+
+    .nav-bar {
+        margin-left: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .navbar-item {
+        font-size: 1rem;
+        padding: 12px 18px;
+    }
+
+    main {
+        margin: 2% 1%;
+        padding: 4% 3%;
+    }
+
+    main h2 {
+        font-size: 2rem;
+    }
+
+    main h4 {
+        font-size: 1.3rem;
+    }
+
+    .current-business {
+        margin-left: 5%;
+        margin-right: 5%;
+        max-width: none;
+    }
+
+    #flex-container {
+        flex-direction: column;
+    }
+    
+    #graph-container {
+        margin-right: 0;
+        margin-bottom: 4%;
+    }
+
+    #hours {
+        padding: 5% 3%;
+    }
+
+    #hours p {
+        font-size: 1.2rem;
+    }
+
+    .slideshow-container {
+        padding-top: 20px;
+    }
+
+    .prev, .next {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile Responsive for phones*/
+@media (max-width: 480px) {
+    #title-stuff {
+        padding: 3% 2%;
+    }
+
+    .title-text {
+        font-size: 1.5rem;
+    }
+
+    #logo {
+        height: 50px;
+    }
+
+    .navbar-item {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+
+    main {
+        margin: 2% 0;
+        padding: 5% 4%;
+        border-radius: 0;
+    }
+
+    main h2 {
+        font-size: 1.7rem;
+    }
+
+    main h4 {
+        font-size: 1.2rem;
+    }
+
+    .current-business {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 15px 20px;
+        border-radius: 20px;
+    }
+
+    #hours p {
+        font-size: 1rem;
+    }
+
+    #footer {
+        padding: 3% 2%;
+    }
+
+    #footer p {
+        font-size: 0.9rem;
+    }
+}
