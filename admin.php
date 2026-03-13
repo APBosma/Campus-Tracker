@@ -58,8 +58,9 @@
                 } else {
 
                     $result = $conn->query("
-                        SELECT announcement_id, message, start_date, end_date
-                        FROM announcements
+                        SELECT announcement_id, message, start_date, end_date, name
+                        FROM announcements a
+                        JOIN locations l ON l.location_id = a.location_id
                         WHERE end_date >= CURDATE()
                         ORDER BY start_date DESC
                     ");
@@ -75,7 +76,9 @@
                                 <div class='message'>
                                     " . htmlspecialchars($row['message']) . "
                                 </div>
+
                                 <div class='dates'>
+                                    <strong>Location:</strong> {$row['name']} <br>
                                     <strong>Start:</strong> {$row['start_date']} <br>
                                     <strong>End:</strong> {$row['end_date']}
                                 </div>
