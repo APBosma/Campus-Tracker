@@ -51,6 +51,19 @@
             <span class="dot" onclick="currentSlide(3)"></span>
         </div>
         <script src="javascript/script.js"></script>
+        <script>
+        async function tickSimulation() {
+            try {
+            await fetch("/Campus_Tracker/php/simulation.php?x=" + Date.now(), { cache: "no-store" });
+            } catch (e) {
+            console.error("Simulation tick failed:", e);
+            }
+        }
+
+        // run once immediately, then every 15 seconds
+        tickSimulation();
+        setInterval(tickSimulation, 15000);
+        </script>
     </body>
     <footer id = "footer">
         <p>

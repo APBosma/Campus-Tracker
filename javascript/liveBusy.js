@@ -1,85 +1,94 @@
-import {getHours, findCurrTimeIndex} from './chronos.js';
+import { getHours, findCurrTimeIndex } from './chronos.js';
 
-// Sets the live busy-ness values
-function currentBusyness(data, dbName, currentTime) {
-    fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
-    .then(res => res.json())
-    .then(dbData => {
-        if (!dbData || dbData.error) {
-            console.error("Error from server:", dbData?.error);
-            return;
-        }
-        // Grab HTML elements
-        let levelName = document.getElementById("current-level");
-        let levelCircle = document.getElementById("circle");
+// fetch max capacity
+async function fetchCapacity(dbName) {
+  const res = await fetch(`/Campus_Tracker/php/get_capacity.php?location=${dbName}&x=${Date.now()}`, { cache: "no-store" });
+  return await res.json();
+}
 
-        const capacity = dbData.max_capacity;
-        const intervalSize = Math.floor(capacity/4) // Forces round down for int division, learned this when I competed in Java
+// fetch per-hour bucketed counts (same length/order as hours[])
+async function fetchHourlyCounts(dbName, hours) {
+  const hoursParam = encodeURIComponent(hours.join("|"));
+  const url = `/Campus_Tracker/php/get_hourly_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  return await res.json();
+}
 
-        // Location is closed
-        if (currentTime == -1) {
-            levelName.textContent = "Closed";
-            levelCircle.style.backgroundColor = "grey";
-            return;
-        }
+// Updates the UI circle + label
+function setBusynessUI(label, color) {
+  const levelName = document.getElementById("current-level");
+  const levelCircle = document.getElementById("circle");
+  levelName.textContent = label;
+  levelCircle.style.backgroundColor = color;
+}
 
-        // Assigns a value using the custom interval size
-        // Ex. 23 people and the max capacity is 250. 250/4 is 62. 
-        // 23 people / 62 would go to 0, so it's basically empty
-        switch (Math.floor(data[currentTime]/intervalSize)) {
-            case 0:
-                levelName.textContent = "Empty";
-                levelCircle.style.backgroundColor = "green"
-                break;
-            case 1:
-                levelName.textContent = "Not Busy";
-                levelCircle.style.backgroundColor = "lightgreen"
-                break;
-            case 2:
-                levelName.textContent = "Somewhat Busy";
-                levelCircle.style.backgroundColor = "yellow"
-                break;
-            case 3:
-                levelName.textContent = "Busy";
-                levelCircle.style.backgroundColor = "orange"
-                break;
-            default:
-                levelName.textContent = "Full";
-                levelCircle.style.backgroundColor = "Red"
-                break;
-        }
+// Computes busyness from current count + capacity
+function computeBusyness(currCount, capacity) {
+  const intervalSize = Math.max(1, Math.floor(capacity / 4));
 
-    })
-    .catch(err => {
-        console.error("Error loading database data", err);
-    });
+  const bucket = Math.floor(currCount / intervalSize);
+  switch (bucket) {
+    case 0: return ["Empty", "green"];
+    case 1: return ["Not Busy", "lightgreen"];
+    case 2: return ["Somewhat Busy", "yellow"];
+    case 3: return ["Busy", "orange"];
+    default: return ["Full", "red"];
+  }
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
-    let titleElement = document.getElementById("title")
-    let graphName = titleElement.textContent;
-    const hours = await getHours(graphName);
+  const titleElement = document.getElementById("title");
+  const graphName = titleElement.textContent.trim();
 
-    //checks valid locations for fetch
-    const validLocations = ["cafeteria", "north_tower_gym", "subway"];
-    const dbName = graphName.toLowerCase().replaceAll(" ", "_");
-    if (!validLocations.includes(dbName)) {
-        console.warn("No data available for this graph:", graphName);
+  const validLocations = ["cafeteria", "north_tower_gym", "subway"];
+  const dbName = graphName.toLowerCase().replaceAll(" ", "_");
+
+  if (!validLocations.includes(dbName)) {
+    console.warn("No data available for this page:", graphName);
+    return;
+  }
+
+  async function refreshLiveBusyness() {
+    try {
+      const hours = await getHours(graphName);
+      if (!hours || hours.length === 0) return;
+
+      const currIndex = findCurrTimeIndex(hours);
+
+      // closed
+      if (currIndex === -1) {
+        setBusynessUI("Closed", "grey");
         return;
-    }
+      }
 
-    //fetches data from get_data.php
-    fetch("/Campus_Tracker/php/get_data.php?location=" + dbName)
-        .then(res => res.json())
-        .then(dbData => {
-            if (!dbData || dbData.error) {
-                console.error("Error from server:", dbData?.error);
-                return;
-            }
-            const theData = dbData.map(row => row.count);
-            currentBusyness(theData, dbName, findCurrTimeIndex(hours));
-        })
-        .catch(err => {
-            console.error("Error loading database data", err);
-        });
+      const capData = await fetchCapacity(dbName);
+      if (!capData || capData.error) {
+        console.error("Capacity error:", capData?.error);
+        return;
+      }
+      const capacity = Number(capData.max_capacity);
+
+      const hourlyData = await fetchHourlyCounts(dbName, hours);
+      if (!hourlyData || hourlyData.error) {
+        console.error("Hourly data error:", hourlyData?.error);
+        return;
+      }
+
+      const counts = hourlyData.map(r => Number(r.count));
+
+      // safety: if something mismatched, clamp index
+      const safeIndex = Math.max(0, Math.min(currIndex, counts.length - 1));
+      const currCount = counts[safeIndex];
+
+      const [label, color] = computeBusyness(currCount, capacity);
+      setBusynessUI(label, color);
+
+    } catch (err) {
+      console.error("Live busyness refresh failed:", err);
+    }
+  }
+
+  // run now and then keep updating
+  await refreshLiveBusyness();
+  setInterval(refreshLiveBusyness, 30000); // every 30 seconds
 });

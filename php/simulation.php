@@ -391,7 +391,7 @@ foreach ($locations as $locId => $loc) {
   $stmt->close();
 
   // 3) snapshot into YOUR population table (time-series live feed)
-  $snap = $conn->prepare("INSERT INTO population (location_id, count, timestamp) VALUES (?, ?, ?)");
+  $snap = $conn->prepare("INSERT INTO population (location_id, count, time_stamp) VALUES (?, ?, ?)");
   $snap->bind_param("iis", $locId, $newCount, $nowStr);
   $snap->execute();
   $snap->close();
