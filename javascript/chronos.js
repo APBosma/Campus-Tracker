@@ -130,25 +130,30 @@ export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTi
     const currMinutes = d.getHours() * 60 + d.getMinutes();
     console.error(currMinutes);
     console.error(openTime);
-
-    if (d < 12) {
-        d = d + " am";
-        } else if (d == 12) {
-            d = "12 pm";
-        } else if (d == 24 ) {
-            d = "12 am";
-        } else {
-            d = (d - 12) + " pm";
-        }
-            
     
+    let time = ""
+    const hour = d.getHours()
+
+    if (hour < 12) {
+        time = hour + " am";
+        } else if (hour == 12) {
+            time = "12 pm";
+        } else if (hour == 24 ) {
+            time = "12 am";
+        } else {
+            time = (hour - 12) + " pm";
+        }
+
+    if (openTime == undefined || closeTime == undefined){
+        return -1;
+    }
 
     if ((currMinutes >= openTime && currMinutes < closeTime) || (currMinutes >= openTime2 && currMinutes < closeTime2)) {
-        console.warn(d.getHours())
-        return d.getHours();
+        console.log(time)
+        return time;
     }
     else {
-        console.error("OPEN")
+        console.error("CLOSED")
         return -1;
     }
 
