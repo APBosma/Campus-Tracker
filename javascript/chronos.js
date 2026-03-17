@@ -62,7 +62,6 @@ export function getHours(locationName) {
         const hourMin = hours.open_time1.split(":");
         const open = parseInt(hourMin[0]);
         const openTime = parseInt(hourMin[0]) * 60 + parseInt(hourMin[1]);
-        console.error(openTime);
 
         const hourMin2 = hours.close_time1.split(":");
         const close = parseInt(hourMin2[0]);
@@ -128,8 +127,6 @@ export function getHours(locationName) {
 export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2) {
     const d = new Date(); // Gets current date
     const currMinutes = d.getHours() * 60 + d.getMinutes();
-    console.error(currMinutes);
-    console.error(openTime);
     
     let time = ""
     const hour = d.getHours()
@@ -153,7 +150,6 @@ export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTi
         return time;
     }
     else {
-        console.error("CLOSED")
         return -1;
     }
 
