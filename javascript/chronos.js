@@ -113,7 +113,6 @@ export function getHours(locationName) {
             openTime2 = 0;
             closeTime2 = 0;
         }
-        console.warn(openTime);
         return {hours : times, openTime, closeTime, openTime2, closeTime2};
     })  
     .catch(err => {
