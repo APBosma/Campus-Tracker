@@ -78,9 +78,17 @@ what I was looking for as an example.
                 if ($id) {
 
                     // Get location info
+                    // Please leave it vertical because it is more readable for me
                     $stmt = $conn->prepare("
-                        SELECT location_id, name, max_capacity
-                        FROM locations
+                        SELECT  l.location_id, 
+                                l.name, 
+                                l.max_capacity, 
+                                h.open_time1, 
+                                h.open_time2, 
+                                h.close_time1, 
+                                h.close_time2
+                        FROM locations l
+                        JOIN hours h on l.location_id = h.location_id
                         WHERE location_id = ?
                     ");
 
@@ -99,9 +107,9 @@ what I was looking for as an example.
                     <input type="hidden" name="location_id" value="<?php echo $location['location_id']; ?>">
                     <div> Location: <?php echo $location['name']; ?></div><br>
                     
-                    <!-- Put time stuff here plz!
-                         You will need to pull from the hours table. Lmk if you need help
-                         with the SQL
+                    <!-- 
+                        Put time stuff here plz!
+                        You will need to pull from the hours table. Lmk if you need help with the SQL
                     -->
                 </form>
                 <?php else: ?>
