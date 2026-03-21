@@ -78,7 +78,6 @@ what I was looking for as an example.
                 if ($id) {
 
                     // Get location info
-                    // Please leave it vertical because it is more readable for me
                     $stmt = $conn->prepare("
                         SELECT  l.location_id, 
                                 l.name, 
@@ -89,13 +88,17 @@ what I was looking for as an example.
                                 h.close_time2
                         FROM locations l
                         JOIN hours h on l.location_id = h.location_id
-                        WHERE location_id = ?
+                        WHERE l.location_id = ?
                     ");
 
                     $stmt->bind_param("i", $id);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     $location = $result->fetch_assoc();
+
+                    // Format location name for user display
+                    $location['name'] = str_replace('_', ' ', $location['name']);
+                    $location['name'] = ucwords($location['name']);
                 }
                 ?>
 
@@ -104,8 +107,13 @@ what I was looking for as an example.
                 <!-- EDIT FORM -->
                 <form action="php/update_location.php" method="POST">
 
-                    <input type="hidden" name="location_id" value="<?php echo $location['location_id']; ?>">
-                    <div> Location: <?php echo $location['name']; ?></div><br>
+                    <input type="hidden" name="location_id" value="<?php echo $location['location_id'];?>">
+
+                    <div> Location:</div>
+                    <input type="text" id = "name" name="name" maxlength="50" value="<?php echo $location['name'];?>" required><br>
+
+                    <div>Max Capacity:</div>
+                    <input type="number" id="capacity" name="capacity" min="0" value="<?php echo $location['max_capacity'];?>"required>
                     
                     <!-- 
                         Put time stuff here plz!
