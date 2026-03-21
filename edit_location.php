@@ -3,6 +3,17 @@ Wasn't for sure how to do a numerical amount for max_capacity so I looked up "W3
 I first checked some websites but didn't see what I was looking for so I used the google AI result. The Google AI
 showed this line "<input type="number" id="amount" name="amount" min="0" required>" which pretty much showed me 
 what I was looking for as an example. 
+
+Needed to format the name of the location for the user so I looked up "how to make php capitalize first letter and make underscores spaces"
+and the Google AI showed me code that had these lines:
+"
+// 1. Replace underscores with spaces
+$string_with_spaces = str_replace('_', ' ', $string_with_underscores);
+    
+// 2. Capitalize the first letter of each word
+$formatted_string = ucwords($string_with_spaces);
+"
+which were basically about what I was looking for. I then used this for the PHP to fix the location name.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -571,7 +582,10 @@ what I was looking for as an example.
                             <option value = "am">a.m.</option>
                             <option value = "pm">p.m.</option>
                         </select>
-                </form>
+                        <br>
+                    
+                    <input id="submit_button" type="submit" name="submit" value="Submit">
+                    </form>
                 <?php else: ?>
 
                 <?php
