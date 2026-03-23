@@ -32,7 +32,6 @@
         <a href = "admin.html">
             <button class="menu-btn">Home</button>
         </a>
-        <button class="menu-btn">Create Location</button>
         <a href = "edit_location.php">
             <button class="menu-btn">Edit Location</button>
         </a>

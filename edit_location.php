@@ -50,7 +50,6 @@ which were basically about what I was looking for. I then used this for the PHP 
         <a href = "admin.php">
             <button class="menu-btn">Home</button>
         </a>
-        <button class="menu-btn">Create Location</button>
         <a href = "edit_location.php">
             <button class="menu-btn">Edit Location</button>
         </a>
