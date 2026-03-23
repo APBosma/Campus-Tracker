@@ -134,34 +134,37 @@
                 ?>
 
                 <div class="announcements-container">
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php if ($result->num_rows == 0): ?>
+                    <div class='empty-box'><p>No active announcements</p></div>
+                <?php else: ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
 
-                    <a class="announcement-card"
-                    href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
+                        <a class="announcement-card"
+                        href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
 
-                        <div class="message">
-                            <?php echo htmlspecialchars($row['message']); ?>
-                        </div>
+                            <div class="message">
+                                <?php echo htmlspecialchars($row['message']); ?>
+                            </div>
 
-                        <div>
-                            <?php
-                            // Format location name for user display
-                            $row['name'] = str_replace('_', ' ', $row['name']);
-                            $row['name'] = ucwords($row['name']);
-                            ?>
-                            <strong>Location:</strong> <?php echo $row['name']; ?>
-                        </div>
+                            <div>
+                                <?php
+                                // Format location name for user display
+                                $row['name'] = str_replace('_', ' ', $row['name']);
+                                $row['name'] = ucwords($row['name']);
+                                ?>
+                                <strong>Location:</strong> <?php echo $row['name']; ?>
+                            </div>
 
-                        <div class="dates">
-                            <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
-                            <strong>End:</strong> <?php echo $row['end_date']; ?><br>
-                        </div>
+                            <div class="dates">
+                                <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
+                                <strong>End:</strong> <?php echo $row['end_date']; ?><br>
+                            </div>
 
-                    </a>
-
-                <?php endwhile; ?>
-                </div>
+                        </a>
+                    <?php endwhile; ?>
                 <?php endif; ?>
+            </div>
+            <?php endif;?>
         </section>
 
     </section>
