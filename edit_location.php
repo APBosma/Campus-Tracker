@@ -64,7 +64,7 @@ which were basically about what I was looking for. I then used this for the PHP 
     <!-- RIGHT CONTENT -->
     <section id="admin-content">
         <section class="admin-box">
-            <h3>Edit Announcement</h3>
+            <h3>Edit Location</h3>
                 <?php if (isset($_SESSION["flash"])): ?>
                 <div class="flash <?php echo $_SESSION["flash"]["type"]; ?>">
                     <?php echo $_SESSION["flash"]["text"]; ?>
