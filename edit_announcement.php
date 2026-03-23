@@ -144,6 +144,11 @@
                         </div>
 
                         <div>
+                            <?php
+                            // Format location name for user display
+                            $row['name'] = str_replace('_', ' ', $row['name']);
+                            $row['name'] = ucwords($row['name']);
+                            ?>
                             <strong>Location:</strong> <?php echo $row['name']; ?>
                         </div>
 
