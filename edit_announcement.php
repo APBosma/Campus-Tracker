@@ -1,3 +1,8 @@
+<!-- 
+ I was getting unexpected end of file when implementing the "No announcements active" thing and wasn't sure what I missed
+because HTML syntax is weird and super nested. I ended up pasting my code in chatGPT and asking it what I was missing to get 
+this error. It was an endif lol. 
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
