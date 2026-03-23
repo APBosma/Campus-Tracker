@@ -29,7 +29,7 @@
     <aside id="admin-menu">
         <h3>Menu</h3>
 
-        <a href = "admin.html">
+        <a href = "admin.php">
             <button class="menu-btn">Home</button>
         </a>
         <a href = "edit_location.php">
