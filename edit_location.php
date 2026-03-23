@@ -600,6 +600,11 @@ which were basically about what I was looking for. I then used this for the PHP 
                 <?php while ($row = $result->fetch_assoc()): ?>
                     <a class="location-card"
                     href="edit_location.php?id=<?php echo $row['location_id']; ?>">
+                        <?php
+                        // Format location name for user display
+                        $row['name'] = str_replace('_', ' ', $row['name']);
+                        $row['name'] = ucwords($row['name']);
+                        ?>
 
                         <div class="location_name">
                             <?php echo $row['name']; ?>
