@@ -267,6 +267,7 @@ canvas {
   position: absolute;
   top: 50%;
   width: auto;
+  z-index: 6;
   margin-top: -22px;
   padding: 16px;
   color: white;
