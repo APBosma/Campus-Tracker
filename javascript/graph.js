@@ -119,31 +119,45 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function tickAndRender() {
     try {
-      // 1) advance the sim (writes to population)
-      await runSimulationTick();
+        await runSimulationTick();
 
-      // 2) get the hour labels (open hours for today)
-      const hours = await getHours(graphName);
-      if (!hours || hours.length === 0) return;
+        const hours = await getHours(graphName);
+        if (!hours || hours.length === 0) return;
 
-      // 3) get per-hour bucketed counts
-      const dbData = await fetchHourlyCounts(dbName, hours);
-      if (!dbData || dbData.error) {
-        console.error("Error from server:", dbData?.error);
-        return;
-      }
+        const currIndex = findCurrTimeIndex(hours);
+        const hoursParam = encodeURIComponent(hours.join("|"));
 
-      const data = dbData.map(r => Number(r.count));
-      const barColors = setBarColors(hours);
+        // fetch real data
+        const dbData = await fetchHourlyCounts(dbName, hours);
+        if (!dbData || dbData.error) return;
 
-      // 4) create/update chart
-      if (!chart) createGraph(graphName, hours, barColors, data);
-      else updateGraph(hours, barColors, data);
+        // fetch predictions
+        const predRes = await fetch(`/Campus_Tracker/php/get_predicted_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`, { cache: "no-store" });
+        const predData = await predRes.json();
+
+        // merge: use real data for past/current hours, predictions for future
+        const data = hours.map((_, i) => {
+            if (i <= currIndex) {
+                return Number(dbData[i]?.count ?? 0);
+            } else {
+                return Number(predData[i]?.predicted ?? 0);
+            }
+        });
+
+        // two color arrays: solid for real, faded for predicted
+        const barColors = hours.map((_, i) => {
+            if (i < currIndex) return 'rgba(0, 40, 145, 0.4)';      // past
+            if (i === currIndex) return 'rgba(0, 40, 145, 1)';       // current
+            return 'rgba(0, 40, 145, 0.2)';                          // predicted (faded)
+        });
+
+        if (!chart) createGraph(graphName, hours, barColors, data);
+        else updateGraph(hours, barColors, data);
 
     } catch (err) {
-      console.error("Live update failed:", err);
+        console.error("Live update failed:", err);
     }
-  }
+}
 
   // run once now
   await tickAndRender();
