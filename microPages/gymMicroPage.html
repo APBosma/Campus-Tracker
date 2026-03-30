@@ -1,19 +1,19 @@
  <!DOCTYPE html>
  <html>
     <head>
-        <script type="module" src="javascript/liveBusy.js"></script>
-        <link rel = "stylesheet" href = "style.css">
+        <script type="module" src="../javascript/liveBusy.js"></script>
+        <link rel = "stylesheet" href = "../style.css">
         <title>ConcordRush</title>
 
         <!--Image tinting taken from: https://www.geeksforgeeks.org/css/how-to-darken-an-image-using-css/-->
         <style>
             body{
                 background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                url(pictures/sub.webp);
+                url(../pictures/gym.webp);
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-position: center;
-            }   
+            }
         </style>
     </head>
     <header>
@@ -21,11 +21,11 @@
     <main>
         <section class = "microPage-container">
             <div class="words">
-                <p id = "title" style="color: white; font-size: 1.5rem;">Subway</p>
+                <p id = "title" style="color: white;font-size: 1.5rem;">North Tower Gym</p>
                 <p style="color: white; font-size: 1.5rem;">LIVE STATUS</p>
             </div>
                 <div class = "microPageStatus">
-                <div id = "circle" style="width: 35px;"></div>
+                <div id = "circle"></div>
                 <p id = "current-level" style="padding-left: 6%; font-size: 1.0rem;"></p>
             </div>
         </section>

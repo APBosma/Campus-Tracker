@@ -55,8 +55,21 @@ export function getHours(locationName) {
             console.error("Error from server:", hours?.error);
             return;
         }
-        const open = parseInt(hours.open_time1);
-        const close = parseInt(hours.close_time1);
+        
+        //const open = parseInt(hours.open_time1);
+        //const close = parseInt(hours.close_time1);
+
+        const hourMin = hours.open_time1.split(":");
+        const open = parseInt(hourMin[0]);
+        const openTime = parseInt(hourMin[0]) * 60 + parseInt(hourMin[1]);
+
+        const hourMin2 = hours.close_time1.split(":");
+        const close = parseInt(hourMin2[0]);
+        //const closeTime = parseInt((hourMin2[0]) + (hourMin2[1]));
+        const closeTime = parseInt(hourMin2[0]) * 60 + parseInt(hourMin2[1]);
+
+        let openTime2 = 0;
+        let closeTime2 = 0;
 
         let times = [];
         for (let i = open; i < close; i++) {
@@ -72,8 +85,18 @@ export function getHours(locationName) {
         }
 
         if (hours.open_time2 && hours.close_time2) {
-            const open2 = parseInt(hours.open_time2);
-            const close2 = parseInt(hours.close_time2);
+            //const open2 = parseInt(hours.open_time2);
+            //const close2 = parseInt(hours.close_time2);
+
+
+            const hourMin3 = hours.open_time2.split(":");
+            const open2 = parseInt(hourMin3[0]);
+            openTime2 = parseInt(hourMin3[0]) * 60 + parseInt(hourMin3[1]);
+
+            const hourMin4 = hours.close_time2.split(":");
+            const close2 = parseInt(hourMin4[0]);
+            closeTime2 = parseInt(hourMin4[0]) * 60 + parseInt(hourMin4[1]);
+
             for (let i = open2; i < close2; i++) {
                 if (i < 12) {
                     times.push(i + " am");
@@ -86,9 +109,12 @@ export function getHours(locationName) {
                 }
             }
         }
-
-        return times;
-    })
+        else{
+            openTime2 = 0;
+            closeTime2 = 0;
+        }
+        return {hours : times, openTime, closeTime, openTime2, closeTime2};
+    })  
     .catch(err => {
         console.error("Error loading database data", err);
     });
@@ -97,27 +123,33 @@ export function getHours(locationName) {
 
 // Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
 // Returns -1 if the time isn't there (Location is closed)
-export function findCurrTimeIndex(hours) {
+export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2) {
     const d = new Date(); // Gets current date
-    let hour = d.getHours(); // Gets the current hour
+    const currMinutes = d.getHours() * 60 + d.getMinutes();
+    
+    let time = ""
+    const hour = d.getHours()
 
-    // Gets the hour and turns it into a string
-    let currTime = "";
-    if (hour > 12) {
-        currTime = (hour-12).toString() + " pm";
-    } else if (hour == 12) {
-        currTime = "12 pm";
-    } else if (hour == 0) {
-        currTime = "12 am";
-    } else {
-        currTime = hour.toString() + " am";
-    }
-
-    let i = 0;
-    for (i; i< hours.length; i++) {
-        if (currTime == hours[i]) {
-            return i;
+    if (hour < 12) {
+        time = hour + " am";
+        } else if (hour == 12) {
+            time = "12 pm";
+        } else if (hour == 24 ) {
+            time = "12 am";
+        } else {
+            time = (hour - 12) + " pm";
         }
+
+    if (openTime == undefined || closeTime == undefined){
+        return -1;
     }
-    return -1;
+
+    if ((currMinutes >= openTime && currMinutes < closeTime) || (currMinutes >= openTime2 && currMinutes < closeTime2)) {
+        console.log(time)
+        return time;
+    }
+    else {
+        return -1;
+    }
+
 }
