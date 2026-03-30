@@ -16,6 +16,8 @@ google AI showed me how to use .textContent and .style.backgroundColor for this.
 */
 import {getHours, findCurrTimeIndex} from './chronos.js';
 
+let chart = null;
+
 function setBarColors(hours) {
     const currentTime = findCurrTimeIndex(hours); // Gets the index of the time current time in hours, else returns -1
 
@@ -38,7 +40,7 @@ function setBarColors(hours) {
 function createGraph(name, hours, barColors, data) {
     const graph = document.getElementById('graph');
 
-    new Chart(graph, {
+    chart = new Chart(graph, {
         type: 'bar',
         data: {
             labels: hours,
@@ -68,13 +70,36 @@ function createGraph(name, hours, barColors, data) {
     });
 }
 
+//Added function here that will update the graph with new data 
+function updateGraph(hours, barColors, data) {
+  if (!chart) return;
+
+  chart.data.labels = hours;
+  chart.data.datasets[0].data = data;
+  chart.data.datasets[0].backgroundColor = barColors;
+  chart.update();
+}
+
+async function runSimulationTick() {
+  // makes sure simulation keeps writing new rows
+  await fetch("/Campus_Tracker/php/simulation.php?x=" + Date.now(), { cache: "no-store" });
+}
+
+async function fetchHourlyCounts(dbName, hours) {
+  const hoursParam = encodeURIComponent(hours.join("|"));
+  const url = `/Campus_Tracker/php/get_hourly_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  return await res.json();
+}
+
+
 // This DOMContentLoaded function thing makes program wait until the HTML and stuff is done being setup before it runs the JS
 // EVERYTHING WILL BREAK WITHOUT THIS! DO NOT DELETE!
 document.addEventListener("DOMContentLoaded", async function () {
     let titleElement = document.getElementById("title")
     let graphName = titleElement.textContent;
-    const {hours, openMinute, closeMinute, openMinute2, closeMinute2} = await getHours(graphName);
-    const barColors = setBarColors(hours);
+    //const hours = await getHours(graphName);
+    //const barColors = setBarColors(hours);
 
     //checks valid locations for fetch
     const validLocations = ["cafeteria", "north_tower_gym", "subway"];
@@ -85,18 +110,58 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    //fetches data from get_data.php
-    fetch("/Campus_Tracker/get_data.php?location=" + dbName)
-        .then(res => res.json())
-        .then(dbData => {
-            if (!dbData || dbData.error) {
-                console.error("Error from server:", dbData?.error);
-                return;
+    // Build hours from DB-defined schedule
+  let hours = await getHours(graphName);
+  if (!hours || hours.length === 0) {
+    console.warn("No hours returned for:", graphName);
+    return;
+  }
+
+  async function tickAndRender() {
+    try {
+        await runSimulationTick();
+
+        const hours = await getHours(graphName);
+        if (!hours || hours.length === 0) return;
+
+        const currIndex = findCurrTimeIndex(hours);
+        const hoursParam = encodeURIComponent(hours.join("|"));
+
+        // fetch real data
+        const dbData = await fetchHourlyCounts(dbName, hours);
+        if (!dbData || dbData.error) return;
+
+        // fetch predictions
+        const predRes = await fetch(`/Campus_Tracker/php/get_predicted_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`, { cache: "no-store" });
+        const predData = await predRes.json();
+
+        // merge: use real data for past/current hours, predictions for future
+        const data = hours.map((_, i) => {
+            if (i <= currIndex) {
+                return Number(dbData[i]?.count ?? 0);
+            } else {
+                return Number(predData[i]?.predicted ?? 0);
             }
-            const theData = dbData.map(row => row.count);
-            createGraph(graphName, hours, barColors, theData);
-        })
-        .catch(err => {
-            console.error("Error loading database data", err);
         });
+
+        // two color arrays: solid for real, faded for predicted
+        const barColors = hours.map((_, i) => {
+            if (i < currIndex) return 'rgba(0, 40, 145, 0.4)';      // past
+            if (i === currIndex) return 'rgba(0, 40, 145, 1)';       // current
+            return 'rgba(0, 40, 145, 0.2)';                          // predicted (faded)
+        });
+
+        if (!chart) createGraph(graphName, hours, barColors, data);
+        else updateGraph(hours, barColors, data);
+
+    } catch (err) {
+        console.error("Live update failed:", err);
+    }
+}
+
+  // run once now
+  await tickAndRender();
+
+  // update every 60 seconds (hourly bars don’t need 15s updates; 60s feels “live” without spamming)
+  setInterval(tickAndRender, 60000);
 });

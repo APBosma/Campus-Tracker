@@ -17,6 +17,7 @@ if ($conn->connect_error) {
 }
 
 $location = $_GET["location"] ?? null;
+$limit = isset($_GET["limit"]) ? (int)$_GET["limit"] : 15;
 
 $locations = [
     "cafeteria" => 1,
@@ -28,6 +29,9 @@ if (!$location) {
     echo json_encode(["error" => "missing location"]);
     exit;
 }
+
+$limit = max(1, min($limit, 200)); // safety clamp
+
 //sql script to retrieve the data from the database 
 $sql = "
     SELECT count
@@ -35,7 +39,7 @@ $sql = "
     JOIN locations l ON l.location_id = population.location_id
     WHERE l.name = ?
     ORDER BY population.entry_id DESC
-    LIMIT 30
+    LIMIT $limit
 ";
 
 $stmt = $conn->prepare($sql);
@@ -48,5 +52,9 @@ $data = [];
 while ($row = $result->fetch_assoc()) {
     $data[] = $row;
 }
+
+// reverse so it matches left-to-right graph order
+$data = array_reverse($data);
+
 
 echo json_encode($data);

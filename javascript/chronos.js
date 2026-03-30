@@ -48,7 +48,7 @@ export function getHours(locationName) {
     }
 
 
-    return fetch("/Campus_Tracker/get_hours.php?location=" + dbName + "&day=" + currDay)
+    return fetch("/Campus_Tracker/php/get_hours.php?location=" + dbName + "&day=" + currDay)
     .then(res => res.json())
     .then(hours => {
         if (!hours || hours.error) {
