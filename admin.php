@@ -6,9 +6,9 @@
     <title>ConcordRush Admin</title>
 
     <!-- Base styles -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- Admin-only styles -->
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <header>
