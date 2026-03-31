@@ -15,6 +15,52 @@ $formatted_string = ucwords($string_with_spaces);
 "
 which were basically about what I was looking for. I then used this for the PHP to fix the location name.
 -->
+<?php
+session_start();
+
+// DB connection
+$conn = new mysqli("localhost", "root", "mysql", "campus_tracker");
+if ($conn->connect_error) {
+    die("Database connection failed.");
+}
+
+// Get location_id (from GET)
+$location_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$location = NULL;
+
+// Fetch hours
+$stmt = $conn->prepare("
+    SELECT day, open_time1, close_time1, open_time2, close_time2
+    FROM hours
+    WHERE location_id = ?
+");
+$stmt->bind_param("i", $location_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Store by day
+$hours = [];
+while ($row = $result->fetch_assoc()) {
+    $hours[$row['day']] = $row;
+}
+
+// Helper function
+function splitTime($time) {
+    if (!$time) {
+        return ["NA", "NA", "NA"];
+    }
+
+    return [
+        date("g", strtotime($time)),  // hour (1-12)
+        date("i", strtotime($time)),  // minute (00-59)
+        date("A", strtotime($time))   // AM/PM
+    ];
+}
+
+// Days of week
+$days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+$mins = ["00","05","10","15","20","25","30","35","40","45","50","55"];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +71,6 @@ which were basically about what I was looking for. I then used this for the PHP 
     <link rel="stylesheet" href="style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="admin.css">
-    <?php session_start();?>  <!-- For flash msg -->
 </head>
 
 <header>
@@ -72,17 +117,6 @@ which were basically about what I was looking for. I then used this for the PHP 
                 <?php unset($_SESSION["flash"]); ?>
             <?php endif; ?>
                 <?php
-                // Connect to database
-                $servername = "localhost";
-                $username = "root";
-                $password = "mysql";
-                $dbname = "campus_tracker";
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                if ($conn->connect_error) {
-                    die("Database connection failed.");
-                }
-
                 // Check if location was clicked
                 $id = isset($_GET['id']) ? intval($_GET['id']) : null;
                 if ($id) {
@@ -112,990 +146,102 @@ which were basically about what I was looking for. I then used this for the PHP 
                 }
                 ?>
 
-                <?php if ($id && $location): ?>
-
                 <!-- EDIT FORM -->
-                <form action="php/update_location.php" method="POST">
+                <?php if ($location): ?>
+                    <form action="php/update_location.php" method="POST">
+                        <input type="hidden" name="location_id" value="<?= $location['location_id'] ?>">
+                        <div>Location:</div>
+                        <input type="text" name="name" value="<?= $location['name'] ?>" required><br>
+                        <div>Max Capacity:</div>
+                        <input type="number" name="capacity" min="0" value="<?= $location['max_capacity'] ?>" required><br>
 
-                    <input type="hidden" name="location_id" value="<?php echo $location['location_id'];?>">
+                        <?php foreach ($days as $day): 
+                            list($o1h,$o1m,$o1a) = splitTime($hours[$day]['open_time1'] ?? null);
+                            list($c1h,$c1m,$c1a) = splitTime($hours[$day]['close_time1'] ?? null);
+                            list($o2h,$o2m,$o2a) = splitTime($hours[$day]['open_time2'] ?? null);
+                            list($c2h,$c2m,$c2a) = splitTime($hours[$day]['close_time2'] ?? null);
 
-                    <div> Location:</div>
-                    <input type="text" id = "name" name="name" maxlength="50" value="<?php echo $location['name'];?>" required><br>
+                            $o1a = strtolower($o1a); $c1a = strtolower($c1a);
+                            $o2a = strtolower($o2a); $c2a = strtolower($c2a);
+                            $dayLabel = ucfirst($day);
+                        ?>
+                        <div><strong><?= $dayLabel ?></strong></div>
 
-                    <div>Max Capacity:</div>
-                    <input type="number" id="capacity" name="capacity" min="0" value="<?php echo $location['max_capacity'];?>"required>
-
-                    <div>Hours:</div><br>
-                    <div><strong>Monday</strong></div>
-                        <select name="mondayHourOpen1" id="mondayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
+                        <!-- OPEN 1 -->
+                        <select name="<?= $day ?>HourOpen1">
+                            <?php for($i=1;$i<=12;$i++): ?>
+                            <option value="<?= $i ?>" <?= ($o1h==$i?"selected":"") ?>><?= $i ?></option>
+                            <?php endfor; ?>
                         </select> :
-                        <select name="mondayMinuteOpen1" id="mondayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="mondayOpenTime1" id="mondayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
+                        <select name="<?= $day ?>MinuteOpen1">
+                            <?php foreach($mins as $m): ?>
+                            <option value="<?= $m ?>" <?= ($o1m==$m?"selected":"") ?>><?= $m ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="<?= $day ?>OpenTime1">
+                            <option value="am" <?= ($o1a=="am"?"selected":"") ?>>a.m.</option>
+                            <option value="pm" <?= ($o1a=="pm"?"selected":"") ?>>p.m.</option>
                         </select> -
-                        <select name="mondayHourClose1" id="mondayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
+                        <!-- CLOSE 1 -->
+                        <select name="<?= $day ?>HourClose1">
+                            <?php for($i=1;$i<=12;$i++): ?>
+                            <option value="<?= $i ?>" <?= ($c1h==$i?"selected":"") ?>><?= $i ?></option>
+                            <?php endfor; ?>
                         </select> :
-                        <select name="mondayMinuteClose1" id="mondayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
+                        <select name="<?= $day ?>MinuteClose1">
+                            <?php foreach($mins as $m): ?>
+                            <option value="<?= $m ?>" <?= ($c1m==$m?"selected":"") ?>><?= $m ?></option>
+                            <?php endforeach; ?>
                         </select>
-                        <select name="mondayCloseTime1" id="mondayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                    
-                        <div>Optional Second Hours</div>
-                        <select name="mondayHourOpen2" id="mondayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="mondayMinuteOpen2" id="mondayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="mondayOpenTime2" id="mondayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="mondayHourClose2" id="mondayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="mondayMinuteClose2" id="mondayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="mondayCloseTime2" id="mondayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Tuesday</strong></div>
-                        <select name="tuesdayHourOpen1" id="tuesdayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="tuesdayMinuteOpen1" id="tuesdayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="tuesdayOpenTime1" id="tuesdayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="tuesdayHourClose1" id="tuesdayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="tuesdayMinuteClose1" id="tuesdayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="tuesdayCloseTime1" id="tuesdayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="tuesdayHourOpen2" id="tuesdayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="tuesdayMinuteOpen2" id="tuesdayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="tuesdayOpenTime2" id="tuesdayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="tuesdayHourClose2" id="tuesdayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="tuesdayMinuteClose2" id="tuesdayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="tuesdayCloseTime2" id="tuesdayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Wednesday</strong></div>
-                        <select name="wednesdayHourOpen1" id="wednesdayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="wednesdayMinuteOpen1" id="wednesdayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="wednesdayOpenTime1" id="wednesdayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="wednesdayHourClose1" id="wednesdayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="wednesdayMinuteClose1" id="wednesdayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="wednesdayCloseTime1" id="wednesdayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="wednesdayHourOpen2" id="wednesdayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="wednesdayMinuteOpen2" id="wednesdayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="wednesdayOpenTime2" id="wednesdayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="wednesdayHourClose2" id="wednesdayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="wednesdayMinuteClose2" id="wednesdayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="wednesdayCloseTime2" id="wednesdayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Thursday</strong></div>
-                        <select name="thursdayHourOpen1" id="thursdayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="thursdayMinuteOpen1" id="thursdayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="thursdayOpenTime1" id="thursdayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="thursdayHourClose1" id="thursdayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="thursdayMinuteClose1" id="thursdayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="thursdayCloseTime1" id="thursdayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="thursdayHourOpen2" id="thursdayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="thursdayMinuteOpen2" id="thursdayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="thursdayOpenTime2" id="thursdayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="thursdayHourClose2" id="thursdayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="thursdayMinuteClose2" id="thursdayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="thursdayCloseTime2" id="thursdayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Friday</strong></div>
-                        <select name="fridayHourOpen1" id="fridayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="fridayMinuteOpen1" id="fridayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="fridayOpenTime1" id="fridayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="fridayHourClose1" id="fridayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="fridayMinuteClose1" id="fridayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="fridayCloseTime1" id="fridayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="fridayHourOpen2" id="fridayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="fridayMinuteOpen2" id="fridayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="fridayOpenTime2" id="fridayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="fridayHourClose2" id="fridayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="fridayMinuteClose2" id="fridayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="fridayCloseTime2" id="fridayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Saturday</strong></div>
-                        <select name="saturdayHourOpen1" id="saturdayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="saturdayMinuteOpen1" id="saturdayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="saturdayOpenTime1" id="saturdayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="saturdayHourClose1" id="saturdayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="saturdayMinuteClose1" id="saturdayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="saturdayCloseTime1" id="saturdayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="saturdayHourOpen2" id="saturdayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="saturdayMinuteOpen2" id="saturdayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="saturdayOpenTime2" id="saturdayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="saturdayHourClose2" id="saturdayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="saturdayMinuteClose2" id="saturdayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="saturdayCloseTime2" id="saturdayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-                        <br>---
-                    <div><strong>Sunday</strong></div>
-                        <select name="sundayHourOpen1" id="sundayHourOpen1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="sundayMinuteOpen1" id="sundayMinuteOpen1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="sundayOpenTime1" id="sundayOpenTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="sundayHourClose1" id="sundayHourClose1" class="form_item">
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="sundayMinuteClose1" id="sundayMinuteClose1" class="form_item">
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="sundayCloseTime1" id="sundayCloseTime1" class="form_item">
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select>
-
-                        <div>Optional Second Hours</div>
-                        <select name="sundayHourOpen2" id="sundayHourOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="sundayMinuteOpen2" id="sundayMinuteOpen2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select> 
-                        <select name="sundayOpenTime2" id="sundayOpenTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
-                        </select> -
-                        <select name="sundayHourClose2" id="sundayHourClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "1">1</option>
-                            <option value = "2">2</option>
-                            <option value = "3">3</option>
-                            <option value = "4">4</option>
-                            <option value = "5">5</option>
-                            <option value = "6">6</option>
-                            <option value = "7">7</option>
-                            <option value = "8">8</option>
-                            <option value = "9">9</option>
-                            <option value = "10">10</option>
-                            <option value = "11">11</option>
-                            <option value = "12">12</option>
-                        </select> :
-                        <select name="sundayMinuteClose2" id="sundayMinuteClose2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "00">00</option>
-                            <option value = "05">05</option>
-                            <option value = "10">10</option>
-                            <option value = "15">15</option>
-                            <option value = "20">20</option>
-                            <option value = "25">25</option>
-                            <option value = "30">30</option>
-                            <option value = "35">35</option>
-                            <option value = "40">40</option>
-                            <option value = "45">45</option>
-                            <option value = "50">50</option>
-                            <option value = "55">55</option>
-                        </select>
-                        <select name="sundayCloseTime2" id="sundayCloseTime2" class="form_item">
-                            <option value = "NA">NA</option>
-                            <option value = "am">a.m.</option>
-                            <option value = "pm">p.m.</option>
+                        <select name="<?= $day ?>CloseTime1">
+                            <option value="am" <?= ($c1a=="am"?"selected":"") ?>>a.m.</option>
+                            <option value="pm" <?= ($c1a=="pm"?"selected":"") ?>>p.m.</option>
                         </select>
                         <br>
-                    
-                    <input id="submit_button" type="submit" name="submit" value="Submit">
+
+                        <!-- OPTIONAL SECOND HOURS (same pattern) -->
+                        <div>Optional Second Hours</div>
+                        <select name="<?= $day ?>HourOpen2">
+                            <option value="NA" <?= ($o2h=="NA"?"selected":"") ?>>NA</option>
+                            <?php for($i=1;$i<=12;$i++): ?>
+                            <option value="<?= $i ?>" <?= ($o2h==$i?"selected":"") ?>><?= $i ?></option>
+                            <?php endfor; ?>
+                        </select> :
+                        <select name="<?= $day ?>MinuteOpen2">
+                            <option value="NA" <?= ($o2m=="NA"?"selected":"") ?>>NA</option>
+                            <?php foreach($mins as $m): ?>
+                            <option value="<?= $m ?>" <?= ($o2m==$m?"selected":"") ?>><?= $m ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="<?= $day ?>OpenTime2">
+                            <option value="NA" <?= ($o2a=="NA"?"selected":"") ?>>NA</option>
+                            <option value="am" <?= ($o2a=="am"?"selected":"") ?>>a.m.</option>
+                            <option value="pm" <?= ($o2a=="pm"?"selected":"") ?>>p.m.</option>
+                        </select> -
+                        <select name="<?= $day ?>HourClose2">
+                            <option value="NA" <?= ($c2h=="NA"?"selected":"") ?>>NA</option>
+                            <?php for($i=1;$i<=12;$i++): ?>
+                            <option value="<?= $i ?>" <?= ($c2h==$i?"selected":"") ?>><?= $i ?></option>
+                            <?php endfor; ?>
+                        </select> :
+                        <select name="<?= $day ?>MinuteClose2">
+                            <option value="NA" <?= ($c2m=="NA"?"selected":"") ?>>NA</option>
+                            <?php foreach($mins as $m): ?>
+                            <option value="<?= $m ?>" <?= ($c2m==$m?"selected":"") ?>><?= $m ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <select name="<?= $day ?>CloseTime2">
+                            <option value="NA" <?= ($c2a=="NA"?"selected":"") ?>>NA</option>
+                            <option value="am" <?= ($c2a=="am"?"selected":"") ?>>a.m.</option>
+                            <option value="pm" <?= ($c2a=="pm"?"selected":"") ?>>p.m.</option>
+                        </select>
+                        <hr>
+                        <?php endforeach; ?>
+
+                        <button type="submit">Save Location</button>
                     </form>
-                <?php else: ?>
+
+                <?php else: ?> 
 
                 <?php
                 // Display locations
