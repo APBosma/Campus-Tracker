@@ -14,6 +14,16 @@ $string_with_spaces = str_replace('_', ' ', $string_with_underscores);
 $formatted_string = ucwords($string_with_spaces);
 "
 which were basically about what I was looking for. I then used this for the PHP to fix the location name.
+
+Okay so maybe I will finally admit that this file was initially too long (1300 lines). I wasn't sure how to efficiently get the hours 
+for each location inserted without making like 6 calls to the database for everything so I ended up ask ChatGPT. The real main reason
+this was shortened was because I was unable to paste the entire code in it lol. I only have it monday as an example of what we were doing.
+This is like a whole adventure for a source citation isn't it. Hey Professor Bowe! I used this prompt:
+    "I need to create a PHP call to get me what I need for the locations hours. My table I have in PHPMyAdmin has 
+    location_id, day, open_time1, close_time1, open_time2, and close_time2. Everything is a string except location_id 
+    which is an int. I need to each time thing individually to set the value in my HTML"
+Then I later added more such as if the location had NULL for the time, to put NA and splitting the time up to hour, minutes,
+and am/pm.
 -->
 <?php
 session_start();
