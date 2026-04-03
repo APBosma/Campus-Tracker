@@ -165,7 +165,7 @@ $mins = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
                     Location:<br>
                     <input type="text" name="name" value="<?= $location['name'] ?>" class="form_item" required><br>
                     Max Capacity:<br>
-                    <input type="number" name="capacity" min="0" value="<?= $location['max_capacity'] ?>" class="form_item"
+                    <input type="number" name="max_capacity" min="0" value="<?= $location['max_capacity'] ?>" class="form_item"
                         required><br><br>
 
                     <?php foreach ($days as $day):
