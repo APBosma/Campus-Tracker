@@ -1,3 +1,8 @@
+<!-- 
+Needed to lowercase the first letter of the location name so I looked up "how to lowercase string php" which showed me 
+the google AI that had strtolower(). I went with this instead of lcfirst because that would be cleaner in matching
+our database.
+-->
 <?php
 session_start();
 
@@ -34,15 +39,31 @@ function buildTime($hour, $minute, $ampm) {
     if ($ampm === "am" && $hour == 12) {
         $hour = 0;
     }
-
+    echo sprintf("%02d:%02d", $hour, $minute);
     return sprintf("%02d:%02d", $hour, $minute);
 }
 
 // Get form data
 $days = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
 $id = $_POST['location_id'];
+$location_name = $_POST['name'];
 $max_capacity = $_POST['max_capacity'];
 
+// Format location name for database
+$location_name = str_replace(' ', '_', $location_name);
+$location_name = strtolower($location_name);
+
+// Update location info
+$stmt = $conn->prepare("
+        UPDATE locations
+        SET name = ?, max_capacity = ?
+        WHERE location_id = ?
+    ");
+
+$stmt->bind_param("sii", $location_name, $max_capacity, $id);
+$stmt->execute();
+
+// Update location hours
 foreach ($days as $day) {
 
     $o1h = $_POST[$day . 'HourOpen1'] ?? null;
@@ -67,15 +88,16 @@ foreach ($days as $day) {
     $open2  = buildTime($o2h, $o2m, $o2a);
     $close2 = buildTime($c2h, $c2m, $c2a);
 
-    $stmt = $conn->prepare("
+    $stmt2 = $conn->prepare("
         UPDATE hours
         SET open_time1 = ?, close_time1 = ?, open_time2 = ?, close_time2 = ?
         WHERE location_id = ? AND day = ?
     ");
 
-    $stmt->bind_param("ssssis", $open1, $close1, $open2, $close2, $location_id, $day);
-    $stmt->execute();
+    $stmt2->bind_param("ssssis", $open1, $close1, $open2, $close2, $id, $day);
+    $stmt2->execute();
 }
+
 
 // Redirect back
 header("Location: ../edit_location.php");
