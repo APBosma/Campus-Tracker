@@ -29,7 +29,6 @@ function buildTime($hour, $minute, $ampm) {
     if ($hour === "NA" || $minute === "NA" || $ampm === "NA") {
         return null;
     }
-
     $hour = intval($hour);
 
     // Convert to 24-hour time
@@ -39,7 +38,7 @@ function buildTime($hour, $minute, $ampm) {
     if ($ampm === "am" && $hour == 12) {
         $hour = 0;
     }
-    echo sprintf("%02d:%02d", $hour, $minute);
+
     return sprintf("%02d:%02d", $hour, $minute);
 }
 
@@ -54,14 +53,14 @@ $location_name = str_replace(' ', '_', $location_name);
 $location_name = strtolower($location_name);
 
 // Update location info
-$stmt = $conn->prepare("
+$stmt_locations = $conn->prepare("
         UPDATE locations
         SET name = ?, max_capacity = ?
         WHERE location_id = ?
     ");
 
-$stmt->bind_param("sii", $location_name, $max_capacity, $id);
-$stmt->execute();
+$stmt_locations->bind_param("sii", $location_name, $max_capacity, $id);
+$stmt_locations->execute();
 
 // Update location hours
 foreach ($days as $day) {
@@ -88,14 +87,14 @@ foreach ($days as $day) {
     $open2  = buildTime($o2h, $o2m, $o2a);
     $close2 = buildTime($c2h, $c2m, $c2a);
 
-    $stmt2 = $conn->prepare("
+    $stmt2_hours = $conn->prepare("
         UPDATE hours
         SET open_time1 = ?, close_time1 = ?, open_time2 = ?, close_time2 = ?
         WHERE location_id = ? AND day = ?
     ");
 
-    $stmt2->bind_param("ssssis", $open1, $close1, $open2, $close2, $id, $day);
-    $stmt2->execute();
+    $stmt2_hours->bind_param("ssssis", $open1, $close1, $open2, $close2, $id, $day);
+    $stmt2_hours->execute();
 }
 
 
