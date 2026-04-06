@@ -54,10 +54,10 @@ $location_name = strtolower($location_name);
 
 // Update location info
 $stmt_locations = $conn->prepare("
-        UPDATE locations
-        SET name = ?, max_capacity = ?
-        WHERE location_id = ?
-    ");
+    UPDATE locations
+    SET name = ?, max_capacity = ?
+    WHERE location_id = ?
+");
 
 $stmt_locations->bind_param("sii", $location_name, $max_capacity, $id);
 $stmt_locations->execute();
