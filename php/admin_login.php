@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 $servername = "localhost";
 $username = "root";
 $password = "mysql";
-$dbname = "admins_db";
+$dbname = "campus_tracker";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -17,11 +17,11 @@ if ($conn->connect_error) {
     ];
     header("Location: ../admin_login.php");
     exit();
-}
+}   
 
 // If the login button is pressed
 if (isset($_POST["login_btn"])) {
-    $name = filter_input(INPUT_POST, $_POST["username"],
+    $name = filter_input(INPUT_POST, "username",
                          FILTER_SANITIZE_SPECIAL_CHARS);
     $pass = $_POST["password"];
 
@@ -32,7 +32,7 @@ if (isset($_POST["login_btn"])) {
         $user = $result->fetch_assoc();
         if (hash("sha256", $pass) == $user["password"]) {
             $_SESSION["name"] = $user["name"];
-            header("Location: ./admin.php");
+            header("Location: ../admin.php");
             exit();
         }
     }
@@ -48,7 +48,7 @@ $errors = ["login" => $_SESSION["login_error"] ?? ""];
 session_unset();
 
 function showError($error) {
-    return !empty($errors) ? "<p class='error'>$error</p>" : "";
+    return !empty($error) ? "<p class='error'>$error</p>" : "";
 }
 ?>
 
@@ -56,9 +56,9 @@ function showError($error) {
 <html>
 <head>
     <title>Admin Login</title>
-    <link rel="stylesheet" href="./style.css" \
+    <link rel="stylesheet" href="../style.css" \
     type="text/css">
-    <link rel="stylesheet" href="./admin.css" \
+    <link rel="stylesheet" href="../admin.css" \
     type="text/css">
     <link rel="icon" href="./favicon.ico" \
     type="image/x-icon">
@@ -92,4 +92,3 @@ function showError($error) {
 </body>
 
 </html>
-
