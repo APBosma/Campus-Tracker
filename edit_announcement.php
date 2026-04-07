@@ -96,6 +96,10 @@ this error. It was an endif lol.
 
                 <!-- EDIT FORM -->
                 <form action="php/update_announcement.php" method="POST">
+                    <?php 
+                        $announcement['name'] = str_replace('_', ' ', $announcement['name']);
+                        $announcement['name'] = ucwords($announcement['name'])
+                    ?>
 
                     <input type="hidden" name="announcement_id"
                         value="<?php echo $announcement['announcement_id']; ?>">
