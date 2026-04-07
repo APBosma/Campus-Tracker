@@ -63,17 +63,9 @@ function showError($error) {
         <link rel="icon" href="./favicon.ico" \
         type="image/x-icon">
     </head>
-    <style>
-        body{
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-            url(../pictures/bell_tower.webp);
-            background-repeat: no-repeat;   
-            background-size: cover; 
-            background-position: center;
-        }
-    </style>
-    <body>
-        <section class="admin-box" id="login-form">
+
+    <body class="login-body">
+        <section class="login-box" id="login-form">
             <h1 class="logo">Admin Login</h1>
             <form id="login_form" action="./admin_login.php" method="post">
                 <?= showError($errors["login"]); ?>
