@@ -54,21 +54,25 @@ function showError($error) {
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="../style.css" \
-    type="text/css">
-    <link rel="stylesheet" href="../admin.css" \
-    type="text/css">
-    <link rel="icon" href="./favicon.ico" \
-    type="image/x-icon">
-</head>
-
-<body>
-    <main>
-        <aside>
-            <img src="./pictures/bell_tower.jpg" alt="Concord Bell Tower">
-        </aside>
+    <head>
+        <title>Admin Login</title>
+        <link rel="stylesheet" href="../style.css" \
+        type="text/css">
+        <link rel="stylesheet" href="../admin.css" \
+        type="text/css">
+        <link rel="icon" href="./favicon.ico" \
+        type="image/x-icon">
+    </head>
+    <style>
+        body{
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url(../pictures/bell_tower.webp);
+            background-repeat: no-repeat;   
+            background-size: cover; 
+            background-position: center;
+        }
+    </style>
+    <body>
         <section class="admin-box" id="login-form">
             <h1 class="logo">Admin Login</h1>
             <form id="login_form" action="./admin_login.php" method="post">
@@ -88,7 +92,5 @@ function showError($error) {
                 </div>
             </form>
         </section>
-    </main>
-</body>
-
+    </body>
 </html>
