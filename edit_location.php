@@ -284,7 +284,7 @@ $mins = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
                             <div class="location_name">
                                 <span style="text-decoration: underline;"><?php echo $row['name']; ?></span>
                                 <br>
-                                <strong style="font-size: medium;">Max Capacity:<?php echo $row['max_capacity']; ?></strong>
+                                <strong style="font-size: medium;">Max Capacity: <?php echo $row['max_capacity']; ?></strong>
                             </div>
 
                         </a>
