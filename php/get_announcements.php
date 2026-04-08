@@ -2,6 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+header('Content-Type: application/json');
 //connect to database
 $servername = "localhost";
 $username = "root";
@@ -14,17 +15,38 @@ if ($conn->connect_error) {
     exit;
 }
 
-$res = $conn->query("
+$location = $_GET["location"] ?? null;
+$location = str_replace(' ', '_', $location);
+$location = strtolower($location);
+
+$locations = [
+    "cafeteria" => 1,
+    "north_tower_gym" => 2,
+    "subway" => 3
+];
+
+if (!$location) {
+    echo json_encode(["error" => "missing location"]);
+    exit;
+}
+
+//sql script to retrieve the data from the database 
+$sql = "
     SELECT message
     FROM announcements
     WHERE start_date <= CURRENT_DATE()
     AND end_date > CURRENT_DATE()
     AND location_id = ?
-");
-if ($res && $res->num_rows > 0) {
-    while ($row = $res->fetch_assoc()) {
-        echo "<div class=\"announcementMsg\">" . htmlspecialchars($name) . "</div>";
-    }
-} 
-$conn->close();
-?>
+";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $locations[$location]);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+if (!$row) {
+    echo json_encode([]);
+    exit;
+}
+
+echo json_encode($row);
