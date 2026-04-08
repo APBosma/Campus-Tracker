@@ -54,6 +54,7 @@ function showError($error) {
 
 <!DOCTYPE html>
 <html>
+    
     <head>
         <title>Admin Login</title>
         <link rel="stylesheet" href="../style.css" \
@@ -68,6 +69,7 @@ function showError($error) {
         <section class="login-box" id="login-form">
             <h1 class="logo">Admin Login</h1>
             <form id="login_form" action="./admin_login.php" method="post">
+                <hr class="line">
                 <?= showError($errors["login"]); ?>
                 <div class="input_box">
                     <input id="username_input" name="username" \
@@ -79,7 +81,7 @@ function showError($error) {
                 </div>
                 <div>
                     <button type="submit" class="btn" name="login_btn">
-                        log in
+                        Log In
                     </button>
                 </div>
             </form>

@@ -221,14 +221,29 @@ form textarea {
     }
 }
 
+.logo {
+    padding-top: 5%;
+    margin: 0 auto;
+    padding-bottom: 5%;
+    color: #2c3e50;
+}
+
+.line{
+    display: block;
+    margin-bottom: 15%;
+    width: 100%;
+    align-self: stretch;
+}
 
 .login-box {
     background-color: #c7c7c7;
-    padding: 5%;
-    border-radius: 12px;
+    border-radius: 15px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     margin: 10%;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
 }
 
 .login-body{
@@ -237,9 +252,50 @@ form textarea {
     background-repeat: no-repeat;   
     background-size: cover; 
     background-position: center;
-    padding-left: 20%;
-    padding-right: 20%;
+    padding-left: 35%;
+    padding-right: 35%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    }
+}
+
+#username_input{
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 15px;
+    margin-bottom: 10%;
+    padding-bottom: 5%;
+    padding-top: 5%;
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#password_input{
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 15px;
+    padding-bottom: 5%;
+    padding-top: 5%;
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    cursor: pointer;
+    border-bottom: 3px solid black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.btn:hover {
+    color: #860903;
+    border-bottom-color: #860903;
+}
