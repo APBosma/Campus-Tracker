@@ -57,9 +57,9 @@ function showError($error) {
     
     <head>
         <title>Admin Login</title>
-        <link rel="stylesheet" href="../style.css" \
+        <link rel="stylesheet" href="../css/style.css" \
         type="text/css">
-        <link rel="stylesheet" href="../admin.css" \
+        <link rel="stylesheet" href="../css/admin.css" \
         type="text/css">
         <link rel="icon" href="./favicon.ico" \
         type="image/x-icon">
