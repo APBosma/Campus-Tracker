@@ -1,3 +1,8 @@
+<!-- 
+ I was getting unexpected end of file when implementing the "No announcements active" thing and wasn't sure what I missed
+because HTML syntax is weird and super nested. I ended up pasting my code in chatGPT and asking it what I was missing to get 
+this error. It was an endif lol. 
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,8 +38,9 @@
         <a href = "admin.php">
             <button class="menu-btn">Home</button>
         </a>
-        <button class="menu-btn">Edit Location</button>
-        <button class="menu-btn">Remove Location</button>
+        <a href = "edit_location.php">
+            <button class="menu-btn">Edit Location</button>
+        </a>
         <a href = "announcement_create.php">
             <button class="menu-btn">Create Announcement</button>
         </a>
@@ -90,6 +96,10 @@
 
                 <!-- EDIT FORM -->
                 <form action="php/update_announcement.php" method="POST">
+                    <?php 
+                        $announcement['name'] = str_replace('_', ' ', $announcement['name']);
+                        $announcement['name'] = ucwords($announcement['name'])
+                    ?>
 
                     <input type="hidden" name="announcement_id"
                         value="<?php echo $announcement['announcement_id']; ?>">
@@ -133,29 +143,37 @@
                 ?>
 
                 <div class="announcements-container">
-                <?php while ($row = $result->fetch_assoc()): ?>
+                <?php if ($result->num_rows == 0): ?>
+                    <div class='empty-box'><p>No active announcements</p></div>
+                <?php else: ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
 
-                    <a class="announcement-card"
-                    href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
+                        <a class="announcement-card"
+                        href="edit_announcement.php?id=<?php echo $row['announcement_id']; ?>">
 
-                        <div class="message">
-                            <?php echo htmlspecialchars($row['message']); ?>
-                        </div>
+                            <div class="message">
+                                <?php echo htmlspecialchars($row['message']); ?>
+                            </div>
 
-                        <div>
-                            <strong>Location:</strong> <?php echo $row['name']; ?>
-                        </div>
+                            <div>
+                                <?php
+                                // Format location name for user display
+                                $row['name'] = str_replace('_', ' ', $row['name']);
+                                $row['name'] = ucwords($row['name']);
+                                ?>
+                                <strong>Location:</strong> <?php echo $row['name']; ?>
+                            </div>
 
-                        <div class="dates">
-                            <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
-                            <strong>End:</strong> <?php echo $row['end_date']; ?><br>
-                        </div>
+                            <div class="dates">
+                                <strong>Start:</strong> <?php echo $row['start_date']; ?><br>
+                                <strong>End:</strong> <?php echo $row['end_date']; ?><br>
+                            </div>
 
-                    </a>
-
-                <?php endwhile; ?>
-                </div>
+                        </a>
+                    <?php endwhile; ?>
                 <?php endif; ?>
+            </div>
+            <?php endif;?>
         </section>
 
     </section>

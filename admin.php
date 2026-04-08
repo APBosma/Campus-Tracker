@@ -33,8 +33,9 @@
         <a href = "admin.php">
             <button class="menu-btn">Home</button>
         </a>
-        <button class="menu-btn">Edit Location</button>
-        <button class="menu-btn">Remove Location</button>
+        <a href = "edit_location.php">
+            <button class="menu-btn">Edit Location</button>
+        </a>
         <a href = "announcement_create.php">
             <button class="menu-btn">Create Announcement</button>
         </a>
