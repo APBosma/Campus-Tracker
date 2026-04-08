@@ -267,6 +267,7 @@ form textarea {
     margin-bottom: 10%;
     padding-bottom: 5%;
     padding-top: 5%;
+    padding-left: 3%;
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -277,6 +278,7 @@ form textarea {
     border-radius: 15px;
     padding-bottom: 5%;
     padding-top: 5%;
+    padding-left: 3%;
     color: black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
