@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 header('Content-Type: application/json');
 //connect to database
 $servername = "localhost";
@@ -43,11 +40,6 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $locations[$location]);
 $stmt->execute();
 $result = $stmt->get_result();
-$row = $result->fetch_assoc();
-if (!$row) {
-    echo json_encode([]);
-    exit;
-}
 
 $data = [];
 while ($row = $result->fetch_assoc()) {

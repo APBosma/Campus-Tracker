@@ -3,11 +3,14 @@
 document.addEventListener("DOMContentLoaded", async function () {
     // Grab and initialize info from the HTML
     const titleElement = document.getElementById("title");
-    const locationName = titleElement.textContent;
+    let locationName = titleElement.textContent;
     const announcementsSpace = document.getElementById("announcements");
 
+    locationName = locationName.replaceAll(' ', '_');
+    locationName = locationName.toLowerCase();
+
     // Get announcements for location
-    fetch("/Campus_Tracker/get_announcements.php?location=" + locationName)
+    fetch("/Campus_Tracker/php/get_announcements.php?location=" + locationName)
         .then(res => res.json())
             .then(dbData => {
                 if (!dbData || dbData.error) {
@@ -17,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 const allAnnouncements = dbData.map(row => row.message);
 
                 // Add announcements to the page
-                for (let msg in allAnnouncements) {
+                for (let msg of allAnnouncements) {
                     console.log(msg);
                     const announcements = document.createElement('div');
                     announcements.textContent = msg;
