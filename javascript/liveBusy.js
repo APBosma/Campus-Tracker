@@ -50,10 +50,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   async function refreshLiveBusyness() {
     try {
-      const hours = await getHours(graphName);
+      const {hours, openTime, closeTime, openTime2, closeTime2} = await getHours(graphName);
       if (!hours || hours.length === 0) return;
-
-      const currIndex = findCurrTimeIndex(hours);
+      const currIndex = findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2);
 
       // closed
       if (currIndex === -1) {

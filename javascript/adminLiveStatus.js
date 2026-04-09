@@ -14,7 +14,7 @@ async function updateLocationStatus(locationName) {
     const circle = document.getElementById(dbName + "-circle");
     const levelText = document.getElementById(dbName + "-level");
 
-    const hours = await getHours(locationName);
+    const {hours, openTime, closeTime, openTime2, closeTime2} = await getHours(locationName);
 
     fetch("/Campus_Tracker/get_data.php?location=" + dbName)
         .then(res => res.json())
@@ -34,7 +34,7 @@ async function updateLocationStatus(locationName) {
                     const capacity = capData.max_capacity;
                     const intervalSize = Math.floor(capacity / 4);
 
-                    const currentIndex = findCurrTimeIndex(hours);
+                    const currentIndex = findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2);
 
                     if (currentIndex == -1) {
                         levelText.textContent = "Closed";
