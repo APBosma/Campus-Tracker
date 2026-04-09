@@ -16,10 +16,9 @@ async function updateLocationStatus(locationName) {
 
     const {hours, openTime, closeTime, openTime2, closeTime2} = await getHours(locationName);
 
-    fetch("/Campus_Tracker/get_data.php?location=" + dbName)
+    fetch("/Campus_Tracker/php/get_data.php?location=" + dbName)
         .then(res => res.json())
         .then(dbData => {
-
             if (!dbData || dbData.error) {
                 levelText.textContent = "Error";
                 return;
@@ -27,7 +26,7 @@ async function updateLocationStatus(locationName) {
 
             const data = dbData.map(row => row.count);
 
-            fetch("/Campus_Tracker/get_capacity.php?location=" + dbName)
+            fetch("/Campus_Tracker/php/get_capacity.php?location=" + dbName)
                 .then(res => res.json())
                 .then(capData => {
 
