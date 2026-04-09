@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // Build hours from DB-defined schedule
-  let hours = await getHours(graphName);
+  let {hours, openMinute, closeMinute, openMinute2, closeMinute2} = await getHours(graphName);
   if (!hours || hours.length === 0) {
     console.warn("No hours returned for:", graphName);
     return;
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     try {
         await runSimulationTick();
 
-        const hours = await getHours(graphName);
+        const {hours, openMinute, closeMinute, openMinute2, closeMinute2} = await getHours(graphName);
         if (!hours || hours.length === 0) return;
 
         const currIndex = findCurrTimeIndex(hours);
