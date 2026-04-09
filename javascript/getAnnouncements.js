@@ -1,7 +1,10 @@
 // This file gets the announcements for each location page
 
 document.addEventListener("DOMContentLoaded", async function () {
-    fetch("/Campus_Tracker/get_data.php?location=" + dbName)
+    let titleElement = document.getElementById("title")
+    let locationName = titleElement.textContent;
+
+    fetch("/Campus_Tracker/get_data.php?location=" + locationName)
         .then(res => res.json())
             .then(dbData => {
                 if (!dbData || dbData.error) {
