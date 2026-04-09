@@ -25,8 +25,8 @@ $locations = [
     "subway" => 3
 ];
 
-if (!$location) {
-    echo json_encode(["error" => "missing location"]);
+if (!isset($locations[$location])) {
+    echo json_encode([]);
     exit;
 }
 
@@ -49,4 +49,9 @@ if (!$row) {
     exit;
 }
 
-echo json_encode($row);
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+
+echo json_encode($data);
