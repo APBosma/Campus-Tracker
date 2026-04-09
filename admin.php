@@ -72,6 +72,8 @@
                         echo "<div class='announcements-container'>";
 
                         while ($row = $result->fetch_assoc()) {
+                            $row['name'] = str_replace('_', ' ', $row['name']);
+                            $row['name'] = ucfirst($row['name']);
                             echo "
                             <div class='announcement-card'>
                                 <div class='message'>
