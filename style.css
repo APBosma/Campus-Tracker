@@ -116,6 +116,16 @@ hr {
     font-weight: bold;
 }
 
+#announcements div {
+    background:#dfe885; 
+    border:1px solid #c0bb36; 
+    color:#726f0e; 
+    padding:12px; 
+    border-radius:6px; 
+    margin-bottom:20px;
+    text-align:center;
+}
+
 main {
     padding: 2% 4%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;

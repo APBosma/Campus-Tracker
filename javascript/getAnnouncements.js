@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Grab and initialize info from the HTML
     const titleElement = document.getElementById("title");
     let locationName = titleElement.textContent;
-    const announcementsSpace = document.getElementById("announcementsy");
+    const announcementsSpace = document.getElementById("announcements");
 
     locationName = locationName.replaceAll(' ', '_');
     locationName = locationName.toLowerCase();
@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 // Add announcements to the page
                 for (let msg of allAnnouncements) {
-                    console.log(msg);
                     const announcements = document.createElement('div');
                     announcements.textContent = msg;
                     announcementsSpace.append(announcements);

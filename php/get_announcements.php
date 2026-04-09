@@ -1,4 +1,6 @@
 <?php
+// Gets all announcements for a location and returns it to getAnnouncements.js
+
 header('Content-Type: application/json');
 //connect to database
 $servername = "localhost";
