@@ -10,7 +10,7 @@ this error. It was an endif lol.
     <title>ConcordRush Admin</title>
 
     <!-- Base styles -->
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="css/admin.css">
     <?php session_start();?>  <!-- For flash msg -->

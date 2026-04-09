@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>ConcordRush Admin</title>
-
     <!-- Base styles -->
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
