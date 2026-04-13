@@ -145,10 +145,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         // two color arrays: solid for real, faded for predicted
+        let beenHit = false;
         const barColors = hours.map((_, i) => {
-            if (i < currIndex) return 'rgba(0, 40, 145, 0.4)';      // past
-            if (i === currIndex) return 'rgba(0, 40, 145, 1)';       // current
-            return 'rgba(0, 40, 145, 0.2)';                          // predicted (faded)
+            if (hours[i] === currIndex) {                                     // current
+                beenHit = true;
+                return 'rgba(0, 40, 145, 1)';       
+            }
+            if (!beenHit) return 'rgba(0, 40, 145, 0.4)';                   // past
+            return 'rgba(0, 40, 145, 0.2)';                                 // predicted (faded)
         });
 
         if (!chart) createGraph(graphName, hours, barColors, data);
