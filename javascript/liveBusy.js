@@ -60,6 +60,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
       }
 
+      let actualIndex;
+
+      for (let i=0; i<hours.length; i++) {
+        if (hours[i]==currIndex) {
+          actualIndex = i;
+        }
+      }
+
       const capData = await fetchCapacity(dbName);
       if (!capData || capData.error) {
         console.error("Capacity error:", capData?.error);
@@ -76,7 +84,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const counts = hourlyData.map(r => Number(r.count));
 
       // safety: if something mismatched, clamp index
-      const safeIndex = Math.max(0, Math.min(currIndex, counts.length - 1));
+      const safeIndex = Math.max(0, Math.min(actualIndex, counts.length - 1));
+      console.log(counts)
       const currCount = counts[safeIndex];
 
       const [label, color] = computeBusyness(currCount, capacity);
