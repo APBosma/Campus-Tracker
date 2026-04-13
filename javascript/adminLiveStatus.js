@@ -41,7 +41,14 @@ async function updateLocationStatus(locationName) {
                         return;
                     }
 
-                    const level = Math.floor(data[currentIndex] / intervalSize);
+                    let actualIndex;
+                    for (let i=0; i<hours.length;i++) {
+                        if (hours[i] == currentIndex) {
+                            actualIndex = i;
+                        }
+                    }
+
+                    const level = Math.floor(data[actualIndex] / intervalSize);
 
                     switch (level) {
                         case 0:

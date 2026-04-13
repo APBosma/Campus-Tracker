@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const capacity = Number(capData.max_capacity);
 
       const hourlyData = await fetchHourlyCounts(dbName, hours);
+      console.log(hourlyData);
       if (!hourlyData || hourlyData.error) {
         console.error("Hourly data error:", hourlyData?.error);
         return;

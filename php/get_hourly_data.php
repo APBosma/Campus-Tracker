@@ -59,8 +59,7 @@ $stmt = $conn->prepare("
   SELECT count
   FROM population
   WHERE location_id = ?
-    AND time_stamp >= ?
-    AND time_stamp < ?
+    AND HOUR(time_stamp) = ?
   ORDER BY time_stamp DESC
   LIMIT 1
 ");
@@ -76,17 +75,16 @@ foreach ($labels as $lab) {
     continue;
   }
 
-  $start = $today . " " . str_pad((string)$h, 2, "0", STR_PAD_LEFT) . ":00:00";
-  $endHour = ($h + 1) % 24;
-  $end = $today . " " . str_pad((string)$endHour, 2, "0", STR_PAD_LEFT) . ":00:00";
+  error_log("Checking hour: $h");
 
-  $stmt->bind_param("iss", $location_id, $start, $end);
+  $stmt->bind_param("ii", $location_id, $h);
   $stmt->execute();
   $res = $stmt->get_result()->fetch_assoc();
 
   if ($res) {
     $carry = (int)$res["count"];
   }
+
   $out[] = ["count" => $carry];
 }
 
