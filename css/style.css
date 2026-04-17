@@ -5,18 +5,21 @@
 }
 
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%); /* https://www.w3schools.com/css/css3_gradients.asp */
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    /* https://www.w3schools.com/css/css3_gradients.asp */
     min-height: 100vh;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #logo {
-    border-radius: 50%; /* https://www.w3schools.com/css/css3_images.asp */
+    border-radius: 50%;
+    /* https://www.w3schools.com/css/css3_images.asp */
     height: 75px;
     width: auto;
     background-color: whitesmoke;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease; /* https://www.w3schools.com/css/css3_transitions.asp */
+    transition: transform 0.3s ease;
+    /* https://www.w3schools.com/css/css3_transitions.asp */
 }
 
 #logo:hover {
@@ -35,7 +38,8 @@ body {
 #title-stuff {
     background: linear-gradient(135deg, #860903 0%, #a00a04 100%);
     display: flex;
-    align-items: center; /* Vertically centers items */
+    align-items: center;
+    /* Vertically centers items */
     gap: 10px;
     padding: 1.2% 2%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -43,12 +47,14 @@ body {
 
 .title-text {
     flex: 1;
-    font-size: 2.5rem;  
+    font-size: 2.5rem;
 }
 
 .nav-bar {
-    display: flex; /* Flexbox for a horizontal layout */
-    justify-content: flex-start; /* Center items */
+    display: flex;
+    /* Flexbox for a horizontal layout */
+    justify-content: flex-start;
+    /* Center items */
     margin-left: 20px;
     align-items: center;
     list-style: none;
@@ -57,12 +63,17 @@ body {
 }
 
 .navbar-item {
-    text-decoration: none; /* Remove underline */
+    text-decoration: none;
+    /* Remove underline */
     background-color: #FFFF;
-    color: black; /* White text */
-    font-size: 1.2rem; /* Larger text */
-    padding: 15px 25px; /* Adequate padding for each link */
-    transition: all 0.3s ease; /* Smooth transitions */
+    color: black;
+    /* White text */
+    font-size: 1.2rem;
+    /* Larger text */
+    padding: 15px 25px;
+    /* Adequate padding for each link */
+    transition: all 0.3s ease;
+    /* Smooth transitions */
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     cursor: pointer;
     border-bottom: 3px solid transparent;
@@ -70,13 +81,33 @@ body {
 
 #current-page {
     background-color: #b8b9bb;
-    border-bottom: 3px solid #860903; /* Bottom line decoration */
+    border-bottom: 3px solid #860903;
+    /* Bottom line decoration */
     font-weight: bold;
 }
 
 .navbar-item:hover {
     background-color: #e9ecef;
     border-bottom: 3px solid #860903;
+}
+
+.admin-header-link {
+    display: flex;
+    align-items: center;
+}
+
+.admin-header-link img {
+    height: 65px;
+    width: auto;
+    background-color: whitesmoke;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.admin-header-link:hover img {
+    transform: scale(1.1);
 }
 
 header {
@@ -117,13 +148,13 @@ hr {
 }
 
 #announcements div {
-    background:#dfe885; 
-    border:1px solid #c0bb36; 
-    color:#3c3a08; 
-    padding:12px; 
-    border-radius:6px; 
-    margin-bottom:20px;
-    text-align:center;
+    background: #dfe885;
+    border: 1px solid #c0bb36;
+    color: #3c3a08;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 main {
@@ -235,7 +266,7 @@ canvas {
     gap: 2%;
 }
 
-.microPage-container{
+.microPage-container {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -245,18 +276,20 @@ canvas {
 .microPageStatus {
     background-color: #ffde59;
     border-radius: 40px;
-    display: flex; 
+    display: flex;
     align-items: center;
     padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 40px;
-    margin-left: 10%;   
+    margin-left: 10%;
     margin-right: 10%;
     white-space: nowrap;
 }
 
-* {box-sizing:border-box}
+* {
+    box-sizing: border-box
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -268,73 +301,81 @@ canvas {
 
 /* Hide the images by default */
 .mySlides {
-  display: none;
+    display: none;
 }
 
 /* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  z-index: 6;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    z-index: 6;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
 }
 
 /* Position the "next button" to the right */
 .next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
+    right: 0;
+    border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Caption text */
 .text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
 }
 
 /* The dots/bullets/indicators */
 .dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
 }
 
-.active, .dot:hover {
-  background-color: #717171;
+.active,
+.dot:hover {
+    background-color: #717171;
 }
 
 /* Fading animation */
 .fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
 }
 
 @keyframes fade {
-  from {opacity: .4}
-  to {opacity: 1}
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
 }
 
 
@@ -381,7 +422,7 @@ canvas {
     #flex-container {
         flex-direction: column;
     }
-    
+
     #graph-container {
         margin-right: 0;
         margin-bottom: 4%;
@@ -399,7 +440,8 @@ canvas {
         padding-top: 20px;
     }
 
-    .prev, .next {
+    .prev,
+    .next {
         padding: 12px;
         font-size: 16px;
     }
