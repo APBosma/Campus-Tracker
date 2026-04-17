@@ -1,77 +1,89 @@
- <!DOCTYPE html>
- <html>
-    <head>
-        <link rel = "stylesheet" href = "css/style.css">
-        <title>ConcordRush</title>
-    </head>
-    <header>
-        <div id = "title-stuff">
-            <div class="picture">
-                <img src = "pictures/logo.png" alt = "Concord Rush Logo" id = "logo">
-            </div>
-            <div class="title-text">
-                <p id = "main-title">ConcordRush</p>
-            </div>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <title>ConcordRush</title>
+</head>
+<header>
+    <div id="title-stuff">
+        <div class="picture">
+            <img src="pictures/logo.png" alt="Concord Rush Logo" id="logo">
         </div>
-    </header>
-    <section class = "nav-bar">
-            <a href = "index.html" class="navbar-item" id = "current-page">ALL</a>
-            <a href = "gym.html" class="navbar-item">GYM</a>
-            <a href = "cafeteria.html" class="navbar-item">CAFE</a>
-            <a href = "subway.html" class="navbar-item">SUBWAY</a>
-        </section class>
-        <hr>
-    <body>
-        <!--Slideshow code modified from: https://www.w3schools.com/howto/howto_js_slideshow.asp-->
-        <!-- Slideshow container -->
-        <div class="slideshow-container">
+        <div class="title-text">
+            <p id="main-title">ConcordRush</p>
+        </div>
+        <a href="php/admin_login.php" class="admin-header-link">
+            <img src="pictures/staff.png" alt="Admin Login">
+        </a>
+    </div>
+</header>
+<section class="nav-bar">
+    <a href="index.html" class="navbar-item" id="current-page">ALL</a>
+    <a href="gym.html" class="navbar-item">GYM</a>
+    <a href="cafeteria.html" class="navbar-item">CAFE</a>
+    <a href="subway.html" class="navbar-item">SUBWAY</a>
+</section>
+<hr>
+
+<body>
+    <!--Slideshow code modified from: https://www.w3schools.com/howto/howto_js_slideshow.asp-->
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
 
         <!-- Full-width images with number and caption text -->
         <div class="mySlides fade">
-            <iframe src="microPages/cafMicroPage.html" scrolling = no style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
+            <iframe src="microPages/cafMicroPage.html" scrolling=no
+                style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
             <!--Code for the link overlay  modified from: https://stackoverflow.com/questions/3317917/use-iframe-as-a-link-->
-            <a href="cafeteria.html" style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
+            <a href="cafeteria.html"
+                style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
         </div>
 
         <div class="mySlides fade">
-            <iframe src="microPages/gymMicroPage.html" scrolling = no style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
-            <a href="gym.html" style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
+            <iframe src="microPages/gymMicroPage.html" scrolling=no
+                style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
+            <a href="gym.html"
+                style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
         </div>
 
         <div class="mySlides fade">
-            <iframe src="microPages/subMicroPage.html" scrolling = no style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
-            <a href="subway.html" style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
+            <iframe src="microPages/subMicroPage.html" scrolling=no
+                style="border:10px; height:500px; width:100%; display: block; margin: 0 auto;" name="iframe"></iframe>
+            <a href="subway.html"
+                style="position:absolute; top:25px; left:0; display:inline-block; height:500px; width:100%; z-index:5;"></a>
         </div>
 
         <!-- Next and previous buttons -->
         <a class="prev" onclick="nextSlide(-1)">&#10094;</a>
         <a class="next" onclick="nextSlide(1)">&#10095;</a>
-        </div>      
-        <br>
-        <!-- The dots/circles -->
-        <div style="text-align:center;">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
-        <script src="javascript/script.js"></script>
-        <script>
+    </div>
+    <br>
+    <!-- The dots/circles -->
+    <div style="text-align:center;">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+    <script src="javascript/script.js"></script>
+    <script>
         async function tickSimulation() {
             try {
-            await fetch("/Campus_Tracker/php/simulation.php?x=" + Date.now(), { cache: "no-store" });
+                await fetch("/Campus_Tracker/php/simulation.php?x=" + Date.now(), { cache: "no-store" });
             } catch (e) {
-            console.error("Simulation tick failed:", e);
+                console.error("Simulation tick failed:", e);
             }
         }
 
         // run once immediately, then every 15 seconds
         tickSimulation();
         setInterval(tickSimulation, 15000);
-        </script>
-    </body>
-    <footer id = "footer">
-        <p>
-            Is this information not accurate? Submit this to the form <a id = "footer-link" href = #>here!</a>
-        </p>
-    </footer>
- </html>
+    </script>
+</body>
+<footer id="footer">
+    <p>
+        ConcordRush - 2026
+    </p>
+</footer>
+
+</html>

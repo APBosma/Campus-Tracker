@@ -1,69 +1,75 @@
- <!DOCTYPE html>
- <html>
-    <head>
-        <script type="module" src="javascript/graph.js"></script>
-        <script type="module" src="javascript/liveBusy.js"></script>
-        <script type="module" src="javascript/getAnnouncements.js"></script>
-        <link rel = "stylesheet" href = "css/style.css">
-        <title>ConcordRush</title>
-    </head>
-    <header>
-        <div id = "title-stuff">
-            <div class="picture">
-                <img src = "pictures/logo.png" alt = "Concord Rush Logo" id = "logo">
-            </div>
-            <div class="title-text">
-                <p id = "main-title">ConcordRush</p>
-            </div>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="module" src="javascript/graph.js"></script>
+    <script type="module" src="javascript/liveBusy.js"></script>
+    <script type="module" src="javascript/getAnnouncements.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>ConcordRush</title>
+</head>
+<header>
+    <div id="title-stuff">
+        <div class="picture">
+            <img src="pictures/logo.png" alt="Concord Rush Logo" id="logo">
         </div>
-    </header>
-    <section class = "nav-bar">
-            <a href = "index.html" class="navbar-item">ALL</a>
-            <a href = "gym.html" class="navbar-item">GYM</a>
-            <a href = "cafeteria.html" class="navbar-item" id="current-page">CAFE</a>
-            <a href = "subway.html" class="navbar-item">SUBWAY</a>
-    </section class>
-    <hr>
-    <main>
-        <h2 id = "title">Cafeteria</h2>
-        <div id = "announcements"></div>
-        <h4>LIVE STATUS</h4>
-        <section class = "current-business">
-        <div id = "circle"></div>
+        <div class="title-text">
+            <p id="main-title">ConcordRush</p>
+        </div>
+        <a href="php/admin_login.php" class="admin-header-link">
+            <img src="pictures/staff.png" alt="Admin Login">
+        </a>
+    </div>
+</header>
+<section class="nav-bar">
+    <a href="index.html" class="navbar-item">ALL</a>
+    <a href="gym.html" class="navbar-item">GYM</a>
+    <a href="cafeteria.html" class="navbar-item" id="current-page">CAFE</a>
+    <a href="subway.html" class="navbar-item">SUBWAY</a>
+</section>
+<hr>
+<main>
+    <h2 id="title">Cafeteria</h2>
+    <div id="announcements"></div>
+    <h4>LIVE STATUS</h4>
+    <section class="current-business">
+        <div id="circle"></div>
 
         <!--Note the style for padding and font-->
-        <p id = "current-level" style="padding-left: 6%; font-size: 1.5rem"></p>
-        </section>
-        <div id = "flex-container">
-            <div id = "graph-container">
-                <canvas id="graph">Cafeteria</canvas>
-            </div>
-            <div id = "hours">
-                <h4>HOURS</h4>
-                <h5>Breakfast:</h5>
-                <p style="font-size: 0.95rem;">Mon-Fri -> 7:15 am - 9:30 am</p>
-                <h5>Continental Breakfast:</h5>
-                <p style="font-size: 0.95rem;">Mon-Fri -> 9:30 am - 10:30 am</p>
-                <h5>Lunch:</h5>
-                <p style="font-size: 0.95rem;">Mon-Fri -> 11:00 am - 1:30 pm</p>
-                <h5>Lite Lunch:</h5>
-                <p style="font-size: 0.95rem;">Mon-Fri -> 1:30 pm - 3:30 pm</p>
-                <h5>Brunch:</h5>
-                <p style="font-size: 0.95rem;">Saturday-Sunday -> 10:30 am - 1:30 pm</p>
-                <h5>Dinner:</h5>
-                <p style="font-size: 0.95rem;">Mon-Thur -> 4:00 pm - 7:00 pm</p>
-                <p style="font-size: 0.95rem;">Friday -> 4:00 pm - 6:00 pm</p>
-                <p style="font-size: 0.95rem;">Saturday -> 4:00 pm - 5:30 pm</p>
-                <p style="font-size: 0.95rem;">Sunday -> 4:00 pm - 7:00 pm</p>
-                <br>
-                <p style="font-size: 0.95rem;">Visit <strong>Concord.CampusDish</strong> for special dining hours and events.</p>
-            </div>
+        <p id="current-level" style="padding-left: 6%; font-size: 1.5rem"></p>
+    </section>
+    <div id="flex-container">
+        <div id="graph-container">
+            <canvas id="graph">Cafeteria</canvas>
         </div>
-    </main>
-    <footer id = "footer">
-        <p>
-            Is this information not accurate? Submit this to the form <a id = "footer-link" href = #>here!</a>
-        </p>
-    </footer>
+        <div id="hours">
+            <h4>HOURS</h4>
+            <h5>Breakfast:</h5>
+            <p style="font-size: 0.95rem;">Mon-Fri -> 7:15 am - 9:30 am</p>
+            <h5>Continental Breakfast:</h5>
+            <p style="font-size: 0.95rem;">Mon-Fri -> 9:30 am - 10:30 am</p>
+            <h5>Lunch:</h5>
+            <p style="font-size: 0.95rem;">Mon-Fri -> 11:00 am - 1:30 pm</p>
+            <h5>Lite Lunch:</h5>
+            <p style="font-size: 0.95rem;">Mon-Fri -> 1:30 pm - 3:30 pm</p>
+            <h5>Brunch:</h5>
+            <p style="font-size: 0.95rem;">Saturday-Sunday -> 10:30 am - 1:30 pm</p>
+            <h5>Dinner:</h5>
+            <p style="font-size: 0.95rem;">Mon-Thur -> 4:00 pm - 7:00 pm</p>
+            <p style="font-size: 0.95rem;">Friday -> 4:00 pm - 6:00 pm</p>
+            <p style="font-size: 0.95rem;">Saturday -> 4:00 pm - 5:30 pm</p>
+            <p style="font-size: 0.95rem;">Sunday -> 4:00 pm - 7:00 pm</p>
+            <br>
+            <p style="font-size: 0.95rem;">Visit <strong>Concord.CampusDish</strong> for special dining hours and
+                events.</p>
+        </div>
+    </div>
+</main>
+<footer id="footer">
+    <p>
+        ConcordRush - 2026
+    </p>
+</footer>
 <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
- </html>
+
+</html>
