@@ -9,7 +9,7 @@ async function fetchCapacity(dbName) {
 // fetch per-hour bucketed counts (same length/order as hours[])
 async function fetchHourlyCounts(dbName, hours) {
   const hoursParam = encodeURIComponent(hours.join("|"));
-  const url = `/Campus_Tracker/php/get_hourly_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`;
+  const url = `/Campus_Tracker/php/get_predicted_data.php?location=${dbName}&hours=${hoursParam}`;
   const res = await fetch(url, { cache: "no-store" });
   return await res.json();
 }
@@ -25,8 +25,11 @@ function setBusynessUI(label, color) {
 // Computes busyness from current count + capacity
 function computeBusyness(currCount, capacity) {
   const intervalSize = Math.max(1, Math.floor(capacity / 4));
+  console.log("capcity: ", capacity);
+  console.log("num peeps: ", currCount.predicted);
 
-  const bucket = Math.floor(currCount / intervalSize);
+  const bucket = Math.floor(currCount.predicted / intervalSize);
+  console.log("bucket: ", bucket);
   switch (bucket) {
     case 0: return ["Empty", "green"];
     case 1: return ["Not Busy", "lightgreen"];
@@ -76,18 +79,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       const capacity = Number(capData.max_capacity);
 
       const hourlyData = await fetchHourlyCounts(dbName, hours);
-      console.log(hourlyData);
+      console.log("live data: ", hourlyData);
       if (!hourlyData || hourlyData.error) {
         console.error("Hourly data error:", hourlyData?.error);
         return;
       }
 
-      const counts = hourlyData.map(r => Number(r.count));
+      const counts = hourlyData.map(r => Number(r.predicted));
 
       // safety: if something mismatched, clamp index
       const safeIndex = Math.max(0, Math.min(actualIndex, counts.length - 1));
-      console.log(counts)
-      const currCount = counts[safeIndex];
+      const currCount = hourlyData[safeIndex];
 
       const [label, color] = computeBusyness(currCount, capacity);
       setBusynessUI(label, color);
