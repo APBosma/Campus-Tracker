@@ -1,4 +1,7 @@
 <!-- HTML for the admin page that creates announcements -->
+<?php
+require_once('php/require_login.php'); // Require login
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +53,9 @@
         <section class="admin-box">
             <h3>Create Announcement</h3>
             <?php
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if (isset($_SESSION["flash"])) {
                 $flash = $_SESSION["flash"];
                 if (is_array($flash)) {

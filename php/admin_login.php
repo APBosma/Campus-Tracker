@@ -32,6 +32,7 @@ if (isset($_POST["login_btn"])) {
         $user = $result->fetch_assoc();
         if (hash("sha256", $pass) == $user["password"]) {
             $_SESSION["name"] = $user["name"];
+            $_SESSION["loggedIn"] = TRUE;
             header("Location: ../admin.php");
             exit();
         }

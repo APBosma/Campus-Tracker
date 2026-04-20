@@ -4,6 +4,9 @@
 because HTML syntax is weird and super nested. I ended up pasting my code in chatGPT and asking it what I was missing to get 
 this error. It was an endif lol. 
 -->
+<?php
+require_once('php/require_login.php'); // Require login
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +17,11 @@ this error. It was an endif lol.
     <link rel="stylesheet" href="css/style.css">
     <!-- Admin-only styles -->
     <link rel="stylesheet" href="css/admin.css">
-    <?php session_start();?>  <!-- For flash msg -->
+    <?php 
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    ?>  <!-- For flash msg -->
 </head>
 
 <header>

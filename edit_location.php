@@ -27,7 +27,10 @@ Then I later added more such as if the location had NULL for the time, to put NA
 and am/pm.
 -->
 <?php
-session_start();
+require_once('php/require_login.php'); // Require login
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // DB connection
 $conn = new mysqli("localhost", "root", "mysql", "campus_tracker");

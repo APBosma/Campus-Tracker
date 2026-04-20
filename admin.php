@@ -1,4 +1,7 @@
 <!-- HTML for the home admin page -->
+<?php
+require_once('php/require_login.php'); // Require login
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
