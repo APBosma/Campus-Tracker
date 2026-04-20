@@ -231,7 +231,7 @@ form textarea {
 
 .line{
     display: block;
-    margin-bottom: 15%;
+    margin-bottom: 10%;
     width: 100%;
     align-self: stretch;
 }
@@ -240,7 +240,6 @@ form textarea {
     background-color: #c7c7c7;
     border-radius: 15px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    margin: 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -260,11 +259,19 @@ form textarea {
     justify-content: center;
 }
 
+.error{
+    text-align: center;
+    color:#a10000;
+    margin-top: -5%;
+    margin-bottom: -5%;
+}
+
 #username_input{
     width: 90%;
     display: block;
     margin: 0 auto;
     border-radius: 15px;
+    margin-top: 10%;
     margin-bottom: 10%;
     padding-bottom: 5%;
     padding-top: 5%;
@@ -285,20 +292,23 @@ form textarea {
 }
 
 .btn {
-    width: 100%;
-    background: none;
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    background: #860903;
+    color: white;
     border: none;
-    text-align: left;
+    text-align: center;
+    border-radius: 15px;
     font-size: 1.2rem;
     padding: 10px;
     margin-top: 10%;
     margin-bottom: 10%;
     cursor: pointer;
-    border-bottom: 3px solid black;
+    border: 3px solid black;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .btn:hover {
-    color: #860903;
-    border-bottom-color: #860903;
+    transform: scale(1.05);
 }
