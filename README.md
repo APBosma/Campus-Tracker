@@ -1,4 +1,5 @@
-# Campus-Tracker
+# ConcordRush
+Computer Science Capstone Project | Spring 2026 
 
 # Description:
 This project aims to create an accessible website for Concord
