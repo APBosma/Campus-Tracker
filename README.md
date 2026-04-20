@@ -34,6 +34,7 @@ Admin View:
 
 
 # File Structure: 
+```
 Campus_Tracker/
 ├── css/
 │   ├── admin.css
@@ -83,7 +84,8 @@ Campus_Tracker/
 ├── gym.html
 ├── index.html
 ├── README.md
-└── subway.html         
+└── subway.html
+```     
 
 Tech Stack: 
 HTML, CSS, JavaScript, PHP, MySQL, AMPPS
