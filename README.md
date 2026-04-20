@@ -17,7 +17,7 @@ First:
   Install AMPPS 
   Set up MySQL inside AMPPS (Make sure no other instance of MySQL is present on the machine)
 
-Installation:
+Installation: 
   Clone this repository into the www directory in AMPPS
         (/Application/AMPPS/www/Campus_Tracker)
 
