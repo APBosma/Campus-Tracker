@@ -91,10 +91,27 @@ Campus_Tracker/
 ├── index.html
 ├── README.md
 └── subway.html
-```     
-
-Tech Stack: 
+```
+# Tech Stack: 
 HTML, CSS, JavaScript, PHP, MySQL, AMPPS
+
+# Known Limitations
+
+Occupancy data is currently simulated and does not reflect real-time sensor or access data from campus infrastructure.
+
+
+# Future Work
+
+- Integration with real occupancy data sources (e.g. card swipe systems, Wi-Fi device counts)
+- Mobile-responsive design improvements
+- Push notifications for announcements
+- Expanded location coverage across campus
+
+
+# Acknowledgments
+Developed as part of the Computer Science Capstone course at Concord University under the guidance of Professor Bowe.    
+
+
 
 
 
