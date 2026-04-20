@@ -2,13 +2,25 @@
 // admin pages, check adminLiveStatus.js. It sets both the circle color and the status name.
 import { getHours, findCurrTimeIndex } from './chronos.js';
 
-// fetch max capacity
+/**
+ * Fetch max capcity for the location
+ * 
+ * @param {string} dbName - Name of the location formatted to match the database
+ * @return {object[]} - stores the max capacity of the location. Use .max_capacity to access it.
+ */
 async function fetchCapacity(dbName) {
   const res = await fetch(`/Campus_Tracker/php/get_capacity.php?location=${dbName}&x=${Date.now()}`, { cache: "no-store" });
   return await res.json();
 }
 
-// fetch per-hour bucketed counts (same length/order as hours[])
+/**
+ * Fetch per-hour bucketed counts (Same length/order as hours[])
+ * 
+ * @param {string} dbName - Name of the location formatted to match the database
+ * @param {string[]} hours - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
+ * @returns {object[]} - An object with the hourly counts. To access the hourly counts use .predicted
+ */
 async function fetchHourlyCounts(dbName, hours) {
   const hoursParam = encodeURIComponent(hours.join("|"));
   const url = `/Campus_Tracker/php/get_predicted_data.php?location=${dbName}&hours=${hoursParam}`;
@@ -16,7 +28,12 @@ async function fetchHourlyCounts(dbName, hours) {
   return await res.json();
 }
 
-// Updates the UI circle + label
+/**
+ * Updates the UI circle + label
+ * 
+ * @param {string} label - Level of live busyness
+ * @param {string} color - Color corresponding with the level of busyness
+ */
 function setBusynessUI(label, color) {
   const levelName = document.getElementById("current-level");
   const levelCircle = document.getElementById("circle");
@@ -24,7 +41,14 @@ function setBusynessUI(label, color) {
   levelCircle.style.backgroundColor = color;
 }
 
-// Computes busyness from current count + capacity
+/**
+ * Computes busyness from current count + capacity
+ * 
+ * @param {Object[]} currCount - Number of people at a location each hour
+ * @param {Number} capacity - Max number of people that can be in a location
+ * @returns {[string, string]} - Returns a size 2 array where the first string is the status name and 
+ *                               the second string is the color the circle should be.
+ */
 function computeBusyness(currCount, capacity) {
   const intervalSize = Math.max(1, Math.floor(capacity / 4));
   console.log("capcity: ", capacity);

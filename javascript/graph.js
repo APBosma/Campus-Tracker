@@ -21,7 +21,8 @@ let chart = null;
 /**
  * Gets the color each bar should be based on the current time
  * 
- * @param {string[]} hours - The hours the location is open
+ * @param {string[]} hours - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
  * @returns {string[]} - An array with each the color each bar should be
  */
 function setBarColors(hours) {
@@ -47,7 +48,8 @@ function setBarColors(hours) {
  * Sets the graph up in the location pages
  * 
  * @param {string} name - Name of the location/graph
- * @param {string[]} hours - String array of the hours the location is open (Used for x-axis)
+ * @param {string[]} hours - An array with each hour the location is open (For X-axis)
+ *                          Ex. ["6 am", "7 am", "8 am"]
  * @param {string[]} barColors - Color each bar should be (Set with setBarColors())
  * @param {Number[]} data - Number of people at the location for each hour
  */
@@ -87,7 +89,8 @@ function createGraph(name, hours, barColors, data) {
 /**
  * Updates the graph with newest information
  * 
- * @param {string[]} hours - String array of the hours the location is open
+ * @param {string[]} hours - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
  * @param {string[]} barColors - Color each bar should be (Set with setBarColors())
  * @param {Number[]} data - Number of people at the location for each hour
  */
@@ -100,11 +103,21 @@ function updateGraph(hours, barColors, data) {
   chart.update();
 }
 
+/**
+ * Makes sure simulation keeps writing new rows
+ */
 async function runSimulationTick() {
-  // makes sure simulation keeps writing new rows
   await fetch("/Campus_Tracker/php/simulation.php?x=" + Date.now(), { cache: "no-store" });
 }
 
+/**
+ * Grabs the number of people in the location at each hour
+ * 
+ * @param {string} dbName - Name of the location formatted to match the database
+ * @param {string[]} hours - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
+ * @return {object[]} - Gets the counts for each hour. Use .predicted to access it in the object at the index.
+ */
 async function fetchHourlyCounts(dbName, hours) {
   const hoursParam = encodeURIComponent(hours.join("|"));
   const url = `/Campus_Tracker/php/get_hourly_data.php?location=${dbName}&hours=${hoursParam}&x=${Date.now()}`;
