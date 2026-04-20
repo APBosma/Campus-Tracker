@@ -15,23 +15,26 @@ anywhere and plan their routine around it.
 # Getting Started
 First: 
 
-  Install AMPPS 
-  Set up MySQL inside AMPPS (Make sure no other instance of MySQL is present on the machine)
+    Install AMPPS 
+    Set up MySQL inside AMPPS (Make sure no other instance of MySQL is present on the machine)
 
 Installation: 
 
-  Clone this repository into the www directory in AMPPS
+    Clone this repository into the www directory in AMPPS
         (/Application/AMPPS/www/Campus_Tracker)
 
   Import the given database file into myPHPAdmin within AMPPS: "campus_tracker-2.sql"
 
 # User Guide
 Student View:
-  Navigate to index.html to access the main dashboard. From there, you can view live and predicted occupancy for each campus location, check operating hours, and read announcements.
+
+    Navigate to index.html to access the main dashboard. From there, you can view live and predicted occupancy for each campus location, check operating hours, and read announcements.
+  
 Admin View:
-  Navigate to admin.php and log in with your administrator credentials. The admin panel allows you to:
-      Create, edit, and delete announcements
-      Update location details and occupancy settings
+
+    Navigate to admin.php and log in with your administrator credentials. The admin panel allows you to:
+        Create, edit, and delete announcements
+        Update location details and occupancy settings
   
 
 
