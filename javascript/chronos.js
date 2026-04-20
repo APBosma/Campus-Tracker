@@ -6,7 +6,13 @@
 // the google AI showed me a few examples. It took me a few tries because I put default at first but once I added the other function
 // I realized I didn't need it.
 
-// Gets hours in an array using the location name and grabbing the day the user is looking
+/**
+ * Gets hours in an array using the location name and grabbing the day the user is looking
+ * 
+ * @param {string} locationName - The name of the location formatted.
+ * @returns {string[]} - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
+ */
 export function getHours(locationName) {
     const d = new Date();
     let currDay = 0;
@@ -123,6 +129,13 @@ export function getHours(locationName) {
 
 // Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
 // Returns -1 if the time isn't there (Location is closed)
+/**
+ * Gets hours in an array using the location name and grabbing the day the user is looking
+ * 
+ * @param {string[]} locationName - The name of the location formatted.
+ * @returns {string/int} - Returns either a string with the current time or -1 if the current time is not
+ *                         available (Usually indicates the location is closed)
+ */
 export function findCurrTimeIndex(hours, openTime, closeTime, openTime2, closeTime2) {
     const d = new Date(); // Gets current date
     const currMinutes = d.getHours() * 60 + d.getMinutes();

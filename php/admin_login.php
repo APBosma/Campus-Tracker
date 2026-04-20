@@ -15,7 +15,7 @@ if ($conn->connect_error) {
         "text" => "Database connection failed.",
         "type" => "error"
     ];
-    header("Location: ../admin_login.php");
+    header("Location: ./admin_login.php");
     exit();
 }   
 
