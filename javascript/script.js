@@ -3,6 +3,9 @@ let slideTimer;
 
 showSlides();
 
+/**
+ * Displays the slides and allows for the user to move to the next
+ */
 function showSlides() {
   let i;
   let slides = document.getElementsByClassName("mySlides");
@@ -20,6 +23,9 @@ function showSlides() {
   autoSlides();
 } 
 
+/**
+ * Moves to the next slide ever so many seconds
+ */
 function autoSlides() {
   slideTimer = setTimeout(showSlides, 10000); 
 }
@@ -27,19 +33,33 @@ function autoSlides() {
 
 showSlides2(slideIndex);
 
-
+/**
+ * Moves to the next slide and resets the timer
+ * 
+ * @param {int} n - Index of the current slide
+ */
 function nextSlide(n) {
   clearTimeout(slideTimer);
   showSlides2(slideIndex += n);
   autoSlides();
 }
 
+/**
+ * Runs the current slide information
+ * 
+ * @param {int} n - Index of the current slide
+ */
 function currentSlide(n) {
   clearTimeout(slideTimer);
   showSlides2(slideIndex = n);
   autoSlides();
 }
 
+/**
+ * Sets up the slides and their information
+ * 
+ * @param {int} n - Index of the current slide
+ */
 function showSlides2(n) {
   let i;
   let slides = document.getElementsByClassName("mySlides");
