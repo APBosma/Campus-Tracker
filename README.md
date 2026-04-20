@@ -15,15 +15,15 @@ anywhere and plan their routine around it.
 # Getting Started
 First: 
 
-    Install AMPPS 
-    Set up MySQL inside AMPPS (Make sure no other instance of MySQL is present on the machine)
+ - Install AMPPS
+ - Set up MySQL inside AMPPS (Make sure no other instance of MySQL is present on the machine)
 
 Installation: 
 
-    Clone this repository into the www directory in AMPPS
+- Clone this repository into the www directory in AMPPS
         (/Application/AMPPS/www/Campus_Tracker)
 
-  Import the given database file into myPHPAdmin within AMPPS: "campus_tracker-2.sql"
+  - Import the given database file into myPHPAdmin within AMPPS: "campus_tracker-2.sql"
 
 # User Guide
 Student View:
