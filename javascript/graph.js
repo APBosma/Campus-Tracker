@@ -18,6 +18,12 @@ import {getHours, findCurrTimeIndex} from './chronos.js';
 
 let chart = null;
 
+/**
+ * Gets the color each bar should be based on the current time
+ * 
+ * @param {string[]} hours - The hours the location is open
+ * @returns {string[]} - An array with each the color each bar should be
+ */
 function setBarColors(hours) {
     const currentTime = findCurrTimeIndex(hours); // Gets the index of the time current time in hours, else returns -1
 
@@ -37,6 +43,14 @@ function setBarColors(hours) {
     return barColors;
 }
 
+/**
+ * Sets the graph up in the location pages
+ * 
+ * @param {string} name - Name of the location/graph
+ * @param {string[]} hours - String array of the hours the location is open (Used for x-axis)
+ * @param {string[]} barColors - Color each bar should be (Set with setBarColors())
+ * @param {Number[]} data - Number of people at the location for each hour
+ */
 function createGraph(name, hours, barColors, data) {
     const graph = document.getElementById('graph');
 
@@ -70,7 +84,13 @@ function createGraph(name, hours, barColors, data) {
     });
 }
 
-//Added function here that will update the graph with new data 
+/**
+ * Updates the graph with newest information
+ * 
+ * @param {string[]} hours - String array of the hours the location is open
+ * @param {string[]} barColors - Color each bar should be (Set with setBarColors())
+ * @param {Number[]} data - Number of people at the location for each hour
+ */
 function updateGraph(hours, barColors, data) {
   if (!chart) return;
 

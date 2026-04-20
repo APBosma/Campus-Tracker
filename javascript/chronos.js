@@ -127,10 +127,9 @@ export function getHours(locationName) {
 
 }
 
-// Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
-// Returns -1 if the time isn't there (Location is closed)
 /**
- * Gets hours in an array using the location name and grabbing the day the user is looking
+ * Gets the index of the current time (Ex. I am writing this at 9 pm, so this would return the index of 9 pm in the array)
+ * Returns -1 if the time isn't there (Location is closed)
  * 
  * @param {string[]} locationName - The name of the location formatted.
  * @returns {string/int} - Returns either a string with the current time or -1 if the current time is not

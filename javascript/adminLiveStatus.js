@@ -5,7 +5,15 @@ import { getHours, findCurrTimeIndex } from './chronos.js';
 
 const validLocations = ["cafeteria", "north_tower_gym", "subway"];
 
-// fetch per-hour bucketed counts (same length/order as hours[])
+/**
+ * fetch per-hour bucketed counts (same length/order as hours[])
+ * 
+ * @param {string} dbName - The name of the location formatted.
+ * @param {string[]} hours - An array with each hour the location is open 
+ *                          Ex. ["6 am", "7 am", "8 am"]
+ * 
+ * @returns {object[]} - An object with the hourly counts. To access the hourly counts use .predicted
+ */
 async function fetchHourlyCounts(dbName, hours) {
   const hoursParam = encodeURIComponent(hours.join("|"));
   const url = `/Campus_Tracker/php/get_predicted_data.php?location=${dbName}&hours=${hoursParam}`;
@@ -13,6 +21,11 @@ async function fetchHourlyCounts(dbName, hours) {
   return await res.json();
 }
 
+/**
+ * Updates the status displayed on the admin home page for the given location
+ * 
+ * @param {string} locationName - The name of the location formatted.
+ */
 async function updateLocationStatus(locationName) {
 
     const dbName = locationName.toLowerCase().replaceAll(" ", "_");
