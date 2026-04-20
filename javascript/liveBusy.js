@@ -1,3 +1,5 @@
+// This code sets the live status for the regular location pages. To see how we set the status for the 
+// admin pages, check adminLiveStatus.js. It sets both the circle color and the status name.
 import { getHours, findCurrTimeIndex } from './chronos.js';
 
 // fetch max capacity

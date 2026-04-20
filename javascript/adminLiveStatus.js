@@ -1,3 +1,6 @@
+// Sets the live location status in the admin pages. For the live location status on regular pages, see liveBusy.js.
+// This code sets both the circle and the status name.
+
 import { getHours, findCurrTimeIndex } from './chronos.js';
 
 const validLocations = ["cafeteria", "north_tower_gym", "subway"];

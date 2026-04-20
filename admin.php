@@ -1,3 +1,4 @@
+<!-- HTML for the home admin page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

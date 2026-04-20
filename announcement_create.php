@@ -1,3 +1,4 @@
+<!-- HTML for the admin page that creates announcements -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

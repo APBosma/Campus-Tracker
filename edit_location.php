@@ -1,3 +1,4 @@
+<!-- HTML for displaying and editing the location information -->
 <!-- 
 Wasn't for sure how to do a numerical amount for max_capacity so I looked up "W3 php forms int amount" on google.
 I first checked some websites but didn't see what I was looking for so I used the google AI result. The Google AI
