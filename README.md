@@ -6,6 +6,13 @@ This project aims to create an accessible website for Concord
 University students to view how busy the locations on campus are from
 anywhere and plan their routine around it.
 
+# Demo Screenshots:
+## Home page
+<img width="3360" height="1732" alt="image" src="https://github.com/user-attachments/assets/2d7ef9b8-dbf6-4bfe-9401-85e78f253c5d" />
+
+## Location page (Subway)
+<img width="3360" height="1926" alt="image" src="https://github.com/user-attachments/assets/396e150e-7a1b-4fe2-ba14-69289e306e31" />
+
 # Main Features: 
 - Live Simulated Occupancy
 - Predicted Occupancy
